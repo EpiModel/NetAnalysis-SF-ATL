@@ -33,11 +33,10 @@ model_main_dx <- ~edges +
   concurrent +
   nodematch("role.class", diff = TRUE, keep = 1:2) +
   degree(0:3)
-dx_main <- netdx(fit_main, nsims = 20, ncores = 12, nsteps = 500,
-            nwstats.formula = model_main_dx,
-            set.control.ergm = control.simulate.ergm(MCMC.burnin = 1e5))
+dx_main <- netdx(fit_main, nsims = 20, ncores = 8, nsteps = 500,
+                 nwstats.formula = model_main_dx,
+                 set.control.ergm = control.simulate.ergm(MCMC.burnin = 1e5))
 print(dx_main)
-rm(dx_main); gc()
 # plot(dx_main)
 
 
@@ -56,11 +55,10 @@ model_casl_dx <- ~edges +
   concurrent +
   nodematch("role.class", diff = TRUE, keep = 1:2) +
   degree(0:4)
-dx_casl <- netdx(fit_casl, nsims = 20, ncores = 12, nsteps = 500,
-            nwstats.formula = model_casl_dx,
-            set.control.ergm = control.simulate.ergm(MCMC.burnin = 1e5))
+dx_casl <- netdx(fit_casl, nsims = 20, ncores = 8, nsteps = 500,
+                 nwstats.formula = model_casl_dx,
+                 set.control.ergm = control.simulate.ergm(MCMC.burnin = 1e5))
 print(dx_casl)
-rm(dx_casl); gc()
 # plot(dx_casl)
 
 dx_casl <- netdx(fit_casl, nsims = 5000, dynamic = FALSE,
@@ -83,6 +81,6 @@ model_inst_dx <- ~edges +
   nodematch("role.class", diff = TRUE, keep = 1:2) +
   degree(0:4)
 dx_inst <- netdx(fit_inst, nsims = 5000, dynamic = FALSE,
-            nwstats.formula = model_inst_dx,
-            set.control.ergm = control.simulate.ergm(MCMC.burnin = 1e5))
+                 nwstats.formula = model_inst_dx,
+                 set.control.ergm = control.simulate.ergm(MCMC.burnin = 1e5))
 print(dx_inst)

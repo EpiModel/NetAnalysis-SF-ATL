@@ -10,7 +10,7 @@ library("tidyverse")
 
 
 ## Inputs ##
-city_name <- "San Francisco"
+city_name <- "Atlanta"
 
 
 ## Data ##
@@ -53,14 +53,11 @@ summary(d$deg.casl)
 # recoding to truncate degree
 d$deg.casl <- ifelse(d$deg.casl > 3, 3, d$deg.casl)
 d$deg.main <- ifelse(d$deg.main > 2, 2, d$deg.main)
-summary(d$deg.main)
-summary(d$deg.casl)
 
 d$deg.tot <- d$deg.main + d$deg.casl
 
 md <- group_by(d, city2) %>%
-  summarise(dm = mean(deg.main), sdm = sd(deg.main), dc = mean(deg.casl), sdc = sd(deg.casl),
-            dt = mean(deg.tot))
+  summarise(dm = mean(deg.main), dc = mean(deg.casl), dt = mean(deg.tot))
 print(md, n = nrow(md))
 
 table(d$deg.main, d$deg.casl)
@@ -158,7 +155,6 @@ lmain$same.age.grp <- ifelse(lmain$index.age.grp == lmain$part.age.grp, 1, 0)
 
 mod <- glm(same.age.grp ~ city2 + index.age.grp - 1,
            data = lmain, family = binomial())
-
 summary(mod)
 
 b <- coef(mod)
@@ -566,7 +562,7 @@ oo.quants <- array(NA, dim = c(4, 2))
 for (i in 0:3) {
   sr <- sort(wt.rate[d$deg.tot3 == i])
   qsize <- floor(length(sr) / 2)
-
+  
   oo.quants[i + 1, 1] <- mean(sr[1:qsize])
   oo.quants[i + 1, 2] <- mean(sr[(qsize + 1):length(sr)])
 }
@@ -596,11 +592,11 @@ out$inst$nf.risk.deg <- oo.quants
 
 roletype  <- rep(NA, nrow(d))
 recept <- which(d$PART1RAI == 1 | d$PART2RAI == 1 |
-                d$PART3RAI == 1 | d$PART4RAI == 1 |
-                d$PART5RAI == 1)
+                  d$PART3RAI == 1 | d$PART4RAI == 1 |
+                  d$PART5RAI == 1)
 insert <- which(d$PART1IAI == 1 | d$PART2IAI == 1 |
-                d$PART3IAI == 1 | d$PART4IAI == 1 |
-                d$PART5IAI == 1)
+                  d$PART3IAI == 1 | d$PART4IAI == 1 |
+                  d$PART5IAI == 1)
 vers <- intersect(recept, insert)
 receptonly <- setdiff(recept, vers)
 insertonly <- setdiff(insert, vers)
@@ -616,33 +612,3 @@ out$all$role.type <- prop.table(table(roletype))
 
 fn <- paste("data/artnet.NetParam", gsub(" ", "", city_name), "rda", sep = ".")
 saveRDS(out, file = fn)
-
-sf.params <- readRDS(fn)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

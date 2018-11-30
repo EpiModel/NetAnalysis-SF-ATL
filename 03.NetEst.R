@@ -10,7 +10,7 @@ suppressMessages(library("EpiModelHIV"))
 
 
 ## Inputs ##
-city_name <- "San Francisco"
+city_name <- "Atlanta"
 
 
 ## Load Data ##
@@ -36,14 +36,14 @@ nw_main <- nw_casl <- nw_inst <- nw
 
 # Formula
 model_main <- ~edges +
-               nodematch("age.grp", diff = TRUE) +
-               nodefactor("age.grp", base = 1) +
-               nodematch("race") +
-               nodefactor("race", base = 1) +
-               nodefactor("deg.pers", base = 1) +
-               concurrent +
-               degrange(from = 3) +
-               nodematch("role.class", diff = TRUE, keep = 1:2)
+  nodematch("age.grp", diff = TRUE) +
+  nodefactor("age.grp", base = 1) +
+  nodematch("race") +
+  nodefactor("race", base = 1) +
+  nodefactor("deg.pers", base = 1) +
+  concurrent +
+  degrange(from = 3) +
+  nodematch("role.class", diff = TRUE, keep = 1:2)
 
 # Target Stats
 tstats_main <- c(
@@ -67,7 +67,7 @@ fit_main <- netest(nw_main,
                    coef.diss = tstats$main$diss,
                    set.control.ergm = control.ergm(MCMLE.maxit = 500,
                                                    SAN.maxit = 2,
-                                                   SAN.burnin.times = 2),
+                                                   SAN.nsteps.times = 2),
                    verbose = TRUE)
 
 
@@ -76,20 +76,20 @@ fit_main <- netest(nw_main,
 
 # Formula
 model_casl <- ~edges +
-               nodematch("age.grp", diff = TRUE) +
-               nodefactor("age.grp", base = 1) +
-               nodematch("race") +
-               nodefactor("race", base = 1) +
-               nodefactor("deg.main", base = 3) +
-               concurrent +
-               degrange(from = 4) +
-               nodematch("role.class", diff = TRUE, keep = 1:2)
+  nodematch("age.grp", diff = TRUE) +
+  nodefactor("age.grp", base = 3) +
+  nodematch("race") +
+  nodefactor("race", base = 1) +
+  nodefactor("deg.main", base = 3) +
+  concurrent +
+  degrange(from = 4) +
+  nodematch("role.class", diff = TRUE, keep = 1:2)
 
 # Target Stats
 tstats_casl <- c(
   edges = tstats$casl$edges,
   nodematch_age.grp = tstats$casl$nodematch_age.grp,
-  nodefactor_age.grp = tstats$casl$nodefactor_age.grp[-1],
+  nodefactor_age.grp = tstats$casl$nodefactor_age.grp[-3],
   nodematch_race = tstats$casl$nodematch_race,
   nodefactor_race = tstats$casl$nodefactor_race[-1],
   nodefactor_deg.main = tstats$casl$nodefactor_deg.main[-3],
@@ -106,8 +106,8 @@ fit_casl <- netest(nw_casl,
                    target.stats = tstats_casl,
                    coef.diss = tstats$casl$diss,
                    set.control.ergm = control.ergm(MCMLE.maxit = 500,
-                                                   SAN.maxit = 2,
-                                                   SAN.burnin.times = 2),
+                                                   SAN.maxit = 10,
+                                                   SAN.nsteps.times = 10),
                    verbose = TRUE)
 
 
@@ -115,12 +115,12 @@ fit_casl <- netest(nw_casl,
 
 # Formula
 model_inst <- ~edges +
-               nodematch("age.grp", diff = FALSE) +
-               nodefactor("age.grp", base = 1) +
-               nodematch("race") +
-               nodefactor("race", base = 1) +
-               nodefactor(c("risk.grp", "deg.tot"), base = 8) +
-               nodematch("role.class", diff = TRUE, keep = 1:2)
+  nodematch("age.grp", diff = FALSE) +
+  nodefactor("age.grp", base = 1) +
+  nodematch("race") +
+  nodefactor("race", base = 1) +
+  nodefactor(c("risk.grp", "deg.tot"), base = 8) +
+  nodematch("role.class", diff = TRUE, keep = 1:2)
 
 # Target Stats
 tstats_inst <- c(
@@ -142,7 +142,7 @@ fit_inst <- netest(nw_inst,
                    coef.diss = dissolution_coefs(~offset(edges), 1),
                    set.control.ergm = control.ergm(MCMLE.maxit = 500,
                                                    SAN.maxit = 2,
-                                                   SAN.burnin.times = 2),
+                                                   SAN.nsteps.times = 2),
                    verbose = TRUE)
 
 
@@ -154,5 +154,3 @@ fns <- strsplit(fn, "[.]")[[1]]
 fn.new <- paste(fns[1], "NetEst", fns[3], "rda", sep = ".")
 
 saveRDS(out, file = fn.new)
-
-sf.est <- readRDS(fn.new)
