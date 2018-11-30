@@ -19,7 +19,7 @@ if (city == "A") {
 
 
 ## Load Data ##
-fn <- paste("data/artnet.NetEst", gsub(" ", "", city_name), "rda", sep = ".")
+fn <- paste("input/artnet.NetEst", gsub(" ", "", city_name), "rda", sep = ".")
 est <- readRDS(file = fn)
 
 
@@ -31,7 +31,8 @@ sim_network <- function(est, nsteps = 52*5) {
   nw <- list()
   for (i in 1:3) {
     x <- est[[i]]
-    nw[[i]] <- simulate(x$fit, control = control.simulate.ergm(MCMC.burnin = 2e5))
+    nw[[i]] <- simulate(x$fit, basis = x$fit$newnetwork,
+                        control = control.simulate.ergm(MCMC.burnin = 2e5))
   }
 
   # Dynamic time loop
@@ -79,8 +80,6 @@ sim_network <- function(est, nsteps = 52*5) {
                         time.offset = 0,
                         monitor = "all",
                         output = "networkDynamic"))
-
-    # summary(nw[[3]] ~ nodematch("age.grp", diff = FALSE))
 
     cat("\n Step ", at, "/", nsteps)
   }
