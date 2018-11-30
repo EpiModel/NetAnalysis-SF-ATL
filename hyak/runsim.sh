@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ## Job Name
-#SBATCH --job-name=NetParam
+#SBATCH --job-name=TSNA
 
 ## Nodes
 #SBATCH --nodes=1

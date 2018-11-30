@@ -94,7 +94,7 @@ sim_network <- function(est, nsteps = 52*5) {
 library(foreach)
 library(doParallel)
 
-nsims <- 10
+nsims <- 1
 nsteps <- 52*5
 
 cluster.size <- nsims

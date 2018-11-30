@@ -4,18 +4,6 @@
 suppressMessages(library("tsna"))
 suppressMessages(library("doParallel"))
 
-# sim_sfo <- readRDS("data/artnet.NetSim.SanFrancisco.rda")
-# sim_sfo_1 <- sim_sfo[[1]]
-# saveRDS(sim_sfo_1, file = "data/artnet.NetSim.SanFrancisco.sim1.rda", compress = FALSE)
-# rm(list = ls())
-#
-# sim_atl <- readRDS("data/artnet.NetSim.Atlanta.rda")
-# sim_atl_1 <- sim_atl[[1]]
-# saveRDS(sim_atl_1, file = "data/artnet.NetSim.Atlanta.sim1.rda", compress = FALSE)
-# rm(list = ls())
-
-# sim1_sfo <- readRDS("data/artnet.NetSim.SanFrancisco.sim1.rda")
-
 city <- Sys.getenv("CITY")
 if (city == "atl") {
   sim1 <- readRDS("data/artnet.NetSim.Atlanta.sim1.rda")
