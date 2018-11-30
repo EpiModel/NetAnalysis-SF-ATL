@@ -87,22 +87,7 @@ sim_network <- function(est, nsteps = 52*5) {
 
   return(nw)
 }
-# out <- sim_network(est, nsteps = 260)
-
-
-## Full parallel stack
-library(foreach)
-library(doParallel)
-
-nsims <- 1
-nsteps <- 52*5
-
-cluster.size <- nsims
-registerDoParallel(cluster.size)
-
-out <- foreach(i = 1:nsims) %dopar% {
-  sim_network(est, nsteps = nsteps)
-}
+out <- sim_network(est, nsteps = 260)
 
 fns <- strsplit(fn, "[.]")[[1]]
 fn.new <- paste(fns[1], "NetSim", fns[3], "rda", sep = ".")
