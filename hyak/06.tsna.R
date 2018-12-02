@@ -2,52 +2,66 @@
 ## TSNA Hyak
 
 suppressMessages(library("tsna"))
+suppressMessages(library("EpiModel"))
+suppressMessages(library("sna"))
 suppressMessages(library("doParallel"))
 
 city <- Sys.getenv("CITY")
 if (city == "atl") {
-  sim1 <- readRDS("data/artnet.NetSim.Atlanta.sim1.rda")
+  sim <- readRDS("input/artnet.NetSim.Atlanta.rda")
 } else {
-  sim1 <- readRDS("data/artnet.NetSim.SanFrancisco.sim1.rda")
+  sim <- readRDS("input/artnet.NetSim.SanFrancisco.rda")
 }
 
 net <- Sys.getenv("NET")
 if (net == "main") {
-  sim1 <- sim1[[1]]
+  sim <- sim[[1]]
 } else if (net == "casl") {
-  sim1 <- sim1[[2]]
+  sim <- sim[[2]]
 } else if (net == "inst") {
-  sim1 <- sim1[[3]]
+  sim <- sim[[3]]
 } else if (net == "all") {
-  s1_main <- sim1[[1]]
-  s1_casl <- sim1[[2]]
-  s1_inst <- sim1[[3]]
+  sim_main <- sim[[1]]
+  sim_casl <- sim[[2]]
+  sim_inst <- sim[[3]]
 
-  s1_all <- s1_main
-  s1_casl_df <- as.data.frame(s1_casl)
-  s1_inst_df <- as.data.frame(s1_inst)
+  sim_all <- sim_main
+  sim_casl_df <- as.data.frame(sim_casl)
+  sim_inst_df <- as.data.frame(sim_inst)
 
-  s1_all <- add.edges.active(s1_all, tail = s1_casl_df[[3]], head = s1_casl_df[[4]],
-                             onset = s1_casl_df[[1]], terminus = s1_casl_df[[2]])
+  sim_all <- add.edges.active(sim_all, tail = sim_casl_df[[3]], head = sim_casl_df[[4]],
+                             onset = sim_casl_df[[1]], terminus = sim_casl_df[[2]])
 
-  s1_all <- add.edges.active(s1_all, tail = s1_inst_df[[3]], head = s1_inst_df[[4]],
-                             onset = s1_inst_df[[1]], terminus = s1_inst_df[[2]])
-  sim1 <- s1_all
+  sim_all <- add.edges.active(sim_all, tail = sim_inst_df[[3]], head = sim_inst_df[[4]],
+                             onset = sim_inst_df[[1]], terminus = sim_inst_df[[2]])
+  sim <- sim_all
 }
 
 simset <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
-v <- ((100*simset)-99):(100*simset)
+
+batchSize <- 100
+v <- ((batchSize*simset) - (batchSize - 1)):(batchSize*simset)
 
 int <- as.numeric(Sys.getenv("INT"))
 ts <- seq(1, 260, int)
 
 f <- function(net, v, ts) {
-  m <- matrix(NA, nrow = length(ts), ncol = length(v))
+  m <- array(NA, dim = c(length(ts), length(v), 6))
   for (jj in 1:length(v)) {
     for (ii in 1:length(ts)) {
-      m[ii, jj] <- sum(tPath(net, v = v[jj],
-                             start = 1, end = ts[ii],
-                             direction = "fwd")$tdist < Inf)
+      tp <- tPath(sim, v = v[jj], start = 1, end = ts[ii], direction = "fwd")
+      # forward reachable path
+      m[ii, jj, 1] <- sum(tp$tdist < Inf)
+      # median temporal distance
+      m[ii, jj, 2] <- median(tp$tdist[tp$tdist < Inf])
+      # median geodesic steps
+      m[ii, jj, 3] <- median(tp$gsteps[tp$gsteps < Inf])
+      # cross-sectional degree
+      m[ii, jj, 4] <- EpiModel::get_degree(network.collapse(sim, at = ts[ii]))[v[jj]]
+      # cumulative degree
+      m[ii, jj, 5] <- EpiModel::get_degree(network.collapse(sim, onset = 1, terminus = ts[[ii]]))[v[jj]]
+      # betweenness centrality
+      m[ii, jj, 6] <- sna::betweenness(network.collapse(sim, at = ts[ii]), nodes = v[jj])
     }
   }
   return(m)
@@ -55,9 +69,9 @@ f <- function(net, v, ts) {
 
 registerDoParallel(parallel::detectCores())
 out <- foreach(vv = 1:length(v)) %dopar% {
-  f(sim1, v[vv], ts)
+  f(sim, v[vv], ts)
 }
 df <- do.call("cbind", out)
 
-fn <- paste(city, net, int, simset, "rda", sep = ".")
-save(df, file = paste0("data/", fn))
+fn <- paste(city, net, int, stringr::str_pad(simset, 3, pad = "0"), "rda", sep = ".")
+save(df, file = paste0("output/", fn))
