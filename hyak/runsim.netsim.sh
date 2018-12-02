@@ -10,7 +10,7 @@
 #SBATCH --ntasks-per-node=16
 
 ## Walltime
-#SBATCH --time=4:00:00
+#SBATCH --time=24:00:00
 
 ## E-mail notification
 #SBATCH --mail-type=FAIL
