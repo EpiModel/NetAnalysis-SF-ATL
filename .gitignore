@@ -38,3 +38,5 @@ rsconnect/
 .DS_Store
 data/artnet.NetSim.Atlanta.rda
 data/artnet.NetSim.SanFrancisco.rda
+data/atl.*.rda
+data/sfo.*.rda
