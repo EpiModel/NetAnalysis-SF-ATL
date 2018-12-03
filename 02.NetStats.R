@@ -12,7 +12,7 @@ suppressPackageStartupMessages(library("EpiModelHIV"))
 
 
 ## Inputs ##
-city_name <- "San Francisco"
+city_name <- "Atlanta"
 network_size <- 10000
 diss_nodematch <- TRUE
 edges_avg_nfrace <- TRUE
@@ -214,7 +214,7 @@ stats$inst$nf.risk.deg
 as.numeric(stats$inst$nf.risk.deg)
 
 out$inst$nodefactor_deg.tot.risk <- as.numeric(table(attr_deg.tot, attr_risk.grp)) *
-                                     as.numeric(stats$inst$nf.risk.deg)
+  as.numeric(stats$inst$nf.risk.deg)
 
 
 
@@ -224,9 +224,3 @@ fns <- strsplit(fn, "[.]")[[1]]
 fn.new <- paste(fns[1], "NetStats", fns[3], "rda", sep = ".")
 
 saveRDS(out, file = fn.new)
-
-sf.stats <- readRDS(fn.new)
-
-
-
-

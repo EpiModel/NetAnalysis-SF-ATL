@@ -34,3 +34,7 @@ vignettes/*.pdf
 
 # Shiny token, see https://shiny.rstudio.com/articles/shinyapps.html
 rsconnect/
+.DS_Store
+.DS_Store
+data/artnet.NetSim.Atlanta.rda
+data/artnet.NetSim.SanFrancisco.rda
