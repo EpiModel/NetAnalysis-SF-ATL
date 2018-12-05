@@ -17,143 +17,98 @@ set.seed(803)
 sim.sf <- readRDS("artnet.NetSim.SanFrancisco.rda")
 sim.atl <- readRDS("artnet.NetSim.Atlanta.rda")
 
-### Extract sim 1 ###
+# Extract each partner type network
 
 ## SF
 
-# Sim 1
-s1.sf <- sim.sf[[1]]
-
-# nD objects within first sim
-s1_main_sf <- s1.sf[[1]]
-s1_casl_sf <- s1.sf[[2]]
-s1_inst_sf <- s1.sf[[3]]
+sf.m <- sim.sf[[1]] # main
+sf.c <- sim.sf[[2]] # casual
+sf.i <- sim.sf[[3]] # inst
 
 ## ATL
 
-# Sim 1
-s1.atl <- sim.atl[[1]]
-
-# nD objects within first sim
-s1_main_atl <- s1.atl[[1]]
-s1_casl_atl <- s1.atl[[2]]
-s1_inst_atl <- s1.atl[[3]]
+atl.m <- sim.atl[[1]] # main
+atl.c <- sim.atl[[2]] # casual
+atl.i <- sim.atl[[3]] # inst
 
 
+# 1. Outcome Data ---------------------------------------------------------
 
-# 1. tPath Data -----------------------------------------------------------
+# Load in outcome data
 
+### ALL ptypes ###
 
-### ATL ###
-
-## ALL ptypes
-
-atl.all <- load(file = "atl.all.8.rda")
-atl.all <- tdf
-atl.all <- as.data.frame(atl.all)
-
-# sample
-samp.atl.all <- sample(atl.all, 500)
-
-## MAIN
-
-atl.main <- load(file = "atl.main.8.rda")
-atl.main <- tdf
-atl.main <- as.data.frame(atl.main)
-
-# sample
-samp.atl.main <- sample(atl.main, 250)
-
-## CASUAL
-
-atl.casl <- load(file = "atl.casl.8.rda")
-atl.casl <- tdf
-atl.casl <- as.data.frame(atl.casl)
-
-# sample
-samp.atl.casl <- sample(atl.casl, 500)
-
-## INST
-
-atl.inst <- load(file = "atl.inst.8.rda")
-atl.inst <- tdf
-atl.inst <- as.data.frame(atl.inst)
-
-# sample
-samp.atl.inst <- sample(atl.inst, 500)
-
-
-### SF ###
-
-## ALL ptypes
-
-sf.all <- load(file = "sfo.all.8.rda")
-sf.all <- tdf
+sf.all <- load(file = "sfo.all.4.rda")
+sf.all <- out
 sf.all <- as.data.frame(sf.all)
 
-# sample
-samp.sf.all <- sample(sf.all, 500)
+atl.all <- load(file = "atl.all.4.rda")
+atl.all <- out
+atl.all <- as.data.frame(atl.all)
 
-## MAIN
 
-sf.main <- load(file = "sfo.main.8.rda")
-sf.main <- tdf
+### Main ###
+
+sf.main <- load(file = "sfo.main.4.rda")
+sf.main <- out
 sf.main <- as.data.frame(sf.main)
 
-# sample
-samp.sf.main <- sample(sf.main, 250)
+atl.main <- load(file = "atl.main.4.rda")
+atl.main <- out
+atl.main <- as.data.frame(atl.main)
 
-## CASUAL
 
-sf.casl <- load(file = "sfo.casl.8.rda")
-sf.casl <- tdf
+### CASUAL ###
+ 
+sf.casl <- load(file = "sfo.casl.4.rda")
+sf.casl <- out
 sf.casl <- as.data.frame(sf.casl)
 
-# sample
-samp.sf.casl <- sample(sf.casl, 500)
+atl.casl <- load(file = "atl.casl.4.rda")
+atl.casl <- out
+atl.casl <- as.data.frame(atl.casl)
 
-## INST
 
-sf.inst <- load(file = "sfo.inst.8.rda")
+### INST ###
+
+sf.inst <- load(file = "sf.inst.4.rda")
 sf.inst <- tdf
 sf.inst <- as.data.frame(sf.inst)
 
-# sample
-samp.sf.inst <- sample(sf.inst, 500)
-
+atl.inst <- load(file = "atl.inst.4.rda")
+atl.inst <- tdf
+atl.inst <- as.data.frame(atl.inst)
 
 
 # 2. Extract Vertex IDs ------------------------------------------------------
 
-# extract.id.B <- function (net) {
-#   x <- net[[3]][which(get.vertex.attribute(net, "race") == "B")]
-#   net.b.id <- rep("NA", length(x))
-#   for (i in 1:length(x)) {
-#     net.b.id[i] <- x[[i]][2]
-#   }
-#   net.b.id <- paste0("V", net.b.id)
-#   return(net.b.id)
-# }
-#
-# extract.id.W <- function (net) {
-#   x <- net[[3]][which(get.vertex.attribute(net, "race") == "W")]
-#   net.b.id <- rep("NA", length(x))
-#   for (i in 1:length(x)) {
-#     net.b.id[i] <- x[[i]][2]
-#   }
-#   net.b.id <- paste0("V", net.b.id)
-#   return(net.b.id)
-# }
-#
-# extract.id.24 <- function (net) {
-#   x <- net[[3]][which(get.vertex.attribute(net, "age.grp") == "1")]
-#   net.b.id <- rep("NA", length(x))
-#   for (i in 1:length(x)) {
-#     net.b.id[i] <- x[[i]][2]
-#   }
-#   net.b.id <- paste0("V", net.b.id)
-#   return(net.b.id)
-# }
+### SF ###
+
+# Black
+sf.id.b <- which(get.vertex.attribute(sf.m, "race") == "B")
+
+sf.all.b <- sf.all[sf.b.id]
+
+# Extract IDs SF
+s1_main_sf_B <- s1_main_sf[[3]][which(get.vertex.attribute(s1_main_sf, "race") == "B")]
+
+sf.b.id <- rep("NA", length(s1_main_sf_B))
+
+for (i in 1:length(s1_main_sf_B)) {
+  sf.b.id[i] <- s1_main_sf_B[[i]][2]
+}
+
+
+sf.b.id <- paste0("V", sf.b.id)
+
+
+sf.b.id <- paste0("V", sf.b.id)
+
+# Data sets of only black IDs
+sf.all.B <- sf.all[sf.b.id]
+sf.main.B <- sf.main[sf.b.id]
+sf.casl.B <- sf.casl[sf.b.id]
+sf.inst.B <- sf.inst[sf.b.id]
 
 ## Black
 
@@ -165,6 +120,7 @@ sf.b.id <- rep("NA", length(s1_main_sf_B))
 for (i in 1:length(s1_main_sf_B)) {
   sf.b.id[i] <- s1_main_sf_B[[i]][2]
 }
+
 
 sf.b.id <- paste0("V", sf.b.id)
 

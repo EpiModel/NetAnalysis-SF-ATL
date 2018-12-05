@@ -10,12 +10,12 @@ library("tidyverse")
 
 
 ## Inputs ##
-city_name <- "Atlanta"
+city_name <- "San Francisco"
 
 
 ## Data ##
-d <- readRDS("data/ARTNet-vars.rda")
-l <- readRDS("data/ARTNet-long.rda")
+d <- readRDS("ARTNet-vars.rda")
+l <- readRDS("ARTNet-long.rda")
 
 ## Derivatives ##
 coef_name <- paste0("city2", city_name)
@@ -284,15 +284,13 @@ durs.main.matched <- lmain %>%
   as.data.frame()
 durs.main.matched
 
-durs.main.all <- rbind(durs.main.nonmatch, durs.main.matched)
+durs.main.all <- rbind(durs.main.nonmatch*wt, durs.main.matched*wt)
 
 durs.main.all$rates.main.adj <- 1 - (2^(-1/(wt*durs.main.all$median.dur)))
 durs.main.all$mean.dur.adj <- 1/(1 - (2^(-1/(wt*durs.main.all$median.dur))))
 
 durs.main.all <- durs.main.all[, c(3, 1, 2, 4, 5)]
 out$main$durs.main.byage <- durs.main.all
-
-
 
 # 2. Casual model ---------------------------------------------------------
 
@@ -453,7 +451,7 @@ durs.casl.matched <- lcasl %>%
   as.data.frame()
 durs.casl.matched
 
-durs.casl.all <- rbind(durs.casl.nonmatch, durs.casl.matched)
+durs.casl.all <- rbind(durs.casl.nonmatch*wt, durs.casl.matched*wt)
 durs.casl.all
 
 durs.casl.all$rates.casl.adj <- 1 - (2^(-1/(wt*durs.casl.all$median.dur)))
