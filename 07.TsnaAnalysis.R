@@ -3,6 +3,7 @@
 
 library("tsna")
 library("networkDynamicData")
+suppressMessages(library("EpiModel"))
 # library("sna")
 # library("ggplot2")
 
@@ -31,6 +32,13 @@ atl.m <- sim.atl[[1]] # main
 atl.c <- sim.atl[[2]] # casual
 atl.i <- sim.atl[[3]] # inst
 
+# Checking degree
+EpiModel::get_degree(network.collapse(sf.m, at = 1))
+EpiModel::get_degree(network.collapse(sf.c, at = 1))
+EpiModel::get_degree(network.collapse(sf.i, at = 1))
+EpiModel::get_degree(network.collapse(atl.m, at = 1))
+EpiModel::get_degree(network.collapse(atl.c, at = 1))
+EpiModel::get_degree(network.collapse(atl.i, at = 1))
 
 # 1. Outcome Data ---------------------------------------------------------
 
@@ -46,10 +54,9 @@ atl.all <- load(file = "atl.all.4.rda")
 atl.all <- out
 atl.all <- as.data.frame(atl.all)
 
-
 ### Main ###
 
-sf.main <- load(file = "sfo.main.4.rda")
+sf.main <- load(file = "sfo.main.1.rda")
 sf.main <- out
 sf.main <- as.data.frame(sf.main)
 
@@ -57,6 +64,9 @@ atl.main <- load(file = "atl.main.4.rda")
 atl.main <- out
 atl.main <- as.data.frame(atl.main)
 
+# Checking degree
+test <- subset(sf.main, select = degree.1:degree.10000)
+test <- subset(atl.main, select = degree.1:degree.10000)
 
 ### CASUAL ###
  
@@ -68,6 +78,9 @@ atl.casl <- load(file = "atl.casl.4.rda")
 atl.casl <- out
 atl.casl <- as.data.frame(atl.casl)
 
+# Checking degree
+test <- subset(sf.casl, select = degree.1:degree.10000)
+test <- subset(atl.casl, select = degree.1:degree.10000)
 
 ### INST ###
 
@@ -79,6 +92,9 @@ atl.inst <- load(file = "atl.inst.4.rda")
 atl.inst <- tdf
 atl.inst <- as.data.frame(atl.inst)
 
+# Checking degree
+test <- subset(sf.inst, select = degree.1:degree.10000)
+test <- subset(atl.inst, select = degree.1:degree.10000)
 
 # 2. Extract Vertex IDs ------------------------------------------------------
 
