@@ -10,7 +10,6 @@ suppressMessages(library("EpiModel"))
 set.seed(803)
 
 
-
 # 0. Netowrk data ---------------------------------------------------------
 
 ### Read in sims ###
@@ -32,7 +31,119 @@ atl.m <- sim.atl[[1]] # main
 atl.c <- sim.atl[[2]] # casual
 atl.i <- sim.atl[[3]] # inst
 
-# Checking degree
+
+# 1. Outcome Data ---------------------------------------------------------
+
+
+### ALL ptypes ###
+
+# sf.all <- load(file = "sfo.all.1.rda")
+# sf.all <- out
+# sf.all <- as.data.frame(sf.all)
+# 
+# atl.all <- load(file = "atl.all.1.rda")
+# atl.all <- out
+# atl.all <- as.data.frame(atl.all)
+
+
+### Main ###
+
+## SF
+# Load in data
+sf.main <- load(file = "sfo.main.1.rda")
+sf.main <- out
+sf.main <- as.data.frame(sf.main)
+
+# Subset by outcome
+sf.m.frp <- subset(sf.main, select = frp.1:frp.10000)
+sf.m.tdist <- subset(sf.main, select = medtdist.1:medtdist.10000)
+sf.m.gstep <- subset(sf.main, select = medgeod.1:medgeod.10000)
+sf.m.deg <- subset(sf.main, select = degree.1:degree.10000)
+sf.m.cumldeg <- subset(sf.main, select = cumldegree.1:cumldegree.10000)
+sf.m.bcent <- subset(sf.main, select = bcent.1:bcent.10000)
+
+## ATL
+# Load in data
+atl.main <- load(file = "atl.main.1.rda")
+atl.main <- out
+atl.main <- as.data.frame(atl.main)
+
+# Subset by outcome
+atl.m.frp <- subset(atl.main, select = frp.1:frp.10000)
+atl.m.tdist <- subset(atl.main, select = medtdist.1:medtdist.10000)
+atl.m.gstep <- subset(atl.main, select = medgeod.1:medgeod.10000)
+atl.m.deg <- subset(atl.main, select = degree.1:degree.10000)
+atl.m.cumldeg <- subset(atl.main, select = cumldegree.1:cumldegree.10000)
+atl.m.bcent <- subset(atl.main, select = bcent.1:bcent.10000)
+
+
+### CASUAL ###
+ 
+## SF
+# Load in data
+sf.casl <- load(file = "sfo.casl.1.rda")
+sf.casl <- out
+sf.casl <- as.data.frame(sf.casl)
+
+# Subset by outcome
+sf.c.frp <- subset(sf.casl, select = frp.1:frp.10000)
+sf.c.tdist <- subset(sf.casl, select = medtdist.1:medtdist.10000)
+sf.c.gstep <- subset(sf.casl, select = medgeod.1:medgeod.10000)
+sf.c.deg <- subset(sf.casl, select = degree.1:degree.10000)
+sf.c.cumldeg <- subset(sf.casl, select = cumldegree.1:cumldegree.10000)
+sf.c.bcent <- subset(sf.casl, select = bcent.1:bcent.10000)
+
+## ATL
+# Load in data
+atl.casl <- load(file = "atl.casl.1.rda")
+atl.casl <- out
+atl.casl <- as.data.frame(atl.casl)
+
+# Subset by outcome
+atl.c.frp <- subset(atl.casl, select = frp.1:frp.10000)
+atl.c.tdist <- subset(atl.casl, select = medtdist.1:medtdist.10000)
+atl.c.gstep <- subset(atl.casl, select = medgeod.1:medgeod.10000)
+atl.c.deg <- subset(atl.casl, select = degree.1:degree.10000)
+atl.c.cumldeg <- subset(atl.casl, select = cumldegree.1:cumldegree.10000)
+atl.c.bcent <- subset(atl.casl, select = bcent.1:bcent.10000)
+
+
+### INST ###
+
+## SF
+# Load in data
+sf.inst <- load(file = "sfo.inst.1.rda")
+sf.inst <- out
+sf.inst <- as.data.frame(sf.inst)
+
+# Subset by outcome
+sf.i.frp <- subset(sf.inst, select = frp.1:frp.10000)
+sf.i.tdist <- subset(sf.inst, select = medtdist.1:medtdist.10000)
+sf.i.gstep <- subset(sf.inst, select = medgeod.1:medgeod.10000)
+sf.i.deg <- subset(sf.inst, select = degree.1:degree.10000)
+sf.i.cumldeg <- subset(sf.inst, select = cumldegree.1:cumldegree.10000)
+sf.i.bcent <- subset(sf.inst, select = bcent.1:bcent.10000)
+
+## ATL
+# Load in data
+atl.inst <- load(file = "atl.inst.1.rda")
+atl.inst <- out
+atl.inst <- as.data.frame(atl.inst)
+
+# Subset by outcome
+atl.i.frp <- subset(atl.inst, select = frp.1:frp.10000)
+atl.i.tdist <- subset(atl.inst, select = medtdist.1:medtdist.10000)
+atl.i.gstep <- subset(atl.inst, select = medgeod.1:medgeod.10000)
+atl.i.deg <- subset(atl.inst, select = degree.1:degree.10000)
+atl.i.cumldeg <- subset(atl.inst, select = cumldegree.1:cumldegree.10000)
+atl.i.bcent <- subset(atl.inst, select = bcent.1:bcent.10000)
+
+# df <- as.data.frame(names(sf.main))
+
+
+# 2. Validation -----------------------------------------------------------
+
+## Checking degree in simulations
 EpiModel::get_degree(network.collapse(sf.m, at = 1))
 EpiModel::get_degree(network.collapse(sf.c, at = 1))
 EpiModel::get_degree(network.collapse(sf.i, at = 1))
@@ -40,496 +151,289 @@ EpiModel::get_degree(network.collapse(atl.m, at = 1))
 EpiModel::get_degree(network.collapse(atl.c, at = 1))
 EpiModel::get_degree(network.collapse(atl.i, at = 1))
 
-# 1. Outcome Data ---------------------------------------------------------
+## Checking degree in outcome data
 
-# Load in outcome data
-
-### ALL ptypes ###
-
-sf.all <- load(file = "sfo.all.4.rda")
-sf.all <- out
-sf.all <- as.data.frame(sf.all)
-
-atl.all <- load(file = "atl.all.4.rda")
-atl.all <- out
-atl.all <- as.data.frame(atl.all)
-
-### Main ###
-
-sf.main <- load(file = "sfo.main.1.rda")
-sf.main <- out
-sf.main <- as.data.frame(sf.main)
-
-atl.main <- load(file = "atl.main.4.rda")
-atl.main <- out
-atl.main <- as.data.frame(atl.main)
-
-# Checking degree
+# Main
 test <- subset(sf.main, select = degree.1:degree.10000)
 test <- subset(atl.main, select = degree.1:degree.10000)
 
-### CASUAL ###
- 
-sf.casl <- load(file = "sfo.casl.4.rda")
-sf.casl <- out
-sf.casl <- as.data.frame(sf.casl)
-
-atl.casl <- load(file = "atl.casl.4.rda")
-atl.casl <- out
-atl.casl <- as.data.frame(atl.casl)
-
-# Checking degree
+# Casual
 test <- subset(sf.casl, select = degree.1:degree.10000)
 test <- subset(atl.casl, select = degree.1:degree.10000)
 
-### INST ###
-
-sf.inst <- load(file = "sf.inst.4.rda")
-sf.inst <- tdf
-sf.inst <- as.data.frame(sf.inst)
-
-atl.inst <- load(file = "atl.inst.4.rda")
-atl.inst <- tdf
-atl.inst <- as.data.frame(atl.inst)
-
-# Checking degree
+# Instantaneous
 test <- subset(sf.inst, select = degree.1:degree.10000)
 test <- subset(atl.inst, select = degree.1:degree.10000)
 
-# 2. Extract Vertex IDs ------------------------------------------------------
 
-### SF ###
+# 3. Extract Vertex IDs ------------------------------------------------------
 
-# Black
-sf.id.b <- which(get.vertex.attribute(sf.m, "race") == "B")
-
-sf.all.b <- sf.all[sf.b.id]
-
-# Extract IDs SF
-s1_main_sf_B <- s1_main_sf[[3]][which(get.vertex.attribute(s1_main_sf, "race") == "B")]
-
-sf.b.id <- rep("NA", length(s1_main_sf_B))
-
-for (i in 1:length(s1_main_sf_B)) {
-  sf.b.id[i] <- s1_main_sf_B[[i]][2]
-}
-
-
-sf.b.id <- paste0("V", sf.b.id)
-
-
-sf.b.id <- paste0("V", sf.b.id)
-
-# Data sets of only black IDs
-sf.all.B <- sf.all[sf.b.id]
-sf.main.B <- sf.main[sf.b.id]
-sf.casl.B <- sf.casl[sf.b.id]
-sf.inst.B <- sf.inst[sf.b.id]
+### Main ###
 
 ## Black
 
-# Extract IDs SF
-s1_main_sf_B <- s1_main_sf[[3]][which(get.vertex.attribute(s1_main_sf, "race") == "B")]
+# SF
+sf.id.b <- which(get.vertex.attribute(sf.m, "race") == "B")
 
-sf.b.id <- rep("NA", length(s1_main_sf_B))
+sfm.frp.b <- sf.m.frp[sf.id.b]
+sfm.tdist.b <- sf.m.tdist[sf.id.b]
+sfm.gstep.b <- sf.m.gstep[sf.id.b]
+sfm.deg.b <- sf.m.deg[sf.id.b]
+sfm.cumldeg.b <- sf.m.cumldeg[sf.id.b]
+sfm.bcent.b <- sf.m.bcent[sf.id.b]
 
-for (i in 1:length(s1_main_sf_B)) {
-  sf.b.id[i] <- s1_main_sf_B[[i]][2]
-}
+# ATL
+atl.id.b <- which(get.vertex.attribute(atl.m, "race") == "B")
 
-
-sf.b.id <- paste0("V", sf.b.id)
-
-# Data sets of only black IDs
-sf.all.B <- sf.all[sf.b.id]
-sf.main.B <- sf.main[sf.b.id]
-sf.casl.B <- sf.casl[sf.b.id]
-sf.inst.B <- sf.inst[sf.b.id]
-
-# Extract IDs ATL
-s1_main_atl_B <- s1_main_atl[[3]][which(get.vertex.attribute(s1_main_atl, "race") == "B")]
-
-atl.b.id <- rep("NA", length(s1_main_atl_B))
-
-for (i in 1:length(s1_main_atl_B)) {
-  atl.b.id[i] <- s1_main_atl_B[[i]][2]
-}
-
-atl.b.id <- paste0("V", atl.b.id)
-
-# Data sets of only black IDs
-atl.all.B <- atl.all[atl.b.id]
-atl.main.B <- atl.main[atl.b.id]
-atl.casl.B <- atl.casl[atl.b.id]
-atl.inst.B <- atl.inst[atl.b.id]
-
+atlm.frp.b <- atl.m.frp[atl.id.b]
+atlm.tdist.b <- atl.m.tdist[atl.id.b]
+atlm.gstep.b <- atl.m.gstep[atl.id.b]
+atlm.deg.b <- atl.m.deg[atl.id.b]
+atlm.cumldeg.b <- atl.m.cumldeg[atl.id.b]
+atlm.bcent.b <- atl.m.bcent[atl.id.b]
 
 ## White
 
-# Extract IDs SF
-s1_main_sf_W <- s1_main_sf[[3]][which(get.vertex.attribute(s1_main_sf, "race") == "W")]
+# SF
+sf.id.w <- which(get.vertex.attribute(sf.m, "race") == "W")
 
-sf.w.id <- rep("NA", length(s1_main_sf_W))
+sfm.frp.w <- sf.m.frp[sf.id.w]
+sfm.tdist.w <- sf.m.tdist[sf.id.w]
+sfm.gstep.w <- sf.m.gstep[sf.id.w]
+sfm.deg.w <- sf.m.deg[sf.id.w]
+sfm.cumldeg.w <- sf.m.cumldeg[sf.id.w]
+sfm.bcent.w <- sf.m.bcent[sf.id.w]
 
-for (i in 1:length(s1_main_sf_W)) {
-  sf.w.id[i] <- s1_main_sf_W[[i]][2]
-}
+# ATL
+atl.id.w <- which(get.vertex.attribute(atl.m, "race") == "W")
 
-sf.w.id <- paste0("V", sf.w.id)
-
-# Data sets of only white IDs
-sf.all.W <- sf.all[sf.w.id]
-sf.main.W <- sf.main[sf.w.id]
-sf.casl.W <- sf.casl[sf.w.id]
-sf.inst.W <- sf.inst[sf.w.id]
-
-# Extract IDs ATL
-s1_main_atl_W <- s1_main_atl[[3]][which(get.vertex.attribute(s1_main_atl, "race") == "W")]
-
-atl.w.id <- rep("NA", length(s1_main_atl_W))
-
-for (i in 1:length(s1_main_atl_W)) {
-  atl.w.id[i] <- s1_main_atl_W[[i]][2]
-}
-
-atl.w.id <- paste0("V", atl.w.id)
-
-# Data sets of only black IDs
-atl.all.W <- atl.all[atl.w.id]
-atl.main.W <- atl.main[atl.w.id]
-atl.casl.W <- atl.casl[atl.w.id]
-atl.inst.W <- atl.inst[atl.w.id]
+atlm.frp.w <- atl.m.frp[atl.id.w]
+atlm.tdist.w <- atl.m.tdist[atl.id.w]
+atlm.gstep.w <- atl.m.gstep[atl.id.w]
+atlm.deg.w <- atl.m.deg[atl.id.w]
+atlm.cumldeg.w <- atl.m.cumldeg[atl.id.w]
+atlm.bcent.w <- atl.m.bcent[atl.id.w]
 
 
 ### Age
-
 ## Age 0-24
 
 # SF
-s1_main_sf_24 <- s1_main_sf[[3]][which(get.vertex.attribute(s1_main_sf, "age.grp") == "1")]
+sf.id.24 <- which(get.vertex.attribute(sf.m, "age.grp") == "1")
 
-sf.24.id <- rep("NA", length(s1_main_sf_24))
-
-for (i in 1:length(s1_main_sf_24)) {
-  sf.24.id[i] <- s1_main_sf_24[[i]][2]
-}
-
-sf.24.id <- paste0("V", sf.24.id)
-
-sf.all.24 <- sf.all[sf.24.id]
-sf.main.24 <- sf.main[sf.24.id]
-sf.casl.24 <- sf.casl[sf.24.id]
-sf.inst.24 <- sf.inst[sf.24.id]
+sfm.frp.24 <- sf.m.frp[sf.id.24]
+sfm.tdist.24 <- sf.m.tdist[sf.id.24]
+sfm.gstep.24 <- sf.m.gstep[sf.id.24]
+sfm.deg.24 <- sf.m.deg[sf.id.24]
+sfm.cumldeg.24 <- sf.m.cumldeg[sf.id.24]
+sfm.bcent.24 <- sf.m.bcent[sf.id.24]
 
 # ATL
-s1_main_atl_24 <- s1_main_atl[[3]][which(get.vertex.attribute(s1_main_atl, "age.grp") == "1")]
+atl.id.24 <- which(get.vertex.attribute(atl.m, "age.grp") == "1")
 
-atl.24.id <- rep("NA", length(s1_main_atl_24))
-
-for (i in 1:length(s1_main_atl_24)) {
-  atl.24.id[i] <- s1_main_atl_24[[i]][2]
-}
-
-atl.24.id <- paste0("V", atl.24.id)
-
-atl.all.24 <- atl.all[atl.24.id]
-atl.main.24 <- atl.main[atl.24.id]
-atl.casl.24 <- atl.casl[atl.24.id]
-atl.inst.24 <- atl.inst[atl.24.id]
+atlm.frp.24 <- atl.m.frp[atl.id.24]
+atlm.tdist.24 <- atl.m.tdist[atl.id.24]
+atlm.gstep.24 <- atl.m.gstep[atl.id.24]
+atlm.deg.24 <- atl.m.deg[atl.id.24]
+atlm.cumldeg.24 <- atl.m.cumldeg[atl.id.24]
+atlm.bcent.24 <- atl.m.bcent[atl.id.24]
 
 
-# Age 25-34
+## Age 25-34
 
 # SF
-s1_main_sf_34 <- s1_main_sf[[3]][which(get.vertex.attribute(s1_main_sf, "age.grp") == "2")]
+sf.id.34 <- which(get.vertex.attribute(sf.m, "age.grp") == "2")
 
-sf.34.id <- rep("NA", length(s1_main_sf_34))
-
-for (i in 1:length(s1_main_sf_34)) {
-  sf.34.id[i] <- s1_main_sf_34[[i]][2]
-}
-
-sf.34.id <- paste0("V", sf.34.id)
-
-sf.all.34 <- sf.all[sf.34.id]
-sf.main.34 <- sf.main[sf.34.id]
-sf.casl.34 <- sf.casl[sf.34.id]
-sf.inst.34 <- sf.inst[sf.34.id]
+sfm.frp.34 <- sf.m.frp[sf.id.34]
+sfm.tdist.34 <- sf.m.tdist[sf.id.34]
+sfm.gstep.34 <- sf.m.gstep[sf.id.34]
+sfm.deg.34 <- sf.m.deg[sf.id.34]
+sfm.cumldeg.34 <- sf.m.cumldeg[sf.id.34]
+sfm.bcent.34 <- sf.m.bcent[sf.id.34]
 
 # ATL
-s1_main_atl_34 <- s1_main_atl[[3]][which(get.vertex.attribute(s1_main_atl, "age.grp") == "2")]
+atl.id.34 <- which(get.vertex.attribute(atl.m, "age.grp") == "2")
 
-atl.34.id <- rep("NA", length(s1_main_atl_34))
-
-for (i in 1:length(s1_main_atl_34)) {
-  atl.34.id[i] <- s1_main_atl_34[[i]][2]
-}
-
-atl.34.id <- paste0("V", atl.34.id)
-
-atl.all.34 <- atl.all[atl.34.id]
-atl.main.34 <- atl.main[atl.34.id]
-atl.casl.34 <- atl.casl[atl.34.id]
-atl.inst.34 <- atl.inst[atl.34.id]
+atlm.frp.34 <- atl.m.frp[atl.id.34]
+atlm.tdist.34 <- atl.m.tdist[atl.id.34]
+atlm.gstep.34 <- atl.m.gstep[atl.id.34]
+atlm.deg.34 <- atl.m.deg[atl.id.34]
+atlm.cumldeg.34 <- atl.m.cumldeg[atl.id.34]
+atlm.bcent.34 <- atl.m.bcent[atl.id.34]
 
 
-# Age 35-44
+## Age 35-44
 
 # SF
-s1_main_sf_44 <- s1_main_sf[[3]][which(get.vertex.attribute(s1_main_sf, "age.grp") == "3")]
+sf.id.44 <- which(get.vertex.attribute(sf.m, "age.grp") == "3")
 
-sf.44.id <- rep("NA", length(s1_main_sf_44))
-
-for (i in 1:length(s1_main_sf_44)) {
-  sf.44.id[i] <- s1_main_sf_44[[i]][2]
-}
-
-sf.44.id <- paste0("V", sf.44.id)
-
-sf.all.44 <- sf.all[sf.44.id]
-sf.main.44 <- sf.main[sf.44.id]
-sf.casl.44 <- sf.casl[sf.44.id]
-sf.inst.44 <- sf.inst[sf.44.id]
+sfm.frp.44 <- sf.m.frp[sf.id.44]
+sfm.tdist.44 <- sf.m.tdist[sf.id.44]
+sfm.gstep.44 <- sf.m.gstep[sf.id.44]
+sfm.deg.44 <- sf.m.deg[sf.id.44]
+sfm.cumldeg.44 <- sf.m.cumldeg[sf.id.44]
+sfm.bcent.44 <- sf.m.bcent[sf.id.44]
 
 # ATL
-s1_main_atl_44 <- s1_main_atl[[3]][which(get.vertex.attribute(s1_main_atl, "age.grp") == "3")]
+atl.id.44 <- which(get.vertex.attribute(atl.m, "age.grp") == "3")
 
-atl.44.id <- rep("NA", length(s1_main_atl_44))
-
-for (i in 1:length(s1_main_atl_44)) {
-  atl.44.id[i] <- s1_main_atl_44[[i]][2]
-}
-
-atl.44.id <- paste0("V", atl.44.id)
-
-atl.all.44 <- atl.all[atl.44.id]
-atl.main.44 <- atl.main[atl.44.id]
-atl.casl.44 <- atl.casl[atl.44.id]
-atl.inst.44 <- atl.inst[atl.44.id]
+atlm.frp.44 <- atl.m.frp[atl.id.44]
+atlm.tdist.44 <- atl.m.tdist[atl.id.44]
+atlm.gstep.44 <- atl.m.gstep[atl.id.44]
+atlm.deg.44 <- atl.m.deg[atl.id.44]
+atlm.cumldeg.44 <- atl.m.cumldeg[atl.id.44]
+atlm.bcent.44 <- atl.m.bcent[atl.id.44]
 
 
-# Age 45-54
+## Age 45-54
 
 # SF
-s1_main_sf_54 <- s1_main_sf[[3]][which(get.vertex.attribute(s1_main_sf, "age.grp") == "4")]
+sf.id.54 <- which(get.vertex.attribute(sf.m, "age.grp") == "4")
 
-sf.54.id <- rep("NA", length(s1_main_sf_54))
-
-for (i in 1:length(s1_main_sf_54)) {
-  sf.54.id[i] <- s1_main_sf_54[[i]][2]
-}
-
-sf.54.id <- paste0("V", sf.54.id)
-
-sf.all.54 <- sf.all[sf.54.id]
-sf.main.54 <- sf.main[sf.54.id]
-sf.casl.54 <- sf.casl[sf.54.id]
-sf.inst.54 <- sf.inst[sf.54.id]
+sfm.frp.54 <- sf.m.frp[sf.id.54]
+sfm.tdist.54 <- sf.m.tdist[sf.id.54]
+sfm.gstep.54 <- sf.m.gstep[sf.id.54]
+sfm.deg.54 <- sf.m.deg[sf.id.54]
+sfm.cumldeg.54 <- sf.m.cumldeg[sf.id.54]
+sfm.bcent.54 <- sf.m.bcent[sf.id.54]
 
 # ATL
-s1_main_atl_54 <- s1_main_atl[[3]][which(get.vertex.attribute(s1_main_atl, "age.grp") == "4")]
+atl.id.54 <- which(get.vertex.attribute(atl.m, "age.grp") == "4")
 
-atl.54.id <- rep("NA", length(s1_main_atl_54))
+atlm.frp.54 <- atl.m.frp[atl.id.54]
+atlm.tdist.54 <- atl.m.tdist[atl.id.54]
+atlm.gstep.54 <- atl.m.gstep[atl.id.54]
+atlm.deg.54 <- atl.m.deg[atl.id.54]
+atlm.cumldeg.54 <- atl.m.cumldeg[atl.id.54]
+atlm.bcent.54 <- atl.m.bcent[atl.id.54]
 
-for (i in 1:length(s1_main_atl_54)) {
-  atl.54.id[i] <- s1_main_atl_54[[i]][2]
-}
 
-atl.54.id <- paste0("V", atl.54.id)
-
-atl.all.54 <- atl.all[atl.54.id]
-atl.main.54 <- atl.main[atl.54.id]
-atl.casl.54 <- atl.casl[atl.54.id]
-atl.inst.54 <- atl.inst[atl.54.id]
-
-# Age 55+
+## Age 55+
 
 # SF
-s1_main_sf_64 <- s1_main_sf[[3]][which(get.vertex.attribute(s1_main_sf, "age.grp") == "5")]
+sf.id.64 <- which(get.vertex.attribute(sf.m, "age.grp") == "5")
 
-sf.64.id <- rep("NA", length(s1_main_sf_64))
-
-for (i in 1:length(s1_main_sf_64)) {
-  sf.64.id[i] <- s1_main_sf_64[[i]][2]
-}
-
-sf.64.id <- paste0("V", sf.64.id)
-
-sf.all.64 <- sf.all[sf.64.id]
-sf.main.64 <- sf.main[sf.64.id]
-sf.casl.64 <- sf.casl[sf.64.id]
-sf.inst.64 <- sf.inst[sf.64.id]
+sfm.frp.64 <- sf.m.frp[sf.id.64]
+sfm.tdist.64 <- sf.m.tdist[sf.id.64]
+sfm.gstep.64 <- sf.m.gstep[sf.id.64]
+sfm.deg.64 <- sf.m.deg[sf.id.64]
+sfm.cumldeg.64 <- sf.m.cumldeg[sf.id.64]
+sfm.bcent.64 <- sf.m.bcent[sf.id.64]
 
 # ATL
-s1_main_atl_64 <- s1_main_atl[[3]][which(get.vertex.attribute(s1_main_atl, "age.grp") == "5")]
+atl.id.64 <- which(get.vertex.attribute(atl.m, "age.grp") == "5")
 
-atl.64.id <- rep("NA", length(s1_main_atl_64))
-
-for (i in 1:length(s1_main_atl_64)) {
-  atl.64.id[i] <- s1_main_atl_64[[i]][2]
-}
-
-atl.64.id <- paste0("V", atl.64.id)
-
-atl.all.64 <- atl.all[atl.64.id]
-atl.main.64 <- atl.main[atl.64.id]
-atl.casl.64 <- atl.casl[atl.64.id]
-atl.inst.64 <- atl.inst[atl.64.id]
+atlm.frp.64 <- atl.m.frp[atl.id.64]
+atlm.tdist.64 <- atl.m.tdist[atl.id.64]
+atlm.gstep.64 <- atl.m.gstep[atl.id.64]
+atlm.deg.64 <- atl.m.deg[atl.id.64]
+atlm.cumldeg.64 <- atl.m.cumldeg[atl.id.64]
+atlm.bcent.64 <- atl.m.bcent[atl.id.64]
 
 
 ### Race & Age
-
-# Black 0-24
-
-# SF
-s1_main_sf_B24 <- s1_main_sf[[3]][which(get.vertex.attribute(s1_main_sf, "race") == "B" &
-                                          get.vertex.attribute(s1_main_sf, "age.grp") == "1")]
-
-sf.b24.id <- rep("NA", length(s1_main_sf_B24))
-
-for (i in 1:length(s1_main_sf_B24)) {
-  sf.b24.id[i] <- s1_main_sf_B24[[i]][2]
-}
-
-sf.b24.id <- paste0("V", sf.b24.id)
-
-# Data sets of only black IDs
-sf.all.B24 <- sf.all[sf.b24.id]
-sf.main.B24 <- sf.main[sf.b24.id]
-sf.casl.B24 <- sf.casl[sf.b24.id]
-sf.inst.B24 <- sf.inst[sf.b24.id]
-
-# ATL
-s1_main_atl_B24 <- s1_main_atl[[3]][which(get.vertex.attribute(s1_main_atl, "race") == "B" &
-                                            get.vertex.attribute(s1_main_atl, "age.grp") == "1")]
-
-atl.b24.id <- rep("NA", length(s1_main_atl_B24))
-
-for (i in 1:length(s1_main_atl_B24)) {
-  atl.b24.id[i] <- s1_main_atl_B24[[i]][2]
-}
-
-atl.b24.id <- paste0("V", atl.b24.id)
-
-# Data sets of only black IDs
-atl.all.B24 <- atl.all[atl.b24.id]
-atl.main.B24 <- atl.main[atl.b24.id]
-atl.casl.B24 <- atl.casl[atl.b24.id]
-atl.inst.B24 <- atl.inst[atl.b24.id]
-
-# White 0-24
+## Black 0-24
 
 # SF
-s1_main_sf_W24 <- s1_main_sf[[3]][which(get.vertex.attribute(s1_main_sf, "race") == "W" &
-                                          get.vertex.attribute(s1_main_sf, "age.grp") == "1")]
+sf.id.b24 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
+                     get.vertex.attribute(sf.m, "age.grp") == "1"))
 
-sf.w24.id <- rep("NA", length(s1_main_sf_W24))
-
-for (i in 1:length(s1_main_sf_W24)) {
-  sf.w24.id[i] <- s1_main_sf_W24[[i]][2]
-}
-
-sf.w24.id <- paste0("V", sf.w24.id)
-
-# Data sets of only black IDs
-sf.all.W24 <- sf.all[sf.w24.id]
-sf.main.W24 <- sf.main[sf.w24.id]
-sf.casl.W24 <- sf.casl[sf.w24.id]
-sf.inst.W24 <- sf.inst[sf.w24.id]
+sfm.frp.b24 <- sf.m.frp[sf.id.b24]
+sfm.tdist.b24 <- sf.m.tdist[sf.id.b24]
+sfm.gstep.b24 <- sf.m.gstep[sf.id.b24]
+sfm.deg.b24 <- sf.m.deg[sf.id.b24]
+sfm.cumldeg.b24 <- sf.m.cumldeg[sf.id.b24]
+sfm.bcent.b24 <- sf.m.bcent[sf.id.b24]
 
 # ATL
-s1_main_atl_W24 <- s1_main_atl[[3]][which(get.vertex.attribute(s1_main_atl, "race") == "W" &
-                                            get.vertex.attribute(s1_main_atl, "age.grp") == "1")]
+atl.id.b24 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
+                      get.vertex.attribute(atl.m, "age.grp") == "1"))
 
-atl.w24.id <- rep("NA", length(s1_main_atl_W24))
+atlm.frp.b24 <- atl.m.frp[atl.id.b24]
+atlm.tdist.b24 <- atl.m.tdist[atl.id.b24]
+atlm.gstep.b24 <- atl.m.gstep[atl.id.b24]
+atlm.deg.b24 <- atl.m.deg[atl.id.b24]
+atlm.cumldeg.b24 <- atl.m.cumldeg[atl.id.b24]
+atlm.bcent.b24 <- atl.m.bcent[atl.id.b24]
 
-for (i in 1:length(s1_main_atl_W24)) {
-  atl.w24.id[i] <- s1_main_atl_W24[[i]][2]
-}
 
-atl.w24.id <- paste0("V", atl.w24.id)
-
-# Data sets of only black IDs
-atl.all.W24 <- atl.all[atl.w24.id]
-atl.main.W24 <- atl.main[atl.w24.id]
-atl.casl.W24 <- atl.casl[atl.w24.id]
-atl.inst.W24 <- atl.inst[atl.w24.id]
-
-# Black 25-34
+## White 0-24
 
 # SF
-s1_main_sf_B34 <- s1_main_sf[[3]][which(get.vertex.attribute(s1_main_sf, "race") == "B" &
-                                          get.vertex.attribute(s1_main_sf, "age.grp") == "2")]
+sf.id.w24 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
+                     get.vertex.attribute(sf.m, "age.grp") == "1"))
 
-sf.b34.id <- rep("NA", length(s1_main_sf_B34))
-
-for (i in 1:length(s1_main_sf_B34)) {
-  sf.b34.id[i] <- s1_main_sf_B34[[i]][2]
-}
-
-sf.b34.id <- paste0("V", sf.b34.id)
-
-# Data sets of only black IDs
-sf.all.B34 <- sf.all[sf.b34.id]
-sf.main.B34 <- sf.main[sf.b34.id]
-sf.casl.B34 <- sf.casl[sf.b34.id]
-sf.inst.B34 <- sf.inst[sf.b34.id]
+sfm.frp.w24 <- sf.m.frp[sf.id.w24]
+sfm.tdist.w24 <- sf.m.tdist[sf.id.w24]
+sfm.gstep.w24 <- sf.m.gstep[sf.id.w24]
+sfm.deg.w24 <- sf.m.deg[sf.id.w24]
+sfm.cumldeg.w24 <- sf.m.cumldeg[sf.id.w24]
+sfm.bcent.w24 <- sf.m.bcent[sf.id.w24]
 
 # ATL
-s1_main_atl_B34 <- s1_main_atl[[3]][which(get.vertex.attribute(s1_main_atl, "race") == "B" &
-                                            get.vertex.attribute(s1_main_atl, "age.grp") == "2")]
+atl.id.w24 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
+                      get.vertex.attribute(atl.m, "age.grp") == "1"))
 
-atl.b34.id <- rep("NA", length(s1_main_atl_B34))
+atlm.frp.w24 <- atl.m.frp[atl.id.w24]
+atlm.tdist.w24 <- atl.m.tdist[atl.id.w24]
+atlm.gstep.w24 <- atl.m.gstep[atl.id.w24]
+atlm.deg.w24 <- atl.m.deg[atl.id.w24]
+atlm.cumldeg.w24 <- atl.m.cumldeg[atl.id.w24]
+atlm.bcent.w24 <- atl.m.bcent[atl.id.w24]
 
-for (i in 1:length(s1_main_atl_B34)) {
-  atl.b34.id[i] <- s1_main_atl_B34[[i]][2]
-}
 
-atl.b34.id <- paste0("V", atl.b34.id)
-
-# Data sets of only black IDs
-atl.all.B34 <- atl.all[atl.b34.id]
-atl.main.B34 <- atl.main[atl.b34.id]
-atl.casl.B34 <- atl.casl[atl.b34.id]
-atl.inst.B34 <- atl.inst[atl.b34.id]
-
-# White 25-34
+## Black 25-34
 
 # SF
-s1_main_sf_W34 <- s1_main_sf[[3]][which(get.vertex.attribute(s1_main_sf, "race") == "W" &
-                                          get.vertex.attribute(s1_main_sf, "age.grp") == "2")]
+sf.id.b34 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
+                     get.vertex.attribute(sf.m, "age.grp") == "2"))
 
-sf.w34.id <- rep("NA", length(s1_main_sf_W34))
-
-for (i in 1:length(s1_main_sf_W34)) {
-  sf.w34.id[i] <- s1_main_sf_W34[[i]][2]
-}
-
-sf.w34.id <- paste0("V", sf.w34.id)
-
-# Data sets of only black IDs
-sf.all.W34 <- sf.all[sf.w34.id]
-sf.main.W34 <- sf.main[sf.w34.id]
-sf.casl.W34 <- sf.casl[sf.w34.id]
-sf.inst.W34 <- sf.inst[sf.w34.id]
+sfm.frp.b34 <- sf.m.frp[sf.id.b34]
+sfm.tdist.b34 <- sf.m.tdist[sf.id.b34]
+sfm.gstep.b34 <- sf.m.gstep[sf.id.b34]
+sfm.deg.b34 <- sf.m.deg[sf.id.b34]
+sfm.cumldeg.b34 <- sf.m.cumldeg[sf.id.b34]
+sfm.bcent.b34 <- sf.m.bcent[sf.id.b34]
 
 # ATL
-s1_main_atl_W34 <- s1_main_atl[[3]][which(get.vertex.attribute(s1_main_atl, "race") == "W" &
-                                            get.vertex.attribute(s1_main_atl, "age.grp") == "2")]
+atl.id.b34 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
+                      get.vertex.attribute(atl.m, "age.grp") == "2"))
 
-atl.w34.id <- rep("NA", length(s1_main_atl_W34))
+atlm.frp.b34 <- atl.m.frp[atl.id.b34]
+atlm.tdist.b34 <- atl.m.tdist[atl.id.b34]
+atlm.gstep.b34 <- atl.m.gstep[atl.id.b34]
+atlm.deg.b34 <- atl.m.deg[atl.id.b34]
+atlm.cumldeg.b34 <- atl.m.cumldeg[atl.id.b34]
+atlm.bcent.b34 <- atl.m.bcent[atl.id.b34]
 
-for (i in 1:length(s1_main_atl_W34)) {
-  atl.w34.id[i] <- s1_main_atl_W34[[i]][2]
-}
 
-atl.w34.id <- paste0("V", atl.w34.id)
+## White 25-34
 
-# Data sets of only black IDs
-atl.all.W34 <- atl.all[atl.w34.id]
-atl.main.W34 <- atl.main[atl.w34.id]
-atl.casl.W34 <- atl.casl[atl.w34.id]
-atl.inst.W34 <- atl.inst[atl.w34.id]
+# SF
+sf.id.w34 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
+                     get.vertex.attribute(sf.m, "age.grp") == "2"))
+
+sfm.frp.w34 <- sf.m.frp[sf.id.w34]
+sfm.tdist.w34 <- sf.m.tdist[sf.id.w34]
+sfm.gstep.w34 <- sf.m.gstep[sf.id.w34]
+sfm.deg.w34 <- sf.m.deg[sf.id.w34]
+sfm.cumldeg.w34 <- sf.m.cumldeg[sf.id.w34]
+sfm.bcent.w34 <- sf.m.bcent[sf.id.w34]
+
+# ATL
+atl.id.w34 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
+                      get.vertex.attribute(atl.m, "age.grp") == "2"))
+
+atlm.frp.w34 <- atl.m.frp[atl.id.w34]
+atlm.tdist.w34 <- atl.m.tdist[atl.id.w34]
+atlm.gstep.w34 <- atl.m.gstep[atl.id.w34]
+atlm.deg.w34 <- atl.m.deg[atl.id.w34]
+atlm.cumldeg.w34 <- atl.m.cumldeg[atl.id.w34]
+atlm.bcent.w34 <- atl.m.bcent[atl.id.w34]
+
+
+
+
 
 # Black 35-44
 
