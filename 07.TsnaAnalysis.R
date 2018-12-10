@@ -580,7 +580,7 @@ atli.bcent.64 <- atl.i.bcent[atl.id.64]
 
 ## SF
 sf.id.b24 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "1"))
+                     get.vertex.attribute(sf.m, "age.grp") == "1")
 
 # Main
 sfm.frp.b24 <- sf.m.frp[sf.id.b24]
@@ -609,7 +609,7 @@ sfi.bcent.b24 <- sf.i.bcent[sf.id.b24]
 
 ## ATL
 atl.id.b24 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "1"))
+                      get.vertex.attribute(atl.m, "age.grp") == "1")
 
 # Main
 atlm.frp.b24 <- atl.m.frp[atl.id.b24]
@@ -640,7 +640,7 @@ atli.bcent.b24 <- atl.i.bcent[atl.id.b24]
 
 ## SF
 sf.id.w24 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "1"))
+                     get.vertex.attribute(sf.m, "age.grp") == "1")
 
 # Main
 sfm.frp.w24 <- sf.m.frp[sf.id.w24]
@@ -669,7 +669,7 @@ sfi.bcent.w24 <- sf.i.bcent[sf.id.w24]
 
 ## ATL
 atl.id.w24 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "1"))
+                      get.vertex.attribute(atl.m, "age.grp") == "1")
 
 # Main
 atlm.frp.w24 <- atl.m.frp[atl.id.w24]
@@ -700,7 +700,7 @@ atli.bcent.w24 <- atl.i.bcent[atl.id.w24]
 
 ## SF
 sf.id.b34 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "2"))
+                     get.vertex.attribute(sf.m, "age.grp") == "2")
 
 # Main
 sfm.frp.b34 <- sf.m.frp[sf.id.b34]
@@ -729,7 +729,7 @@ sfi.bcent.b34 <- sf.i.bcent[sf.id.b34]
 
 ## ATL
 atl.id.b34 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "2"))
+                      get.vertex.attribute(atl.m, "age.grp") == "2")s
 
 # Main
 atlm.frp.b34 <- atl.m.frp[atl.id.b34]
@@ -760,7 +760,7 @@ atli.bcent.b34 <- atl.i.bcent[atl.id.b34]
 
 ## SF
 sf.id.w34 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "2"))
+                     get.vertex.attribute(sf.m, "age.grp") == "2")
 
 # Main
 sfm.frp.w34 <- sf.m.frp[sf.id.w34]
@@ -789,7 +789,7 @@ sfi.bcent.w34 <- sf.i.bcent[sf.id.w34]
 
 ## ATL
 atl.id.w34 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "2"))
+                      get.vertex.attribute(atl.m, "age.grp") == "2")
 
 # Main
 atlm.frp.w34 <- atl.m.frp[atl.id.w34]
@@ -820,7 +820,7 @@ atli.bcent.w34 <- atl.i.bcent[atl.id.w34]
 
 ## SF
 sf.id.b44 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "3"))
+                     get.vertex.attribute(sf.m, "age.grp") == "3")
 
 # Main
 sfm.frp.b44 <- sf.m.frp[sf.id.b44]
@@ -849,7 +849,7 @@ sfi.bcent.b44 <- sf.i.bcent[sf.id.b44]
 
 ## ATL
 atl.id.b44 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "3"))
+                      get.vertex.attribute(atl.m, "age.grp") == "3")
 
 # Main
 atlm.frp.b44 <- atl.m.frp[atl.id.b44]
@@ -880,7 +880,7 @@ atli.bcent.b44 <- atl.i.bcent[atl.id.b44]
 
 ## SF
 sf.id.w44 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "3"))
+                     get.vertex.attribute(sf.m, "age.grp") == "3")
 
 sfm.frp.w44 <- sf.m.frp[sf.id.w44]
 sfm.tdist.w44 <- sf.m.tdist[sf.id.w44]
@@ -891,7 +891,7 @@ sfm.bcent.w44 <- sf.m.bcent[sf.id.w44]
 
 # ATL
 atl.id.w44 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "3"))
+                      get.vertex.attribute(atl.m, "age.grp") == "3")
 
 atlm.frp.w44 <- atl.m.frp[atl.id.w44]
 atlm.tdist.w44 <- atl.m.tdist[atl.id.w44]
@@ -905,7 +905,7 @@ atlm.bcent.w44 <- atl.m.bcent[atl.id.w44]
 
 ## SF
 sf.id.b54 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "4"))
+                     get.vertex.attribute(sf.m, "age.grp") == "4")
 
 # Main
 sfm.frp.b54 <- sf.m.frp[sf.id.b54]
@@ -934,7 +934,7 @@ sfi.bcent.b54 <- sf.i.bcent[sf.id.b54]
 
 ## ATL
 atl.id.b54 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "4"))
+                      get.vertex.attribute(atl.m, "age.grp") == "4")
 
 # Main
 atlm.frp.b54 <- atl.m.frp[atl.id.b54]
@@ -965,7 +965,7 @@ atli.bcent.b54 <- atl.i.bcent[atl.id.b54]
 
 ## SF
 sf.id.w54 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "4"))
+                     get.vertex.attribute(sf.m, "age.grp") == "4")
 
 # Main
 sfm.frp.w54 <- sf.m.frp[sf.id.w54]
@@ -994,7 +994,7 @@ sfi.bcent.w54 <- sf.i.bcent[sf.id.w54]
 
 ## ATL
 atl.id.w54 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "4"))
+                      get.vertex.attribute(atl.m, "age.grp") == "4")
 
 # Main
 atlm.frp.w54 <- atl.m.frp[atl.id.w54]
@@ -1017,7 +1017,7 @@ atlc.bcent.w54 <- atl.c.bcent[atl.id.w54]
 
 ## SF
 sf.id.b64 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "5"))
+                     get.vertex.attribute(sf.m, "age.grp") == "5")
 
 # Main
 sfm.frp.b64 <- sf.m.frp[sf.id.b64]
@@ -1046,7 +1046,7 @@ sfi.bcent.b64 <- sf.i.bcent[sf.id.b64]
 
 ## ATL
 atl.id.b64 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "5"))
+                      get.vertex.attribute(atl.m, "age.grp") == "5")
 
 # Main
 atlm.frp.b64 <- atl.m.frp[atl.id.b64]
@@ -1077,7 +1077,7 @@ atli.bcent.b64 <- atl.i.bcent[atl.id.b64]
 
 ## SF
 sf.id.w64 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "5"))
+                     get.vertex.attribute(sf.m, "age.grp") == "5")
 
 # Main
 sfm.frp.w64 <- sf.m.frp[sf.id.w64]
@@ -1106,7 +1106,7 @@ sfi.bcent.w64 <- sf.i.bcent[sf.id.w64]
 
 ## ATL
 atl.id.w64 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "5"))
+                      get.vertex.attribute(atl.m, "age.grp") == "5")
 
 # Main
 atlm.frp.w64 <- atl.m.frp[atl.id.w64]
@@ -1133,7 +1133,10 @@ atli.cumldeg.w64 <- atl.i.cumldeg[atl.id.w64]
 atli.bcent.w64 <- atl.i.bcent[atl.id.w64]
 
 
-# 3. tPath Analysis -------------------------------------------------------
+
+# 4. Analysis -------------------------------------------------------------
+
+### FRP ####
 
 par(mfrow = c(2, 2))
 
