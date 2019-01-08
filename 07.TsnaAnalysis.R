@@ -1136,9 +1136,29 @@ atli.bcent.w64 <- atl.i.bcent[atl.id.w64]
 
 # 4. Analysis -------------------------------------------------------------
 
+
+par(mfrow = c(2, 3))
+
 ### FRP ####
 
-par(mfrow = c(2, 2))
+# SF
+matplot(sf.m.frp , type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
+matplot(sf.c.frp , type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
+matplot(sf.i.frp , type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
+
+# ATL
+matplot(atl.m.frp, type = "l", xlab = "Week", ylab = "FRP", main = "ATL Main")
+matplot(atl.c.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
+matplot(atl.i.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
+
+
+# matplot(x = seq(1, 260, 8), samp.sf.main, type = "l", lty = 1, xlab = "Week",
+#         ylab = "Foward Reachable Path", main = "San Francisco Main Partnerships")
+
+
+# start here --------------------------------------------------------------
+
+
 
 ### All partnerships ###
 
@@ -1156,7 +1176,6 @@ write.csv(sf.sum.main, file = "SF_Main_Summary.csv")
 
 atl.sum.all <- summary(t(atl.all))
 write.csv(atl.sum.main, file = "ATL_Main_Summary.csv")
-
 
 
 ### Main partnerships ###
