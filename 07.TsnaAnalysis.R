@@ -1137,38 +1137,98 @@ atli.bcent.w64 <- atl.i.bcent[atl.id.w64]
 # 4. Analysis -------------------------------------------------------------
 
 
-par(mfrow = c(2, 3))
+par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA)
 
 ### FRP ####
 
+## Overall
 # SF
 matplot(sf.m.frp , type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
 matplot(sf.c.frp , type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
 matplot(sf.i.frp , type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
 
 # ATL
-matplot(atl.m.frp, type = "l", xlab = "Week", ylab = "FRP", main = "ATL Main")
+matplot(atl.m.frp, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
 matplot(atl.c.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
 matplot(atl.i.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
 
+title("Distribution of 5-Year Foward Reachable Paths by Partnership Type", outer = TRUE)
+title()
 
-# matplot(x = seq(1, 260, 8), samp.sf.main, type = "l", lty = 1, xlab = "Week",
-#         ylab = "Foward Reachable Path", main = "San Francisco Main Partnerships")
+## Race - BLACK
+# SF
+matplot(sfm.frp.b , type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
+matplot(sfc.frp.b , type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
+matplot(sfi.frp.b , type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
+
+# ATL
+matplot(atlm.frp.b, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
+matplot(atlc.frp.b, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
+matplot(atli.frp.b, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
+
+title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among Black MSM", outer = TRUE)
+title()
+
+## Race - WHITE
+# SF
+matplot(sfm.frp.w , type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
+matplot(sfc.frp.w , type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
+matplot(sfi.frp.w , type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
+
+# ATL
+matplot(atlm.frp.w, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
+matplot(atlc.frp.w, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
+matplot(atli.frp.w, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
+
+title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among White MSM", outer = TRUE)
+title()
+
+## Age
 
 
-# start here --------------------------------------------------------------
+# START HERE --------------------------------------------------------------
+
+
+## Plots for CROI
+
+par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA)
+
+# Main SF
+matplot(x = seq(1, 260, 8), samp.sf.main, type = "l", lty = 1, xlab = "Week",
+        ylab = "Foward Reachable Path", main = "San Francisco Main Partnerships")
+
+# Casual SF
+matplot(x = seq(1, 260, 8), samp.sf.casl, type = "l", lty = 1, ylim = c(0, 10000), xlab = "Week",
+        ylab = "Foward Reachable Path", main = "San Francisco Casual Partnerships")
+
+# Inst SF
+matplot(x = seq(1, 260, 8), samp.sf.inst, type = "l", lty = 1, ylim = c(0, 10000), xlab = "Week",
+        ylab = "Foward Reachable Path", main = "San Francisco One-Time Partnerships")
+
+# Main ATL
+matplot(x = seq(1, 260, 8), samp.atl.main, type = "l",  lty = 1, ylim = c(0, 20), xlab = "Week",
+        ylab = "Foward Reachable Path", main = "Atlanta Main Partnerships")
+
+# Casual ATL
+matplot(x = seq(1, 260, 8), samp.atl.casl, type = "l", lty = 1, ylim = c(0, 10000), xlab = "Week",
+        ylab = "Foward Reachable Path", main = "Atlanta Casual Partnerships")
+
+# Inst ATl
+matplot(x = seq(1, 260, 8), samp.atl.inst, type = "l", lty = 1, ylim = c(0, 10000), xlab = "Week",
+        ylab = "Foward Reachable Path", main = "Atlanta One-Time Partnerships")
+
+title("Distribution of 5-Year Foward Reachable Paths by Partnership Type", outer = TRUE)
+
+#legend(x = -0.5,  y = 3.5, c("Forward reachable Paths city by partnership type"), xpd = TRUE, horiz = TRUE,
+#       inset = 0, bty = "n", cex = 1.2)
+
+#legend("center", c("IM", "IBD", "1R", "2R"), xpd = TRUE, horiz = TRUE, inset = c(0,
+#             0), bty = "n", pch = c(4, 2, 15, 19), col = 1:4, cex = 2)
 
 
 
-### All partnerships ###
+# OLD CODE ----------------------------------------------------------------
 
-## Plots
-
-# Overall
-matplot(samp.sf.all, type = "l", ylim = c(0, 10000), xlab = "time sequence", ylab = "FRP", main = "SF All Partnerships")
-matplot(samp.atl.all, type = "l", ylim = c(0, 10000), xlab = "time sequence", ylab = "FRP", main = "ATL All Partnerships")
-
-## Summary
 
 # Overall
 sf.sum.all <- summary(t(sf.all))
@@ -1444,22 +1504,6 @@ atl.sd.mainB64 <- apply(atl.main.B64, 1, sd)
 
 
 ### Casual partnerships ###
-
-
-## Plots
-
-par(mfrow = c(2, 2))
-
-# Overall
-matplot(samp.sf.casl, type = "l", ylim = c(0, 10000), xlab = "Time Period",
-        ylab = "Forward Reachable Path", main = "San Francisco Casual Partnerships")
-# axis(1, 1:10, labels = c("1", "9", "17", "25", "33", "41", "49", "57", "65", "73", "81", "89", "97", "105",
-#                          "113", "121", "129", "137", "145", "153", "161", "169", "177", "185", "193", "201",
-#                          "209", "217", "225", "233", "241", "249", "257"), cex.axis = 1.5)
-matplot(samp.atl.casl, type = "l",ylim = c(0, 10000), xlab = "Time Period",
-        ylab = "Forward Reachable Path", main = "Atlanta Casual Partnerships")
-
-matplot(x = seq(1, 260, 8), samp.sf.casl, type = "l", lty = 1, xlab = "Week")
 
 # By race
 
