@@ -62,6 +62,8 @@ sf.m.deg <- subset(sf.main, select = degree.1:degree.10000)
 sf.m.cumldeg <- subset(sf.main, select = cumldegree.1:cumldegree.10000)
 sf.m.bcent <- subset(sf.main, select = bcent.1:bcent.10000)
 
+write.csv(sf.m.tdist, file = "sfm_tdist.csv")
+
 ## ATL
 # Load in data
 atl.main <- load(file = "atl.main.1.rda")
@@ -166,7 +168,8 @@ test <- subset(sf.inst, select = degree.1:degree.10000)
 test <- subset(atl.inst, select = degree.1:degree.10000)
 
 
-# 3. Extract Vertex IDs ------------------------------------------------------
+# 3a. Extract IDs: Race --------------------------------------------------
+
 
 ### Black ###
 
@@ -284,7 +287,10 @@ atli.cumldeg.w <- atl.i.cumldeg[atl.id.w]
 atli.bcent.w <- atl.i.bcent[atl.id.w]
 
 
-### Age ###
+
+# 3b. Extract IDs: Age ----------------------------------------------------
+
+
 ## Age 0-24
 
 ## SF
@@ -575,7 +581,8 @@ atli.cumldeg.64 <- atl.i.cumldeg[atl.id.64]
 atli.bcent.64 <- atl.i.bcent[atl.id.64]
 
 
-### Race & Age
+# 3c. Extract IDs: Race & Age ---------------------------------------------
+
 ## Black 0-24
 
 ## SF
@@ -1174,14 +1181,9 @@ atli.deg.w64 <- atl.i.deg[atl.id.w64]
 atli.cumldeg.w64 <- atl.i.cumldeg[atl.id.w64]
 atli.bcent.w64 <- atl.i.bcent[atl.id.w64]
 
-
-
-# 4. Analysis -------------------------------------------------------------
-
+# 4a. Analysis: FRP -------------------------------------------------------
 
 par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA)
-
-### FRP ####
 
 ## Overall
 # SF
@@ -1434,6 +1436,11 @@ matplot(atli.frp.w64, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP
 
 title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among White MSM Aged 55-64", outer = TRUE)
 title()
+
+
+# 4b. Analysis: tdist -----------------------------------------------------
+
+
 
 # START HERE --------------------------------------------------------------
 
