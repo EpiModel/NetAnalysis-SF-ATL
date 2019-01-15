@@ -1443,46 +1443,76 @@ title()
 
 ### Summary Stats ###
 
+## Combined (all ptypes)
+## ADD IN
 
 
-## Overall
+## By partnership type
 # SF
-matplot(sf.m.frp, type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sf.c.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sf.i.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
+sf.frpm.sum <- summary(t(sf.m.frp))
+write.csv(sf.frpm.sum, file = "sf_frp_main.csv")
+
+sf.frpc.sum <- summary(t(sf.c.frp))
+write.csv(sf.frpc.sum, file = "sf_frp_casl.csv")
+
+sf.frpi.sum <- summary(t(sf.i.frp))
+write.csv(sf.frpi.sum, file = "sf_frp_inst.csv")
+
 
 # ATL
-matplot(atl.m.frp, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atl.c.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atl.i.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
+atl.frpm.sum <- summary(t(atl.m.frp))
+write.csv(atl.frpm.sum, file = "sf_frp_main.csv")
 
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type", outer = TRUE)
-title()
+atl.frpc.sum <- summary(t(atl.c.frp))
+write.csv(atl.frpc.sum, file = "sf_frp_casl.csv")
+
+atl.frpi.sum <- summary(t(atl.i.frp))
+write.csv(atl.frpi.sum, file = "sf_frp_inst.csv")
+
+
+## Race - BLACK
+# SF 
+sf.frpm.sumb <- summary(t(sfm.frp.b))
+write.csv(sf.frpm.sumb, file = "sf_frp_main_black.csv")
+
+sf.frpc.sumb <- summary(t(sfc.frp.b))
+write.csv(sf.frpc.sumb, file = "sf_frp_casl_black.csv")
+
+sf.frpi.sumb <- summary(t(sfi.frp.b))
+write.csv(sf.frpi.sumb, file = "sf_frp_inst_black.csv")
+
+# ATL
+atl.frpm.sumb <- summary(t(atlm.frp.b))
+write.csv(atl.frpm.sumb, file = "sf_frp_main.csv")
+
+atl.frpc.sumb <- summary(t(atlc.frp.b))
+write.csv(atl.frpc.sumb, file = "sf_frp_casl.csv")
+
+atl.frpi.sumb <- summary(t(atli.frp.b))
+write.csv(atl.frpi.sumb, file = "sf_frp_inst.csv")
+
+
+## Race - WHITE
+# SF 
+sf.frpm.sumw <- summary(t(sfm.frp.w))
+write.csv(sf.frpm.sumw, file = "sf_frp_main_white.csv")
+
+sf.frpc.sumw <- summary(t(sfc.frp.w))
+write.csv(sf.frpc.sumw, file = "sf_frp_casl_white.csv")
+
+sf.frpi.sumw <- summary(t(sfi.frp.w))
+write.csv(sf.frpi.sumw, file = "sf_frp_inst_white.csv")
+
+# ATL
+atl.frpm.sumb <- summary(t(atlm.frp.b))
+write.csv(atl.frpm.sumb, file = "sf_frp_main.csv")
+
+
 
 # START HERE --------------------------------------------------------------
 
 
-
 # 4b. Analysis: tdist -----------------------------------------------------
-
-# OLD CODE ----------------------------------------------------------------
-
-
-# Overall
-sf.sum.all <- summary(t(sf.all))
-write.csv(sf.sum.main, file = "SF_Main_Summary.csv")
-
-atl.sum.all <- summary(t(atl.all))
-write.csv(atl.sum.main, file = "ATL_Main_Summary.csv")
-
-
-# Overall
-sf.avg.main <- rowMeans(sf.main)
-sf.sum.main <- summary(t(sf.main))
-sf.sd.main <- apply(sf.main, 1, sd)
-
-write.csv(sf.sum.main, file = "SF_Main_Summary.csv")
-
 
 
 
