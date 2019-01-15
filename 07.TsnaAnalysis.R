@@ -1183,6 +1183,9 @@ atli.bcent.w64 <- atl.i.bcent[atl.id.w64]
 
 # 4a. Analysis: FRP -------------------------------------------------------
 
+### Plots ###
+
+
 par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA)
 
 ## Overall
@@ -1438,15 +1441,29 @@ title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among W
 title()
 
 
-# 4b. Analysis: tdist -----------------------------------------------------
+### Summary Stats ###
 
 
+
+## Overall
+# SF
+matplot(sf.m.frp, type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
+matplot(sf.c.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
+matplot(sf.i.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
+
+# ATL
+matplot(atl.m.frp, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
+matplot(atl.c.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
+matplot(atl.i.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
+
+title("Distribution of 5-Year Foward Reachable Paths by Partnership Type", outer = TRUE)
+title()
 
 # START HERE --------------------------------------------------------------
 
 
 
-
+# 4b. Analysis: tdist -----------------------------------------------------
 
 # OLD CODE ----------------------------------------------------------------
 
