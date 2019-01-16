@@ -1461,13 +1461,13 @@ write.csv(sf.frpi.sum, file = "sf_frp_inst.csv")
 
 # ATL
 atl.frpm.sum <- summary(t(atl.m.frp))
-write.csv(atl.frpm.sum, file = "sf_frp_main.csv")
+write.csv(atl.frpm.sum, file = "atl_frp_main.csv")
 
 atl.frpc.sum <- summary(t(atl.c.frp))
-write.csv(atl.frpc.sum, file = "sf_frp_casl.csv")
+write.csv(atl.frpc.sum, file = "atl_frp_casl.csv")
 
 atl.frpi.sum <- summary(t(atl.i.frp))
-write.csv(atl.frpi.sum, file = "sf_frp_inst.csv")
+write.csv(atl.frpi.sum, file = "atl_frp_inst.csv")
 
 
 ## Race - BLACK
@@ -1483,13 +1483,13 @@ write.csv(sf.frpi.sumb, file = "sf_frp_inst_black.csv")
 
 # ATL
 atl.frpm.sumb <- summary(t(atlm.frp.b))
-write.csv(atl.frpm.sumb, file = "sf_frp_main.csv")
+write.csv(atl.frpm.sumb, file = "atl_frp_main_black.csv")
 
 atl.frpc.sumb <- summary(t(atlc.frp.b))
-write.csv(atl.frpc.sumb, file = "sf_frp_casl.csv")
+write.csv(atl.frpc.sumb, file = "atl_frp_casl_black.csv")
 
 atl.frpi.sumb <- summary(t(atli.frp.b))
-write.csv(atl.frpi.sumb, file = "sf_frp_inst.csv")
+write.csv(atl.frpi.sumb, file = "atl_frp_inst_black.csv")
 
 
 ## Race - WHITE
@@ -1504,12 +1504,64 @@ sf.frpi.sumw <- summary(t(sfi.frp.w))
 write.csv(sf.frpi.sumw, file = "sf_frp_inst_white.csv")
 
 # ATL
-atl.frpm.sumb <- summary(t(atlm.frp.b))
-write.csv(atl.frpm.sumb, file = "sf_frp_main.csv")
+atl.frpm.sumw <- summary(t(atlm.frp.w))
+write.csv(atl.frpm.sumw, file = "atl_frp_main_white.csv")
+
+atl.frpc.sumw <- summary(t(atlc.frp.w))
+write.csv(atl.frpc.sumw, file = "atl_frp_casl_white.csv")
+
+atl.frpi.sumw <- summary(t(atli.frp.w))
+write.csv(atl.frpi.sumw, file = "atl_frp_inst_white.csv")
 
 
+## Age - 15-24
+# SF 
+sf.frpm.sum24 <- summary(t(sfm.frp.24))
+write.csv(sf.frpm.sum24, file = "sf_frp_main_15-24.csv")
 
-# START HERE --------------------------------------------------------------
+# ATL
+atl.frpm.sum24 <- summary(t(atlm.frp.24))
+write.csv(atl.frpm.sum24, file = "atl_frp_main_15-24.csv")
+
+
+## Age - 25-34
+# SF 
+sf.frpm.sum34 <- summary(t(sfm.frp.34))
+write.csv(sf.frpm.sum34, file = "sf_frp_main_25-34.csv")
+
+# ATL
+atl.frpm.sum34 <- summary(t(atlm.frp.34))
+write.csv(atl.frpm.sum34, file = "atl_frp_main_25-34.csv")
+
+
+## Age - 35-44
+# SF 
+sf.frpm.sum44 <- summary(t(sfm.frp.44))
+write.csv(sf.frpm.sum44, file = "sf_frp_main_35-44.csv")
+
+# ATL
+atl.frpm.sum44 <- summary(t(atlm.frp.44))
+write.csv(atl.frpm.sum44, file = "atl_frp_main_35-44.csv")
+
+
+## Age - 45-54
+# SF 
+sf.frpm.sum54 <- summary(t(sfm.frp.54))
+write.csv(sf.frpm.sum54, file = "sf_frp_main_45-54.csv")
+
+# ATL
+atl.frpm.sum54 <- summary(t(atlm.frp.54))
+write.csv(atl.frpm.sum54, file = "atl_frp_main_45-54.csv")
+
+
+## Age - 55-64
+# SF 
+sf.frpm.sum64 <- summary(t(sfm.frp.64))
+write.csv(sf.frpm.sum64, file = "sf_frp_main_55-64.csv")
+
+# ATL
+atl.frpm.sum64 <- summary(t(atlm.frp.64))
+write.csv(atl.frpm.sum64, file = "atl_frp_main_55-64.csv")
 
 
 # 4b. Analysis: tdist -----------------------------------------------------
