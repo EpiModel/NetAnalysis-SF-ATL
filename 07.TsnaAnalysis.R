@@ -1181,9 +1181,8 @@ atli.deg.w64 <- atl.i.deg[atl.id.w64]
 atli.cumldeg.w64 <- atl.i.cumldeg[atl.id.w64]
 atli.bcent.w64 <- atl.i.bcent[atl.id.w64]
 
-# 4a. Analysis: FRP -------------------------------------------------------
 
-### Plots ###
+# 4a. FRP Plots -----------------------------------------------------------
 
 
 par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA)
@@ -1441,7 +1440,8 @@ title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among W
 title()
 
 
-### Summary Stats ###
+# 4b. FRP Summary Stats ---------------------------------------------------
+
 
 ## Combined (all ptypes)
 ## ADD IN
@@ -1519,9 +1519,21 @@ write.csv(atl.frpi.sumw, file = "atl_frp_inst_white.csv")
 sf.frpm.sum24 <- summary(t(sfm.frp.24))
 write.csv(sf.frpm.sum24, file = "sf_frp_main_15-24.csv")
 
+sf.frpc.sum24 <- summary(t(sfc.frp.24))
+write.csv(sf.frpc.sum24, file = "sf_frp_casl_15-24.csv")
+
+sf.frpi.sum24 <- summary(t(sfi.frp.24))
+write.csv(sf.frpi.sum24, file = "sf_frp_inst_15-24.csv")
+
 # ATL
 atl.frpm.sum24 <- summary(t(atlm.frp.24))
 write.csv(atl.frpm.sum24, file = "atl_frp_main_15-24.csv")
+
+atl.frpc.sum24 <- summary(t(atlc.frp.24))
+write.csv(atl.frpc.sum24, file = "atl_frp_casl_15-24.csv")
+
+atl.frpi.sum24 <- summary(t(atli.frp.24))
+write.csv(atl.frpi.sum24, file = "atl_frp_inst_15-24.csv")
 
 
 ## Age - 25-34
@@ -1529,9 +1541,21 @@ write.csv(atl.frpm.sum24, file = "atl_frp_main_15-24.csv")
 sf.frpm.sum34 <- summary(t(sfm.frp.34))
 write.csv(sf.frpm.sum34, file = "sf_frp_main_25-34.csv")
 
+sf.frpc.sum34 <- summary(t(sfc.frp.34))
+write.csv(sf.frpc.sum34, file = "sf_frp_casl_25-34.csv")
+
+sf.frpi.sum34 <- summary(t(sfi.frp.34))
+write.csv(sf.frpi.sum34, file = "sf_frp_inst_25-34.csv")
+
 # ATL
 atl.frpm.sum34 <- summary(t(atlm.frp.34))
 write.csv(atl.frpm.sum34, file = "atl_frp_main_25-34.csv")
+
+atl.frpc.sum34 <- summary(t(atlc.frp.34))
+write.csv(atl.frpc.sum34, file = "atl_frp_casl_25-34.csv")
+
+atl.frpi.sum34 <- summary(t(atli.frp.34))
+write.csv(atl.frpi.sum34, file = "atl_frp_inst_25-34.csv")
 
 
 ## Age - 35-44
@@ -1539,9 +1563,21 @@ write.csv(atl.frpm.sum34, file = "atl_frp_main_25-34.csv")
 sf.frpm.sum44 <- summary(t(sfm.frp.44))
 write.csv(sf.frpm.sum44, file = "sf_frp_main_35-44.csv")
 
+sf.frpc.sum44 <- summary(t(sfc.frp.44))
+write.csv(sf.frpc.sum44, file = "sf_frp_casl_35-44.csv")
+
+sf.frpi.sum44 <- summary(t(sfi.frp.44))
+write.csv(sf.frpi.sum44, file = "sf_frp_inst_35-44.csv")
+
 # ATL
 atl.frpm.sum44 <- summary(t(atlm.frp.44))
 write.csv(atl.frpm.sum44, file = "atl_frp_main_35-44.csv")
+
+atl.frpc.sum44 <- summary(t(atlc.frp.44))
+write.csv(atl.frpc.sum44, file = "atl_frp_casl_35-44.csv")
+
+atl.frpi.sum44 <- summary(t(atli.frp.44))
+write.csv(atl.frpi.sum44, file = "atl_frp_inst_35-44.csv")
 
 
 ## Age - 45-54
@@ -1549,9 +1585,21 @@ write.csv(atl.frpm.sum44, file = "atl_frp_main_35-44.csv")
 sf.frpm.sum54 <- summary(t(sfm.frp.54))
 write.csv(sf.frpm.sum54, file = "sf_frp_main_45-54.csv")
 
+sf.frpc.sum54 <- summary(t(sfc.frp.54))
+write.csv(sf.frpc.sum54, file = "sf_frp_casl_45-54.csv")
+
+sf.frpi.sum54 <- summary(t(sfi.frp.54))
+write.csv(sf.frpi.sum54, file = "sf_frp_inst_45-54.csv")
+
 # ATL
 atl.frpm.sum54 <- summary(t(atlm.frp.54))
 write.csv(atl.frpm.sum54, file = "atl_frp_main_45-54.csv")
+
+atl.frpc.sum54 <- summary(t(atlc.frp.54))
+write.csv(atl.frpc.sum54, file = "atl_frp_casl_45-54.csv")
+
+atl.frpi.sum54 <- summary(t(atli.frp.54))
+write.csv(atl.frpi.sum54, file = "atl_frp_inst_45-54.csv")
 
 
 ## Age - 55-64
@@ -1559,13 +1607,21 @@ write.csv(atl.frpm.sum54, file = "atl_frp_main_45-54.csv")
 sf.frpm.sum64 <- summary(t(sfm.frp.64))
 write.csv(sf.frpm.sum64, file = "sf_frp_main_55-64.csv")
 
+sf.frpc.sum64 <- summary(t(sfc.frp.64))
+write.csv(sf.frpc.sum64, file = "sf_frp_casl_55-64.csv")
+
+sf.frpi.sum64 <- summary(t(sfi.frp.64))
+write.csv(sf.frpi.sum64, file = "sf_frp_inst_55-64.csv")
+
 # ATL
 atl.frpm.sum64 <- summary(t(atlm.frp.64))
 write.csv(atl.frpm.sum64, file = "atl_frp_main_55-64.csv")
 
+atl.frpc.sum64 <- summary(t(atlc.frp.64))
+write.csv(atl.frpc.sum64, file = "atl_frp_casl_55-64.csv")
 
-# 4b. Analysis: tdist -----------------------------------------------------
-
+atl.frpi.sum64 <- summary(t(atli.frp.64))
+write.csv(atl.frpi.sum64, file = "atl_frp_inst_55-64.csv")
 
 
 
