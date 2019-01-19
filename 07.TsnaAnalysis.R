@@ -1306,6 +1306,7 @@ atli.bcent.w64 <- atl.i.bcent[atl.id.w64]
 
 # 4a. FRP Plots -----------------------------------------------------------
 
+# matplot(sf.a.frp, type = "l", xlab = "Week", ylab = "FRP", main = "SF All Partnership Types")
 
 par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA)
 
@@ -1565,12 +1566,11 @@ title()
 # 4b. FRP Summary Stats ---------------------------------------------------
 
 
-## Combined (all ptypes)
-## ADD IN
-
-
 ## By partnership type
 # SF
+sf.frpa.sum <- summary(t(sf.a.frp))
+write.csv(sf.frpa.sum, file = "sf_frp_all.csv")
+
 sf.frpm.sum <- summary(t(sf.m.frp))
 write.csv(sf.frpm.sum, file = "sf_frp_main.csv")
 
@@ -1582,6 +1582,9 @@ write.csv(sf.frpi.sum, file = "sf_frp_inst.csv")
 
 
 # ATL
+atl.frpa.sum <- summary(t(atl.a.frp))
+write.csv(atl.frpa.sum, file = "atl_frp_all.csv")
+
 atl.frpm.sum <- summary(t(atl.m.frp))
 write.csv(atl.frpm.sum, file = "atl_frp_main.csv")
 
@@ -1594,6 +1597,9 @@ write.csv(atl.frpi.sum, file = "atl_frp_inst.csv")
 
 ## Race - BLACK
 # SF 
+sf.frpa.sumb <- summary(t(sfa.frp.b))
+write.csv(sf.frpa.sumb, file = "sf_frp_all_black.csv")
+
 sf.frpm.sumb <- summary(t(sfm.frp.b))
 write.csv(sf.frpm.sumb, file = "sf_frp_main_black.csv")
 
@@ -1604,6 +1610,9 @@ sf.frpi.sumb <- summary(t(sfi.frp.b))
 write.csv(sf.frpi.sumb, file = "sf_frp_inst_black.csv")
 
 # ATL
+atl.frpa.sumb <- summary(t(atla.frp.b))
+write.csv(atl.frpa.sumb, file = "atl_frp_all_black.csv")
+
 atl.frpm.sumb <- summary(t(atlm.frp.b))
 write.csv(atl.frpm.sumb, file = "atl_frp_main_black.csv")
 
@@ -1615,7 +1624,10 @@ write.csv(atl.frpi.sumb, file = "atl_frp_inst_black.csv")
 
 
 ## Race - WHITE
-# SF 
+# SF
+sf.frpa.sumw <- summary(t(sfa.frp.w))
+write.csv(sf.frpa.sumw, file = "sf_frp_all_white.csv")
+
 sf.frpm.sumw <- summary(t(sfm.frp.w))
 write.csv(sf.frpm.sumw, file = "sf_frp_main_white.csv")
 
@@ -1626,6 +1638,9 @@ sf.frpi.sumw <- summary(t(sfi.frp.w))
 write.csv(sf.frpi.sumw, file = "sf_frp_inst_white.csv")
 
 # ATL
+atl.frpa.sumw <- summary(t(atla.frp.w))
+write.csv(atl.frpa.sumw, file = "atl_frp_all_white.csv")
+
 atl.frpm.sumw <- summary(t(atlm.frp.w))
 write.csv(atl.frpm.sumw, file = "atl_frp_main_white.csv")
 
@@ -1638,6 +1653,9 @@ write.csv(atl.frpi.sumw, file = "atl_frp_inst_white.csv")
 
 ## Age - 15-24
 # SF 
+sf.frpa.sum24 <- summary(t(sfa.frp.24))
+write.csv(sf.frpa.sum24, file = "sf_frp_all_15-24.csv")
+
 sf.frpm.sum24 <- summary(t(sfm.frp.24))
 write.csv(sf.frpm.sum24, file = "sf_frp_main_15-24.csv")
 
@@ -1648,6 +1666,9 @@ sf.frpi.sum24 <- summary(t(sfi.frp.24))
 write.csv(sf.frpi.sum24, file = "sf_frp_inst_15-24.csv")
 
 # ATL
+atl.frpa.sum24 <- summary(t(atla.frp.24))
+write.csv(atl.frpa.sum24, file = "atl_frp_all_15-24.csv")
+
 atl.frpm.sum24 <- summary(t(atlm.frp.24))
 write.csv(atl.frpm.sum24, file = "atl_frp_main_15-24.csv")
 
@@ -1660,6 +1681,9 @@ write.csv(atl.frpi.sum24, file = "atl_frp_inst_15-24.csv")
 
 ## Age - 25-34
 # SF 
+sf.frpa.sum34 <- summary(t(sfa.frp.34))
+write.csv(sf.frpa.sum34, file = "sf_frp_all_25-34.csv")
+
 sf.frpm.sum34 <- summary(t(sfm.frp.34))
 write.csv(sf.frpm.sum34, file = "sf_frp_main_25-34.csv")
 
@@ -1670,6 +1694,9 @@ sf.frpi.sum34 <- summary(t(sfi.frp.34))
 write.csv(sf.frpi.sum34, file = "sf_frp_inst_25-34.csv")
 
 # ATL
+atl.frpa.sum34 <- summary(t(atla.frp.34))
+write.csv(atl.frpa.sum34, file = "atl_frp_all_25-34.csv")
+
 atl.frpm.sum34 <- summary(t(atlm.frp.34))
 write.csv(atl.frpm.sum34, file = "atl_frp_main_25-34.csv")
 
@@ -1682,6 +1709,9 @@ write.csv(atl.frpi.sum34, file = "atl_frp_inst_25-34.csv")
 
 ## Age - 35-44
 # SF 
+sf.frpa.sum44 <- summary(t(sfa.frp.44))
+write.csv(sf.frpa.sum44, file = "sf_frp_all_35-44.csv")
+
 sf.frpm.sum44 <- summary(t(sfm.frp.44))
 write.csv(sf.frpm.sum44, file = "sf_frp_main_35-44.csv")
 
@@ -1692,6 +1722,9 @@ sf.frpi.sum44 <- summary(t(sfi.frp.44))
 write.csv(sf.frpi.sum44, file = "sf_frp_inst_35-44.csv")
 
 # ATL
+atl.frpa.sum44 <- summary(t(atla.frp.44))
+write.csv(atl.frpa.sum44, file = "atl_frp_all_35-44.csv")
+
 atl.frpm.sum44 <- summary(t(atlm.frp.44))
 write.csv(atl.frpm.sum44, file = "atl_frp_main_35-44.csv")
 
@@ -1704,6 +1737,9 @@ write.csv(atl.frpi.sum44, file = "atl_frp_inst_35-44.csv")
 
 ## Age - 45-54
 # SF 
+sf.frpa.sum54 <- summary(t(sfa.frp.54))
+write.csv(sf.frpa.sum54, file = "sf_frp_all_45-54.csv")
+
 sf.frpm.sum54 <- summary(t(sfm.frp.54))
 write.csv(sf.frpm.sum54, file = "sf_frp_main_45-54.csv")
 
@@ -1714,6 +1750,9 @@ sf.frpi.sum54 <- summary(t(sfi.frp.54))
 write.csv(sf.frpi.sum54, file = "sf_frp_inst_45-54.csv")
 
 # ATL
+atl.frpa.sum54 <- summary(t(atla.frp.54))
+write.csv(atl.frpa.sum54, file = "atl_frp_all_45-54.csv")
+
 atl.frpm.sum54 <- summary(t(atlm.frp.54))
 write.csv(atl.frpm.sum54, file = "atl_frp_main_45-54.csv")
 
@@ -1726,6 +1765,9 @@ write.csv(atl.frpi.sum54, file = "atl_frp_inst_45-54.csv")
 
 ## Age - 55-64
 # SF 
+sf.frpa.sum64 <- summary(t(sfa.frp.64))
+write.csv(sf.frpa.sum64, file = "sf_frp_all_55-64.csv")
+
 sf.frpm.sum64 <- summary(t(sfm.frp.64))
 write.csv(sf.frpm.sum64, file = "sf_frp_main_55-64.csv")
 
@@ -1736,6 +1778,9 @@ sf.frpi.sum64 <- summary(t(sfi.frp.64))
 write.csv(sf.frpi.sum64, file = "sf_frp_inst_55-64.csv")
 
 # ATL
+atl.frpa.sum64 <- summary(t(atla.frp.64))
+write.csv(atl.frpa.sum64, file = "atl_frp_all_55-64.csv")
+
 atl.frpm.sum64 <- summary(t(atlm.frp.64))
 write.csv(atl.frpm.sum64, file = "atl_frp_main_55-64.csv")
 
