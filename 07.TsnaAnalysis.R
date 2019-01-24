@@ -134,7 +134,6 @@ atl.id.w64 <- which(get.vertex.attribute(atl.m, "race") == "W" &
 
 
 
-
 # 2. Outcome Data ---------------------------------------------------------
 
 
@@ -1333,6 +1332,7 @@ atli.cumldeg.w64 <- atl.i.cumldeg[atl.id.w64]
 atli.bcent.w64 <- atl.i.bcent[atl.id.w64]
 
 
+
 # 5a. FRP Plots -----------------------------------------------------------
 
 ### Plots of distribution ###
@@ -1596,6 +1596,7 @@ title()
 
 ### Mean & median plots ###
 
+# sf.a.frp
 
 
 # 5b. FRP Summary Stats ---------------------------------------------------
