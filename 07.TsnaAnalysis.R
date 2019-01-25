@@ -4,6 +4,7 @@
 library("tsna")
 library("networkDynamicData")
 suppressMessages(library("EpiModel"))
+library("scales")
 # library("sna")
 # library("ggplot2")
 
@@ -659,7 +660,6 @@ atli.bcent.54 <- atl.i.bcent[atl.id.54]
 ### Age 55+ ###
 
 ## SF
-sf.id.64 <- which(get.vertex.attribute(sf.m, "age.grp") == "5")
 
 # All ptypes
 sfa.frp.64 <- sf.a.frp[sf.id.64]
@@ -689,7 +689,6 @@ sfi.cumldeg.64 <- sf.i.cumldeg[sf.id.64]
 sfi.bcent.64 <- sf.i.bcent[sf.id.64]
 
 ## ATL
-atl.id.64 <- which(get.vertex.attribute(atl.m, "age.grp") == "5")
 
 # All ptypes
 atla.frp.64 <- atl.a.frp[atl.id.64]
@@ -1597,7 +1596,14 @@ title()
 ### Mean & median plots ###
 
 # sf.a.frp
+sfa.frp.mean <- as.data.frame(t(rowMeans(sf.a.frp)))
+sfm.frp.mean <- as.data.frame(t(rowMeans(sf.m.frp)))
 
+# r <- adjustcolor("red", alpha.f = 0.5) 
+# plot(x = 1:260, y = sfa.frp.mean, type = "l", col = r, lwd = 2)
+
+plot(x = 1:260, y = sfa.frp.mean, type = "l", col = alpha("red", 0.5), lwd = 2)
+lines(x = 1:260, y = sfm.frp.mean)
 
 # 5b. FRP Summary Stats ---------------------------------------------------
 
