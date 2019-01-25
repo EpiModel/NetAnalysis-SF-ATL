@@ -1595,15 +1595,34 @@ title()
 
 ### Mean & median plots ###
 
-# sf.a.frp
+## All ptypes
+
 sfa.frp.mean <- as.data.frame(t(rowMeans(sf.a.frp)))
+atla.frp.mean <- as.data.frame(t(rowMeans(atl.a.frp)))
+sfa.frpb.mean <- as.data.frame(t(rowMeans(sfa.frp.b)))
+atla.frpb.mean <- as.data.frame(t(rowMeans(atla.frp.b)))
+sfa.frpw.mean <- as.data.frame(t(rowMeans(sfa.frp.w)))
+atla.frpw.mean <- as.data.frame(t(rowMeans(atla.frp.w)))
+
+plot(x = 1:260, y = sfa.frp.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     main = "Average 5-Year Foward Reachable Path in Sexual Networks of MSM in San Francisco and Atlanta",
+     xlab = "Week", ylab = "Forward Reachable Path")
+lines(x = 1:260, y = atla.frp.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
+
+##
+plot(x = 1:260, y = sfa.frp.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     main = "Average 5-Year Foward Reachable Path in Sexual Networks of MSM in San Francisco and Atlanta",
+     xlab = "Week", ylab = "Forward Reachable Path")
+lines(x = 1:260, y = sfa.frpb.mean, type = "l", col = alpha("green", 0.5), lwd = 2)
+lines(x = 1:260, y = atla.frpb.mean, type = "l", col = alpha("yellow", 0.5), lwd = 2)
+lines(x = 1:260, y = sfa.frpw.mean, type = "l", col = alpha("purple", 0.5), lwd = 2)
+lines(x = 1:260, y = atla.frpw.mean, type = "l", col = alpha("orange", 0.5), lwd = 2)
+
+
+## Main
 sfm.frp.mean <- as.data.frame(t(rowMeans(sf.m.frp)))
+plot(x = 1:260, y = sfm.frp.mean)
 
-# r <- adjustcolor("red", alpha.f = 0.5) 
-# plot(x = 1:260, y = sfa.frp.mean, type = "l", col = r, lwd = 2)
-
-plot(x = 1:260, y = sfa.frp.mean, type = "l", col = alpha("red", 0.5), lwd = 2)
-lines(x = 1:260, y = sfm.frp.mean)
 
 # 5b. FRP Summary Stats ---------------------------------------------------
 
