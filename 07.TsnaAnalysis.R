@@ -2013,134 +2013,205 @@ title()
 
 ### Overall
 ## All ptypes
+
+# Mean
 sfa.frp.mean <- as.data.frame(t(rowMeans(sfa.frp.prop)))
 atla.frp.mean <- as.data.frame(t(rowMeans(atla.frp.prop)))
 
-plot(x = 1:260, y = sfa.frp.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+sfa.frp.med <- apply(sf.a.frp/10000, 1, median)
+atla.frp.med <- apply(atl.a.frp/10000, 1, median)
+
+plot(x = 1:260, y = sfa.frp.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of MSM in San Francisco and Atlanta",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = atla.frp.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = atla.frp.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("bottomright", legend = c("San Francisco", "Atlanta"), col = c("red", "blue"), lty = 1)
 
 
 ## Main
+
+# Mean
 sfm.frp.mean <- as.data.frame(t(rowMeans(sfm.frp.prop)))
 atlm.frp.mean <- as.data.frame(t(rowMeans(atlm.frp.prop)))
 
-plot(x = 1:260, y = sfm.frp.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+sfm.frp.med <- apply(sf.m.frp/10000, 1, median)
+atlm.frp.med <- apply(atl.m.frp/10000, 1, median)
+
+plot(x = 1:260, y = sfm.frp.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of Main Partnerships of MSM in San Francisco and Atlanta",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = atlm.frp.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = atlm.frp.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("bottomright", legend = c("San Francisco", "Atlanta"), col = c("red", "blue"), lty = 1)
 
 
 ## Casual
+# Mean
 sfc.frp.mean <- as.data.frame(t(rowMeans(sfc.frp.prop)))
 atlc.frp.mean <- as.data.frame(t(rowMeans(atlc.frp.prop)))
 
-plot(x = 1:260, y = sfc.frp.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+sfc.frp.med <- apply(sf.c.frp/10000, 1, median)
+atlc.frp.med <- apply(atl.c.frp/10000, 1, median)
+
+plot(x = 1:260, y = sfc.frp.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of Casual Partnerships of MSM in San Francisco and Atlanta",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = atlc.frp.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = atlc.frp.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("topleft", legend = c("San Francisco", "Atlanta"), col = c("red", "blue"), lty = 1)
 
 
 ## Inst
+
+# Mean
 sfi.frp.mean <- as.data.frame(t(rowMeans(sfi.frp.prop)))
 atli.frp.mean <- as.data.frame(t(rowMeans(atli.frp.prop)))
 
-plot(x = 1:260, y = sfi.frp.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+sfi.frp.med <- apply(sf.i.frp/10000, 1, median)
+atli.frp.med <- apply(atl.i.frp/10000, 1, median)
+
+plot(x = 1:260, y = sfi.frp.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of One-Time Partnerships of MSM in San Francisco and Atlanta",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = atli.frp.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = atli.frp.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("bottomright", legend = c("San Francisco", "Atlanta"), col = c("red", "blue"), lty = 1)
 
 
 ### By Race
 ## All ptypes
 #SF
+
+# Mean
 sfa.frpb.mean <- as.data.frame(t(rowMeans(sfa.frpb.prop)))
 sfa.frpw.mean <- as.data.frame(t(rowMeans(sfa.frpw.prop)))
 
-plot(x = 1:260, y = sfa.frpb.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+sfa.frpb.med <- apply(sfa.frpb.prop, 1, median)
+sfa.frpw.med <- apply(sfa.frpw.prop, 1, median)
+
+plot(x = 1:260, y = sfa.frpb.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of Black and White MSM in San Francisco",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = sfa.frpw.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = sfa.frpw.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), lty = 1)
 
 # ATL
+
+# Mean
 atla.frpb.mean <- as.data.frame(t(rowMeans(atla.frpb.prop)))
 atla.frpw.mean <- as.data.frame(t(rowMeans(atla.frpw.prop)))
 
-plot(x = 1:260, y = atla.frpb.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+atla.frpb.med <- apply(atla.frpb.prop, 1, median)
+atla.frpw.med <- apply(atla.frpw.prop, 1, median)
+
+plot(x = 1:260, y = atla.frpb.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of Black and White MSM in Atlanta",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = atla.frpw.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = atla.frpw.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), lty = 1)
 
 ## Main
 # SF
+
+# Mean
 sfm.frpb.mean <- as.data.frame(t(rowMeans(sfm.frpb.prop)))
 sfm.frpw.mean <- as.data.frame(t(rowMeans(sfm.frpw.prop)))
 
-plot(x = 1:260, y = sfm.frpb.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+sfm.frpb.med <- apply(sfm.frpb.prop, 1, median)
+sfm.frpw.med <- apply(sfm.frpw.prop, 1, median)
+
+plot(x = 1:260, y = sfm.frpb.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of Main Partnerhips of Black and White MSM in San Francisco",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = sfm.frpw.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = sfm.frpw.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), lty = 1)
 
 # ATL
+
+# Mean
 atlm.frpb.mean <- as.data.frame(t(rowMeans(atlm.frpb.prop)))
 atlm.frpw.mean <- as.data.frame(t(rowMeans(atlm.frpw.prop)))
 
-plot(x = 1:260, y = atlm.frpb.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+atlm.frpb.med <- apply(atlm.frpb.prop, 1, median)
+atlm.frpw.med <- apply(atlm.frpw.prop, 1, median)
+
+plot(x = 1:260, y = atlm.frpb.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of Main Partnerhips of Black and White MSM in Atlanta",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = atlm.frpw.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = atlm.frpw.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), lty = 1)
 
 
 ## Casual
 # SF
+
+# Mean
 sfc.frpb.mean <- as.data.frame(t(rowMeans(sfc.frpb.prop)))
 sfc.frpw.mean <- as.data.frame(t(rowMeans(sfc.frpw.prop)))
 
-plot(x = 1:260, y = sfc.frpb.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+sfc.frpb.med <- apply(sfc.frpb.prop, 1, median)
+sfc.frpw.med <- apply(sfc.frpw.prop, 1, median)
+
+plot(x = 1:260, y = sfc.frpb.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of Casual Partnerhips of Black and White MSM in San Francisco",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = sfc.frpw.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = sfc.frpw.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), lty = 1)
 
 # ATL
+
+# Mean
 atlc.frpb.mean <- as.data.frame(t(rowMeans(atlc.frpb.prop)))
 atlc.frpw.mean <- as.data.frame(t(rowMeans(atlc.frpw.prop)))
 
-plot(x = 1:260, y = atlc.frpb.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+atlc.frpb.med <- apply(atlc.frpb.prop, 1, median)
+atlc.frpw.med <- apply(atlc.frpw.prop, 1, median)
+
+plot(x = 1:260, y = atlc.frpb.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of Casual Partnerhips of Black and White MSM in Atlanta",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = atlc.frpw.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = atlc.frpw.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), lty = 1)
 
 
 ## Inst
 # SF
+
+# Mean
 sfi.frpb.mean <- as.data.frame(t(rowMeans(sfi.frpb.prop)))
 sfi.frpw.mean <- as.data.frame(t(rowMeans(sfi.frpw.prop)))
 
-plot(x = 1:260, y = sfi.frpb.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+sfi.frpb.med <- apply(sfi.frpb.prop, 1, median)
+sfi.frpw.med <- apply(sfi.frpw.prop, 1, median)
+
+plot(x = 1:260, y = sfi.frpb.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of One-Time Partnerhips of Black and White MSM in San Francisco",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = sfi.frpw.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = sfi.frpw.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), lty = 1)
 
 # ATL
+
+# Mean
 atli.frpb.mean <- as.data.frame(t(rowMeans(atli.frpb.prop)))
 atli.frpw.mean <- as.data.frame(t(rowMeans(atli.frpw.prop)))
 
-plot(x = 1:260, y = atli.frpb.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+atli.frpb.med <- apply(atli.frpb.prop, 1, median)
+atli.frpw.med <- apply(atli.frpw.prop, 1, median)
+
+plot(x = 1:260, y = atli.frpb.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of One-Time Partnerhips of Black and White MSM in Atlanta",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = atli.frpw.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = atli.frpw.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), lty = 1)
 
 ### By Age
