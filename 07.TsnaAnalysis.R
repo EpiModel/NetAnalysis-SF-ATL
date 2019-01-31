@@ -2217,42 +2217,107 @@ legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), lty 
 ### By Age
 ## All ptypes
 #SF
+
+# Mean
 sfa.frp24.mean <- as.data.frame(t(rowMeans(sfa.frp24.prop)))
 sfa.frp34.mean <- as.data.frame(t(rowMeans(sfa.frp34.prop)))
 sfa.frp44.mean <- as.data.frame(t(rowMeans(sfa.frp44.prop)))
 sfa.frp54.mean <- as.data.frame(t(rowMeans(sfa.frp54.prop)))
 sfa.frp64.mean <- as.data.frame(t(rowMeans(sfa.frp64.prop)))
 
-plot(x = 1:260, y = sfa.frp24.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+sfa.frp24.med <- apply(sfa.frp24.prop, 1, median)
+sfa.frp34.med <- apply(sfa.frp34.prop, 1, median)
+sfa.frp44.med <- apply(sfa.frp44.prop, 1, median)
+sfa.frp54.med <- apply(sfa.frp54.prop, 1, median)
+sfa.frp64.med <- apply(sfa.frp64.prop, 1, median)
+
+plot(x = 1:260, y = sfa.frp24.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years by Age in \nSexual Networks of MSM in San Francisco",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = sfa.frp34.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
-lines(x = 1:260, y = sfa.frp44.mean, type = "l", col = alpha("yellow", 0.5), lwd = 2)
-lines(x = 1:260, y = sfa.frp54.mean, type = "l", col = alpha("green", 0.5), lwd = 2)
-lines(x = 1:260, y = sfa.frp64.mean, type = "l", col = alpha("purple", 0.5), lwd = 2)
+lines(x = 1:260, y = sfa.frp34.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = sfa.frp44.med, type = "l", col = alpha("yellow", 0.5), lwd = 2)
+lines(x = 1:260, y = sfa.frp54.med, type = "l", col = alpha("green", 0.5), lwd = 2)
+lines(x = 1:260, y = sfa.frp64.med, type = "l", col = alpha("purple", 0.5), lwd = 2)
 legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
        col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
 
 
 
 # ATL
+
+# Mean
 atla.frp24.mean <- as.data.frame(t(rowMeans(atla.frp24.prop)))
 atla.frp34.mean <- as.data.frame(t(rowMeans(atla.frp34.prop)))
 atla.frp44.mean <- as.data.frame(t(rowMeans(atla.frp44.prop)))
 atla.frp54.mean <- as.data.frame(t(rowMeans(atla.frp54.prop)))
 atla.frp64.mean <- as.data.frame(t(rowMeans(atla.frp64.prop)))
 
-plot(x = 1:260, y = atla.frp24.mean, type = "l", col = alpha("red", 0.5), lwd = 2, 
+# Median
+atla.frp24.med <- apply(atla.frp24.prop, 1, median)
+atla.frp34.med <- apply(atla.frp34.prop, 1, median)
+atla.frp44.med <- apply(atla.frp44.prop, 1, median)
+atla.frp54.med <- apply(atla.frp54.prop, 1, median)
+atla.frp64.med <- apply(atla.frp64.prop, 1, median)
+
+plot(x = 1:260, y = atla.frp24.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years by Age in \nSexual Networks of MSM in Atlanta",
      xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = atla.frp34.mean, type = "l", col = alpha("blue", 0.5), lwd = 2)
-lines(x = 1:260, y = atla.frp44.mean, type = "l", col = alpha("yellow", 0.5), lwd = 2)
-lines(x = 1:260, y = atla.frp54.mean, type = "l", col = alpha("green", 0.5), lwd = 2)
-lines(x = 1:260, y = atla.frp64.mean, type = "l", col = alpha("purple", 0.5), lwd = 2)
+lines(x = 1:260, y = atla.frp34.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = atla.frp44.med, type = "l", col = alpha("yellow", 0.5), lwd = 2)
+lines(x = 1:260, y = atla.frp54.med, type = "l", col = alpha("green", 0.5), lwd = 2)
+lines(x = 1:260, y = atla.frp64.med, type = "l", col = alpha("purple", 0.5), lwd = 2)
 legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
        col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
 
+## Main
+# SF
 
+# Mean
+sfm.frp24.mean <- as.data.frame(t(rowMeans(sfm.frp24.prop)))
+sfm.frp34.mean <- as.data.frame(t(rowMeans(sfm.frp34.prop)))
+sfm.frp44.mean <- as.data.frame(t(rowMeans(sfm.frp44.prop)))
+sfm.frp54.mean <- as.data.frame(t(rowMeans(sfm.frp54.prop)))
+sfm.frp64.mean <- as.data.frame(t(rowMeans(sfm.frp64.prop)))
+
+# Median
+sfm.frp24.med <- apply(sfm.frp24.prop, 1, median)
+sfm.frp34.med <- apply(sfm.frp34.prop, 1, median)
+sfm.frp44.med <- apply(sfm.frp44.prop, 1, median)
+sfm.frp54.med <- apply(sfm.frp54.prop, 1, median)
+sfm.frp64.med <- apply(sfm.frp64.prop, 1, median)
+
+plot(x = 1:260, y = sfm.frp24.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     main = "Median Proportion of the Population Reachable over 5-Years by Age in \nSexual Networks of Main Partners of MSM in San Francisco",
+     xlab = "Week", ylab = "Forward Reachable Path")
+lines(x = 1:260, y = sfm.frp34.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = sfm.frp44.med, type = "l", col = alpha("yellow", 0.5), lwd = 2)
+lines(x = 1:260, y = sfm.frp54.med, type = "l", col = alpha("green", 0.5), lwd = 2)
+lines(x = 1:260, y = sfm.frp64.med, type = "l", col = alpha("purple", 0.5), lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
+
+# ATL
+
+# Median
+atlm.frp24.med <- apply(atlm.frp24.prop, 1, median)
+atlm.frp34.med <- apply(atlm.frp34.prop, 1, median)
+atlm.frp44.med <- apply(atlm.frp44.prop, 1, median)
+atlm.frp54.med <- apply(atlm.frp54.prop, 1, median)
+atlm.frp64.med <- apply(atlm.frp64.prop, 1, median)
+
+plot(x = 1:260, y = atlm.frp24.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     main = "Median Proportion of the Population Reachable over 5-Years by Age in \nSexual Networks of Main Partners of MSM in Atlanta",
+     xlab = "Week", ylab = "Forward Reachable Path")
+lines(x = 1:260, y = atlm.frp34.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = atlm.frp44.med, type = "l", col = alpha("yellow", 0.5), lwd = 2)
+lines(x = 1:260, y = atlm.frp54.med, type = "l", col = alpha("green", 0.5), lwd = 2)
+lines(x = 1:260, y = atlm.frp64.med, type = "l", col = alpha("purple", 0.5), lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
+
+## Casual
+# SF
 
 # End ---------------------------------------------------------------------
 
