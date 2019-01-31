@@ -2319,6 +2319,82 @@ legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"),
 ## Casual
 # SF
 
+# Median
+sfc.frp24.med <- apply(sfc.frp24.prop, 1, median)
+sfc.frp34.med <- apply(sfc.frp34.prop, 1, median)
+sfc.frp44.med <- apply(sfc.frp44.prop, 1, median)
+sfc.frp54.med <- apply(sfc.frp54.prop, 1, median)
+sfc.frp64.med <- apply(sfc.frp64.prop, 1, median)
+
+plot(x = 1:260, y = sfc.frp24.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     main = "Median Proportion of the Population Reachable over 5-Years by Age in \nSexual Networks of Casual Partners of MSM in San Francisco",
+     xlab = "Week", ylab = "Forward Reachable Path")
+lines(x = 1:260, y = sfc.frp34.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = sfc.frp44.med, type = "l", col = alpha("yellow", 0.5), lwd = 2)
+lines(x = 1:260, y = sfc.frp54.med, type = "l", col = alpha("green", 0.5), lwd = 2)
+lines(x = 1:260, y = sfc.frp64.med, type = "l", col = alpha("purple", 0.5), lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
+
+# ATL
+
+# Median
+atlc.frp24.med <- apply(atlc.frp24.prop, 1, median)
+atlc.frp34.med <- apply(atlc.frp34.prop, 1, median)
+atlc.frp44.med <- apply(atlc.frp44.prop, 1, median)
+atlc.frp54.med <- apply(atlc.frp54.prop, 1, median)
+atlc.frp64.med <- apply(atlc.frp64.prop, 1, median)
+
+plot(x = 1:260, y = atlc.frp24.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     main = "Median Proportion of the Population Reachable over 5-Years by Age in \nSexual Networks of Casual Partners of MSM in Atlanta",
+     xlab = "Week", ylab = "Forward Reachable Path")
+lines(x = 1:260, y = atlc.frp34.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = atlc.frp44.med, type = "l", col = alpha("yellow", 0.5), lwd = 2)
+lines(x = 1:260, y = atlc.frp54.med, type = "l", col = alpha("green", 0.5), lwd = 2)
+lines(x = 1:260, y = atlc.frp64.med, type = "l", col = alpha("purple", 0.5), lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
+
+## Inst
+# SF
+
+# Median
+sfi.frp24.med <- apply(sfi.frp24.prop, 1, median)
+sfi.frp34.med <- apply(sfi.frp34.prop, 1, median)
+sfi.frp44.med <- apply(sfi.frp44.prop, 1, median)
+sfi.frp54.med <- apply(sfi.frp54.prop, 1, median)
+sfi.frp64.med <- apply(sfi.frp64.prop, 1, median)
+
+plot(x = 1:260, y = sfi.frp24.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     main = "Median Proportion of the Population Reachable over 5-Years by Age in \nSexual Networks of One-Time Partners of MSM in San Francisco",
+     xlab = "Week", ylab = "Forward Reachable Path")
+lines(x = 1:260, y = sfi.frp34.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = sfi.frp44.med, type = "l", col = alpha("yellow", 0.5), lwd = 2)
+lines(x = 1:260, y = sfi.frp54.med, type = "l", col = alpha("green", 0.5), lwd = 2)
+lines(x = 1:260, y = sfi.frp64.med, type = "l", col = alpha("purple", 0.5), lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
+
+# ATL
+
+# Median
+atli.frp24.med <- apply(atli.frp24.prop, 1, median)
+atli.frp34.med <- apply(atli.frp34.prop, 1, median)
+atli.frp44.med <- apply(atli.frp44.prop, 1, median)
+atli.frp54.med <- apply(atli.frp54.prop, 1, median)
+atli.frp64.med <- apply(atli.frp64.prop, 1, median)
+
+plot(x = 1:260, y = atli.frp24.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     main = "Median Proportion of the Population Reachable over 5-Years by Age in \nSexual Networks of One-Time Partners of MSM in Atlanta",
+     xlab = "Week", ylab = "Forward Reachable Path")
+lines(x = 1:260, y = atli.frp34.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
+lines(x = 1:260, y = atli.frp44.med, type = "l", col = alpha("yellow", 0.5), lwd = 2)
+lines(x = 1:260, y = atli.frp54.med, type = "l", col = alpha("green", 0.5), lwd = 2)
+lines(x = 1:260, y = atli.frp64.med, type = "l", col = alpha("purple", 0.5), lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
+
+
 # End ---------------------------------------------------------------------
 
 
