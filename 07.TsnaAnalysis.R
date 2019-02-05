@@ -2216,11 +2216,28 @@ legend("bottomright", legend = c("Black", "White"),
 sfc.frpb.med <- apply(sfc.frpb.prop, 1, median)
 sfc.frpw.med <- apply(sfc.frpw.prop, 1, median)
 
-plot(x = 1:260, y = sfc.frpb.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
-     main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of Casual Partnerhips of Black and White MSM in San Francisco",
-     xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = sfc.frpw.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
-legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), lty = 1)
+plot(x = 1:260, y = sfc.frpb.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     main = "Median Population Reachable over 5-Years in Sexual Networks of 
+     Casual Partnerhips of Black and White MSM in San Francisco",
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfc.frpw.med, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), 
+       lty = 1)
+
+# Truncated at 52 weeks
+plot(x = 156:260, y = sfc.frpb.med[156:260], type = "l", col = alpha("red", 0.7), 
+     lwd = 2, main = "Median Population Reachable From 3- to 5-Years in Sexual 
+     Networks of Casual Partnerships of Black and White MSM San Francisco",
+     xlab = "Week", ylab = "Proportion Reachable", ylim = c(0.1, 0.75))
+lines(x = 156:260, y = sfc.frpw.med[156:260], type = "l", 
+      col = alpha("blue", 0.7), lwd = 2, ylim = c(0.1, 0.75))
+legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), 
+       lty = 1)
+
+
+# start here --------------------------------------------------------------
+
 
 # ATL
 
