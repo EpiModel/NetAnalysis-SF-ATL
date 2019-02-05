@@ -2012,39 +2012,36 @@ title()
 
 # 5c. Plots - FRP median --------------------------------------------------
 
-
-### Meadian FRP plots ###
-
 ### Overall
 ## All ptypes
 
 # Mean
-sfa.frp.mean <- as.data.frame(t(rowMeans(sfa.frp.prop)))
-atla.frp.mean <- as.data.frame(t(rowMeans(atla.frp.prop)))
+# sfa.frp.mean <- as.data.frame(t(rowMeans(sfa.frp.prop)))
+# atla.frp.mean <- as.data.frame(t(rowMeans(atla.frp.prop)))
 
 # Median
-sfa.frp.med <- as.data.frame(t(apply(sf.a.frp/10000, 1, median)))
-atla.frp.med <- as.data.frame(t(apply(atl.a.frp/10000, 1, median)))
+sfa.frp.med <- apply(sf.a.frp/10000, 1, median)
+atla.frp.med <- apply(atl.a.frp/10000, 1, median)
 
 plot(x = 1:260, y = sfa.frp.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
-     main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of MSM in San Francisco and Atlanta",
-     xlab = "Week", ylab = "Forward Reachable Path")
+     main = "Median Population Reachable over 5-Years in \nSexual Networks of MSM in San Francisco and Atlanta",
+     xlab = "Week", ylab = "Proportion Reachable")
 lines(x = 1:260, y = atla.frp.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("bottomright", legend = c("San Francisco", "Atlanta"), col = c("red", "blue"), lty = 1)
 
-# Truncated
-plot(x = 52:260, y = sfa.frp.med[, 52:260], type = "l", col = alpha("red", 0.5), lwd = 2, 
-     main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of MSM in San Francisco and Atlanta",
-     xlab = "Week", ylab = "Forward Reachable Path", ylim = c(0.8, 1))
-lines(x = 52:260, y = atla.frp.med[, 52:260], type = "l", col = alpha("blue", 0.5), lwd = 2, ylim = c(0.8, 1))
+# Truncated at 52 weeks
+plot(x = 52:260, y = sfa.frp.med[52:260], type = "l", col = alpha("red", 0.5), lwd = 2, 
+     main = "Median Population Reachable From 1- to 5-Years in \nSexual Networks of MSM in San Francisco and Atlanta",
+     xlab = "Week", ylab = "Proportion Reachable", ylim = c(0.8, 1))
+lines(x = 52:260, y = atla.frp.med[52:260], type = "l", col = alpha("blue", 0.5), lwd = 2, ylim = c(0.8, 1))
 legend("bottomright", legend = c("San Francisco", "Atlanta"), col = c("red", "blue"), lty = 1)
 
 
 ## Main
 
 # Mean
-sfm.frp.mean <- as.data.frame(t(rowMeans(sfm.frp.prop)))
-atlm.frp.mean <- as.data.frame(t(rowMeans(atlm.frp.prop)))
+# sfm.frp.mean <- as.data.frame(t(rowMeans(sfm.frp.prop)))
+# atlm.frp.mean <- as.data.frame(t(rowMeans(atlm.frp.prop)))
 
 # Median
 sfm.frp.med <- apply(sf.m.frp/10000, 1, median)
