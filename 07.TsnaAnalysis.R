@@ -1517,8 +1517,8 @@ atli.cumldeg.w64 <- atl.i.cumldeg[atl.id.w64]
 atli.bcent.w64 <- atl.i.bcent[atl.id.w64]
 
 
+# 5a. Analysis - FRP ------------------------------------------------------
 
-# 5a. FRP Analysis --------------------------------------------------------
 
 ### Summary Stats ###
 
@@ -1747,8 +1747,8 @@ atl.frpi.sum64 <- summary(t(atli.frp.64))
 write.csv(atl.frpi.sum64, file = "atl_frp_inst_55-64.csv")
 
 
+# 5b. Plots - FRP distribution --------------------------------------------
 
-# 5a. FRP Plots -----------------------------------------------------------
 
 ### Plots of distribution ###
 
@@ -2009,7 +2009,11 @@ title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among W
 title()
 
 
-### Mean & median plots ###
+
+# 5c. Plots - FRP median --------------------------------------------------
+
+
+### Meadian FRP plots ###
 
 ### Overall
 ## All ptypes
@@ -2019,13 +2023,20 @@ sfa.frp.mean <- as.data.frame(t(rowMeans(sfa.frp.prop)))
 atla.frp.mean <- as.data.frame(t(rowMeans(atla.frp.prop)))
 
 # Median
-sfa.frp.med <- apply(sf.a.frp/10000, 1, median)
-atla.frp.med <- apply(atl.a.frp/10000, 1, median)
+sfa.frp.med <- as.data.frame(t(apply(sf.a.frp/10000, 1, median)))
+atla.frp.med <- as.data.frame(t(apply(atl.a.frp/10000, 1, median)))
 
 plot(x = 1:260, y = sfa.frp.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of MSM in San Francisco and Atlanta",
      xlab = "Week", ylab = "Forward Reachable Path")
 lines(x = 1:260, y = atla.frp.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
+legend("bottomright", legend = c("San Francisco", "Atlanta"), col = c("red", "blue"), lty = 1)
+
+# Truncated
+plot(x = 52:260, y = sfa.frp.med[, 52:260], type = "l", col = alpha("red", 0.5), lwd = 2, 
+     main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of MSM in San Francisco and Atlanta",
+     xlab = "Week", ylab = "Forward Reachable Path", ylim = c(0.8, 1))
+lines(x = 52:260, y = atla.frp.med[, 52:260], type = "l", col = alpha("blue", 0.5), lwd = 2, ylim = c(0.8, 1))
 legend("bottomright", legend = c("San Francisco", "Atlanta"), col = c("red", "blue"), lty = 1)
 
 
@@ -2045,6 +2056,12 @@ plot(x = 1:260, y = sfm.frp.med, type = "l", col = alpha("red", 0.5), lwd = 2,
 lines(x = 1:260, y = atlm.frp.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
 legend("bottomright", legend = c("San Francisco", "Atlanta"), col = c("red", "blue"), lty = 1)
 
+# Truncated
+plot(x = 52:260, y = sfm.frp.med[52:260], type = "l", col = alpha("red", 0.5), lwd = 2, 
+     main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of MSM in San Francisco and Atlanta",
+     xlab = "Week", ylab = "Forward Reachable Path", ylim = c(0, 0.1))
+lines(x = 52:260, y = atlm.frp.med[52:260], type = "l", col = alpha("blue", 0.5), lwd = 2, ylim = c(0, 0.1))
+legend("bottomright", legend = c("San Francisco", "Atlanta"), col = c("red", "blue"), lty = 1)
 
 ## Casual
 # Mean
