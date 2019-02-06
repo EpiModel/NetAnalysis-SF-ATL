@@ -2277,30 +2277,35 @@ legend("bottomright", legend = c("Black", "White"),
 sfi.frpb.med <- apply(sfi.frpb.prop, 1, median)
 sfi.frpw.med <- apply(sfi.frpw.prop, 1, median)
 
-plot(x = 1:260, y = sfi.frpb.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
-     main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of One-Time Partnerhips of Black and White MSM in San Francisco",
-     xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = sfi.frpw.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
+plot(x = 1:260, y = sfi.frpb.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     main = "Median Population Reachable over 5-Years in Sexual Networks of 
+     One-Time Partnerhips of Black and White MSM in San Francisco",
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfi.frpw.med, type = "l", col = alpha("blue", 0.7), lwd = 2)
 legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), lty = 1)
 
 # ATL
 
 # Mean
-atli.frpb.mean <- as.data.frame(t(rowMeans(atli.frpb.prop)))
-atli.frpw.mean <- as.data.frame(t(rowMeans(atli.frpw.prop)))
+# atli.frpb.mean <- as.data.frame(t(rowMeans(atli.frpb.prop)))
+# atli.frpw.mean <- as.data.frame(t(rowMeans(atli.frpw.prop)))
 
 # Median
 atli.frpb.med <- apply(atli.frpb.prop, 1, median)
 atli.frpw.med <- apply(atli.frpw.prop, 1, median)
 
-plot(x = 1:260, y = atli.frpb.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
-     main = "Average Proportion of the Population Reachable over 5-Years in \nSexual Networks of One-Time Partnerhips of Black and White MSM in Atlanta",
-     xlab = "Week", ylab = "Forward Reachable Path")
-lines(x = 1:260, y = atli.frpw.med, type = "l", col = alpha("blue", 0.5), lwd = 2)
-legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), lty = 1)
+plot(x = 1:260, y = atli.frpb.med, type = "l", col = alpha("gold2", 0.7), 
+     lwd = 2, main = "Median Population Reachable over 5-Years in 
+     Sexual Networks of One-Time Partnerhips of Black and White MSM in Atlanta",
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atli.frpw.med, type = "l", col = alpha("darkgreen", 0.7), 
+      lwd = 2)
+legend("bottomright", legend = c("Black", "White"), 
+       col = c("gold2", "darkgreen"), lty = 1)
 
 
 ### By Age
+
 ## All ptypes
 #SF
 
