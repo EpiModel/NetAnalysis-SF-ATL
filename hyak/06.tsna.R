@@ -39,17 +39,17 @@ if (net == "main") {
 
 simset <- as.numeric(Sys.getenv("SLURM_ARRAY_TASK_ID"))
 
-batchSize <- 100
+batchSize <- 25
 v <- ((batchSize*simset) - (batchSize - 1)):(batchSize*simset)
 
 int <- as.numeric(Sys.getenv("INT"))
 ts <- seq(1, 260, int)
 
 f <- function(net, v, ts) {
-  m <- array(NA, dim = c(length(ts), length(v), 6))
+  m <- array(NA, dim = c(length(ts), length(v), 5))
   for (jj in 1:length(v)) {
     for (ii in 1:length(ts)) {
-      tp <- tPath(sim, v = v[jj], start = 1, end = ts[ii], direction = "fwd")
+      tp <- tsna::tPath(sim, v = v[jj], start = 1, end = ts[ii], direction = "fwd")
       # forward reachable path
       m[ii, jj, 1] <- sum(tp$tdist < Inf)
       # median temporal distance
@@ -61,7 +61,7 @@ f <- function(net, v, ts) {
       # cumulative degree
       m[ii, jj, 5] <- EpiModel::get_degree(network.collapse(sim, onset = 1, terminus = ts[[ii]]))[v[jj]]
       # betweenness centrality
-      m[ii, jj, 6] <- sna::betweenness(network.collapse(sim, at = ts[ii]), nodes = v[jj])
+      # m[ii, jj, 6] <- sna::betweenness(network.collapse(sim, at = ts[ii]), nodes = v[jj])
     }
   }
   return(m)
