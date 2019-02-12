@@ -17,7 +17,6 @@ if (city == "A") {
   city_name <- "San Francisco"
 }
 
-
 ## Load Data ##
 fn <- paste("data/artnet.NetEst", gsub(" ", "", city_name), "rda", sep = ".")
 est <- readRDS(file = fn)
@@ -39,7 +38,7 @@ sim_network <- function(est, nsteps = 52*5) {
   for (at in 1:nsteps) {
     # Main #
     deg_dist_casl <- as.numeric(summary(nw[[2]] ~ sociality(base = 0), at = at))
-    nw[[1]] <- set.vertex.attribute(nw[[1]], attrname = "deg.pers", value = deg_dist_casl)
+    nw[[1]] <- set.vertex.attribute(nw[[1]], attrname = "deg.casl", value = deg_dist_casl)
     nw[[1]] <- suppressWarnings(simulate(nw[[1]],
                         formation = est[[1]]$formation,
                         dissolution = est[[1]]$coef.diss$dissolution,
@@ -65,7 +64,6 @@ sim_network <- function(est, nsteps = 52*5) {
                         time.offset = 0,
                         monitor = "all",
                         output = "networkDynamic"))
-
 
     deg_dist_main <- as.numeric(summary(nw[[1]] ~ sociality(base = 0), at = at))
     deg_dist_casl <- as.numeric(summary(nw[[2]] ~ sociality(base = 0), at = at))

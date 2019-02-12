@@ -1,11 +1,17 @@
 #!/bin/bash
 
-# network simulations
-scp hyak/*netsim.* hyak:/suppscr/csde/sjenness/netparam
-scp data/*.NetEst.* hyak:/suppscr/csde/sjenness/netparam/input
+# NetSim Send
+scp hyak/*.* mox:/gscratch/csde/sjenness/netparam
+scp data/*.NetEst.* mox:/gscratch/csde/sjenness/netparam/data
 
+
+# NetSim Receive
 
 scp hyak:/suppscr/csde/sjenness/netparam/input/*.NetSim.* data/
+
+
+
+
 
 # TSNA
 scp hyak/*.tsna.* hyak:/suppscr/csde/sjenness/netparam
