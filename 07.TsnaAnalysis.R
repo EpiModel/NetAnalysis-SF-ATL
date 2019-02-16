@@ -66,7 +66,7 @@ atl.inst <- load_data("atl.inst.1.rda")
 ## Race
 
 # Black
-sf.b <- which(get.vertex.attribute(net.sfm, "race") == "B")
+sf.b <- which(get.vertex.attribute(net.sfm, "race") == "3")
 atl.b <- which(get.vertex.attribute(net.atlm, "race") == "B")
 
 # White
@@ -184,12 +184,13 @@ sfi.frp <- subset(sf.inst, select = frp.1:frp.10000)
 atli.frp <- subset(atl.inst, select = frp.1:frp.10000)
 
 
-## Calculate summary stats 
+# 4.FRP Summary -----------------------------------------------------------
+
 
 ## SF
 
 # All ids
-sfa.sum1 <- summary(t(sfa.frp))
+sfa.sum1 <- summary(t(sfa.frp/10000))
 sfm.sum1 <- summary(t(sfm.frp))
 sfc.sum1 <- summary(t(sfc.frp))
 sfi.sum1 <- summary(t(sfi.frp))
@@ -292,6 +293,40 @@ atlc.sum164 <- summary(t(atlc.frp[atl.64]))
 atli.sum164 <- summary(t(atli.frp[atl.64]))
 
 
+# 5.FRP Median Plots ------------------------------------------------------
 
+# All partnerships
+sfa.frp.med <- apply(sfa.frp/10000, 1, median)
+atla.frp.med <- apply(atla.frp/10000, 1, median)
+
+plot(x = 1:260, y = sfa.frp.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     main = "Median Population Reachable over 5-Years in Sexual Networks of 
+     MSM in San Francisco and Atlanta",
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atla.frp.med, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+legend("bottomright", legend = c("San Francisco", "Atlanta"), 
+       col = c("red", "blue"), lty = 1)
+
+# Main
+sfm.frp.med <- apply(sfm.frp/10000, 1, median)
+atlm.frp.med <- apply(atlm.frp/10000, 1, median)
+
+plot(x = 1:260, y = sfm.frp.med, type = "l", col = alpha("orange", 0.7), lwd = 2, 
+     main = "Median Population Reachable over 5-Years in Sexual Networks of 
+     Main Partnerships of MSM in San Francisco and Atlanta", xlab = "Week", 
+     ylab = "Proportion Reachable")
+lines(x = 1:260, y = atlm.frp.med, type = "l", col = alpha("purple", 0.7), 
+      lwd = 2)
+legend("bottomright", legend = c("San Francisco", "Atlanta"), 
+       col = c("orange", "purple"), lty = 1)
+
+# Casual
+
+
+# Inst
+
+
+# END ---------------------------------------------------------------------
 
 
