@@ -66,12 +66,12 @@ atl.inst <- load_data("atl.inst.1.rda")
 ## Race
 
 # Black
-sf.b <- which(get.vertex.attribute(net.sfm, "race") == "3")
-atl.b <- which(get.vertex.attribute(net.atlm, "race") == "B")
+sf.b <- which(get.vertex.attribute(net.sfm, "race") == "0")
+atl.b <- which(get.vertex.attribute(net.atlm, "race") == "0")
 
 # White
-sf.w <- which(get.vertex.attribute(net.sfm, "race") == "W")
-atl.w <- which(get.vertex.attribute(net.atlm, "race") == "W")
+sf.w <- which(get.vertex.attribute(net.sfm, "race") == "1")
+atl.w <- which(get.vertex.attribute(net.atlm, "race") == "1")
 
 
 ## Age
@@ -197,44 +197,44 @@ sfi.sum1 <- summary(t(sfi.frp))
 
 # Race ids
 # Black
-sfa.sum1b <- summary(t(sfa.frp[sf.b]))
+sfa.sum1b <- summary(t(sfa.frp[sf.b]/10000))
 sfm.sum1b <- summary(t(sfm.frp[sf.b]))
 sfc.sum1b <- summary(t(sfc.frp[sf.b]))
 sfi.sum1b <- summary(t(sfi.frp[sf.b]))
 
 # White
-sfa.sum1w <- summary(t(sfa.frp[sf.w]))
+sfa.sum1w <- summary(t(sfa.frp[sf.w]/10000))
 sfm.sum1w <- summary(t(sfm.frp[sf.w]))
 sfc.sum1w <- summary(t(sfc.frp[sf.w]))
 sfi.sum1w <- summary(t(sfi.frp[sf.w]))
 
 # Age ids
 # 15-24
-sfa.sum124 <- summary(t(sfa.frp[sf.24]))
+sfa.sum124 <- summary(t(sfa.frp[sf.24]/10000))
 sfm.sum124 <- summary(t(sfm.frp[sf.24]))
 sfc.sum124 <- summary(t(sfc.frp[sf.24]))
 sfi.sum124 <- summary(t(sfi.frp[sf.24]))
 
 # 25-34
-sfa.sum134 <- summary(t(sfa.frp[sf.34]))
+sfa.sum134 <- summary(t(sfa.frp[sf.34]/10000))
 sfm.sum134 <- summary(t(sfm.frp[sf.34]))
 sfc.sum134 <- summary(t(sfc.frp[sf.34]))
 sfi.sum134 <- summary(t(sfi.frp[sf.34]))
 
 # 35-44
-sfa.sum144 <- summary(t(sfa.frp[sf.44]))
+sfa.sum144 <- summary(t(sfa.frp[sf.44]/10000))
 sfm.sum144 <- summary(t(sfm.frp[sf.44]))
 sfc.sum144 <- summary(t(sfc.frp[sf.44]))
 sfi.sum144 <- summary(t(sfi.frp[sf.44]))
 
 # 45-54
-sfa.sum154 <- summary(t(sfa.frp[sf.54]))
+sfa.sum154 <- summary(t(sfa.frp[sf.54]/10000))
 sfm.sum154 <- summary(t(sfm.frp[sf.54]))
 sfc.sum154 <- summary(t(sfc.frp[sf.54]))
 sfi.sum154 <- summary(t(sfi.frp[sf.54]))
 
 # 55-64
-sfa.sum164 <- summary(t(sfa.frp[sf.64]))
+sfa.sum164 <- summary(t(sfa.frp[sf.64]/10000))
 sfm.sum164 <- summary(t(sfm.frp[sf.64]))
 sfc.sum164 <- summary(t(sfc.frp[sf.64]))
 sfi.sum164 <- summary(t(sfi.frp[sf.64]))
@@ -295,36 +295,36 @@ atli.sum164 <- summary(t(atli.frp[atl.64]))
 
 # 5.FRP Median Plots ------------------------------------------------------
 
-# All partnerships
+## All partnerships
+
 sfa.frp.med <- apply(sfa.frp/10000, 1, median)
 atla.frp.med <- apply(atla.frp/10000, 1, median)
 
 plot(x = 1:260, y = sfa.frp.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
-     main = "Median Population Reachable over 5-Years in Sexual Networks of 
-     MSM in San Francisco and Atlanta",
      xlab = "Week", ylab = "Proportion Reachable")
 lines(x = 1:260, y = atla.frp.med, type = "l", col = alpha("blue", 0.7), 
       lwd = 2)
 legend("bottomright", legend = c("San Francisco", "Atlanta"), 
        col = c("red", "blue"), lty = 1)
 
-# Main
+
+## Main
+
 sfm.frp.med <- apply(sfm.frp/10000, 1, median)
 atlm.frp.med <- apply(atlm.frp/10000, 1, median)
 
-plot(x = 1:260, y = sfm.frp.med, type = "l", col = alpha("orange", 0.7), lwd = 2, 
-     main = "Median Population Reachable over 5-Years in Sexual Networks of 
-     Main Partnerships of MSM in San Francisco and Atlanta", xlab = "Week", 
-     ylab = "Proportion Reachable")
-lines(x = 1:260, y = atlm.frp.med, type = "l", col = alpha("purple", 0.7), 
+plot(x = 1:260, y = sfm.frp.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atlm.frp.med, type = "l", col = alpha("blue", 0.7), 
       lwd = 2)
 legend("bottomright", legend = c("San Francisco", "Atlanta"), 
-       col = c("orange", "purple"), lty = 1)
-
-# Casual
+       col = c("red", "blue"), lty = 1)
 
 
-# Inst
+## Casual
+
+
+## Inst
 
 
 # END ---------------------------------------------------------------------
