@@ -244,51 +244,51 @@ sfi.sum164 <- summary(t(sfi.frp[sf.64]))
 
 # All ids
 atla.sum1 <- summary(t(atla.frp/10000))
-atlm.sum1 <- summary(t(atlm.frp))
+atlm.sum1 <- summary(t(atlm.frp)/10000)
 atlc.sum1 <- summary(t(atlc.frp))
 atli.sum1 <- summary(t(atli.frp))
 
 # Race ids
 # Black
 atla.sum1b <- summary(t(atla.frp[atl.b]/10000))
-atlm.sum1b <- summary(t(atlm.frp[atl.b]))
+atlm.sum1b <- summary(t(atlm.frp[atl.b]/10000))
 atlc.sum1b <- summary(t(atlc.frp[atl.b]))
 atli.sum1b <- summary(t(atli.frp[atl.b]))
 
 # White
 atla.sum1w <- summary(t(atla.frp[atl.w]/10000))
-atlm.sum1w <- summary(t(atlm.frp[atl.w]))
+atlm.sum1w <- summary(t(atlm.frp[atl.w]/10000))
 atlc.sum1w <- summary(t(atlc.frp[atl.w]))
 atli.sum1w <- summary(t(atli.frp[atl.w]))
 
 # Age ids
 # 15-24
 atla.sum124 <- summary(t(atla.frp[atl.24]/10000))
-atlm.sum124 <- summary(t(atlm.frp[atl.24]))
+atlm.sum124 <- summary(t(atlm.frp[atl.24]/10000))
 atlc.sum124 <- summary(t(atlc.frp[atl.24]))
 atli.sum124 <- summary(t(atli.frp[atl.24]))
 
 # 25-34
 atla.sum134 <- summary(t(atla.frp[atl.34]/10000))
-atlm.sum134 <- summary(t(atlm.frp[atl.34]))
+atlm.sum134 <- summary(t(atlm.frp[atl.34]/10000))
 atlc.sum134 <- summary(t(atlc.frp[atl.34]))
 atli.sum134 <- summary(t(atli.frp[atl.34]))
 
 # 35-44
 atla.sum144 <- summary(t(atla.frp[atl.44]/10000))
-atlm.sum144 <- summary(t(atlm.frp[atl.44]))
+atlm.sum144 <- summary(t(atlm.frp[atl.44]/10000))
 atlc.sum144 <- summary(t(atlc.frp[atl.44]))
 atli.sum144 <- summary(t(atli.frp[atl.44]))
 
 # 45-54
 atla.sum154 <- summary(t(atla.frp[atl.54]/10000))
-atlm.sum154 <- summary(t(atlm.frp[atl.54]))
+atlm.sum154 <- summary(t(atlm.frp[atl.54]/10000))
 atlc.sum154 <- summary(t(atlc.frp[atl.54]))
 atli.sum154 <- summary(t(atli.frp[atl.54]))
 
 # 55-64
 atla.sum164 <- summary(t(atla.frp[atl.64]/10000))
-atlm.sum164 <- summary(t(atlm.frp[atl.64]))
+atlm.sum164 <- summary(t(atlm.frp[atl.64]/10000))
 atlc.sum164 <- summary(t(atlc.frp[atl.64]))
 atli.sum164 <- summary(t(atli.frp[atl.64]))
 
