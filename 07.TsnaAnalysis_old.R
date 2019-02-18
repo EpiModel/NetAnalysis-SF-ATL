@@ -40,12 +40,12 @@ atl.i <- sim.atl[[3]] # inst
 ### Race ###
 
 # Black
-sf.id.b <- which(get.vertex.attribute(sf.m, "race") == "B")
-atl.id.b <- which(get.vertex.attribute(atl.m, "race") == "B")
+sf.id.b <- which(get.vertex.attribute(sf.m, "race") == "0")
+atl.id.b <- which(get.vertex.attribute(atl.m, "race") == "0")
 
 # White
-sf.id.w <- which(get.vertex.attribute(sf.m, "race") == "W")
-atl.id.w <- which(get.vertex.attribute(atl.m, "race") == "W")
+sf.id.w <- which(get.vertex.attribute(sf.m, "race") == "1")
+atl.id.w <- which(get.vertex.attribute(atl.m, "race") == "1")
 
 
 ### Age ###
@@ -74,77 +74,69 @@ atl.id.64 <- which(get.vertex.attribute(atl.m, "age.grp") == "5")
 ### Race & Age ###
 
 # Black 0-24
-sf.id.b24 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "1")
-atl.id.b24 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "1")
-
-# White 0-24
-sf.id.w24 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "1")
-atl.id.w24 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "1")
-
-
-# Black 25-34
-sf.id.b34 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "2")
-atl.id.b34 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "2")
-
-# White 25-34
-sf.id.w34 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "2")
-atl.id.w34 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "2")
-
-# Black 35-44
-sf.id.b44 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "3")
-atl.id.b44 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "3")
-
-# White 35-44
-sf.id.w44 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "3")
-atl.id.w44 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "3")
-
-# Black 45-54
-sf.id.b54 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "4")
-atl.id.b54 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "4")
-
-# White 45-54
-sf.id.w54 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "4")
-atl.id.w54 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "4")
-
-# Black 55+
-sf.id.b64 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "5")
-atl.id.b64 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "5")
-
-# White 55+
-sf.id.w64 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "5")
-atl.id.w64 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "5")
+# sf.id.b24 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
+#                      get.vertex.attribute(sf.m, "age.grp") == "1")
+# atl.id.b24 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
+#                       get.vertex.attribute(atl.m, "age.grp") == "1")
+# 
+# # White 0-24
+# sf.id.w24 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
+#                      get.vertex.attribute(sf.m, "age.grp") == "1")
+# atl.id.w24 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
+#                       get.vertex.attribute(atl.m, "age.grp") == "1")
+# 
+# 
+# # Black 25-34
+# sf.id.b34 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
+#                      get.vertex.attribute(sf.m, "age.grp") == "2")
+# atl.id.b34 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
+#                       get.vertex.attribute(atl.m, "age.grp") == "2")
+# 
+# # White 25-34
+# sf.id.w34 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
+#                      get.vertex.attribute(sf.m, "age.grp") == "2")
+# atl.id.w34 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
+#                       get.vertex.attribute(atl.m, "age.grp") == "2")
+# 
+# # Black 35-44
+# sf.id.b44 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
+#                      get.vertex.attribute(sf.m, "age.grp") == "3")
+# atl.id.b44 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
+#                       get.vertex.attribute(atl.m, "age.grp") == "3")
+# 
+# # White 35-44
+# sf.id.w44 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
+#                      get.vertex.attribute(sf.m, "age.grp") == "3")
+# atl.id.w44 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
+#                       get.vertex.attribute(atl.m, "age.grp") == "3")
+# 
+# # Black 45-54
+# sf.id.b54 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
+#                      get.vertex.attribute(sf.m, "age.grp") == "4")
+# atl.id.b54 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
+#                       get.vertex.attribute(atl.m, "age.grp") == "4")
+# 
+# # White 45-54
+# sf.id.w54 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
+#                      get.vertex.attribute(sf.m, "age.grp") == "4")
+# atl.id.w54 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
+#                       get.vertex.attribute(atl.m, "age.grp") == "4")
+# 
+# # Black 55+
+# sf.id.b64 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
+#                      get.vertex.attribute(sf.m, "age.grp") == "5")
+# atl.id.b64 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
+#                       get.vertex.attribute(atl.m, "age.grp") == "5")
+# 
+# # White 55+
+# sf.id.w64 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
+#                      get.vertex.attribute(sf.m, "age.grp") == "5")
+# atl.id.w64 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
+#                       get.vertex.attribute(atl.m, "age.grp") == "5")
 
 
 
 # 2. Outcome Data ---------------------------------------------------------
-
-load_data <- function(file) {
-  x <- load(file = file)
-  x <- out
-  x <- as.data.frame(x)
-}
-
-sf.all <- load_data("sfo.all.1.rda")
 
 ### ALL ptypes ###
 
@@ -1540,45 +1532,45 @@ atli.bcent.w64 <- atl.i.bcent[atl.id.w64]
 
 ## By partnership type
 # SF
-sf.frpa.sum <- summary(t(sf.a.frp))
+sf.frpa.sum <- summary(t(sf.a.frp/10000))
 write.csv(sf.frpa.sum, file = "sf_frp_all.csv")
 
-sf.frpm.sum <- summary(t(sf.m.frp))
+sf.frpm.sum <- summary(t(sf.m.frp/10000))
 write.csv(sf.frpm.sum, file = "sf_frp_main.csv")
 
-sf.frpc.sum <- summary(t(sf.c.frp))
+sf.frpc.sum <- summary(t(sf.c.frp/10000))
 write.csv(sf.frpc.sum, file = "sf_frp_casl.csv")
 
-sf.frpi.sum <- summary(t(sf.i.frp))
+sf.frpi.sum <- summary(t(sf.i.frp/10000))
 write.csv(sf.frpi.sum, file = "sf_frp_inst.csv")
 
 
 # ATL
-atl.frpa.sum <- summary(t(atl.a.frp))
+atl.frpa.sum <- summary(t(atl.a.frp/10000))
 write.csv(atl.frpa.sum, file = "atl_frp_all.csv")
 
-atl.frpm.sum <- summary(t(atl.m.frp))
+atl.frpm.sum <- summary(t(atl.m.frp/10000))
 write.csv(atl.frpm.sum, file = "atl_frp_main.csv")
 
-atl.frpc.sum <- summary(t(atl.c.frp))
+atl.frpc.sum <- summary(t(atl.c.frp/10000))
 write.csv(atl.frpc.sum, file = "atl_frp_casl.csv")
 
-atl.frpi.sum <- summary(t(atl.i.frp))
+atl.frpi.sum <- summary(t(atl.i.frp/10000))
 write.csv(atl.frpi.sum, file = "atl_frp_inst.csv")
 
 
 ## Race - BLACK
 # SF 
-sf.frpa.sumb <- summary(t(sfa.frp.b))
+sf.frpa.sumb <- summary(t(sfa.frp.b/10000))
 write.csv(sf.frpa.sumb, file = "sf_frp_all_black.csv")
 
-sf.frpm.sumb <- summary(t(sfm.frp.b))
+sf.frpm.sumb <- summary(t(sfm.frp.b/10000))
 write.csv(sf.frpm.sumb, file = "sf_frp_main_black.csv")
 
-sf.frpc.sumb <- summary(t(sfc.frp.b))
+sf.frpc.sumb <- summary(t(sfc.frp.b/10000))
 write.csv(sf.frpc.sumb, file = "sf_frp_casl_black.csv")
 
-sf.frpi.sumb <- summary(t(sfi.frp.b))
+sf.frpi.sumb <- summary(t(sfi.frp.b/10000))
 write.csv(sf.frpi.sumb, file = "sf_frp_inst_black.csv")
 
 # ATL
