@@ -61,7 +61,34 @@ atl.inst <- load_data("atl.inst.1.rda")
 
 
 
-# 2.Vertex IDs ------------------------------------------------------------
+# 2.Validation ------------------------------------------------------------
+
+
+## Checking degree in simulations
+EpiModel::get_degree(network.collapse(net.sfm, at = 1))
+EpiModel::get_degree(network.collapse(net.sfc, at = 1))
+EpiModel::get_degree(network.collapse(net.sfi, at = 1))
+EpiModel::get_degree(network.collapse(net.atlm, at = 1))
+EpiModel::get_degree(network.collapse(net.atlc, at = 1))
+EpiModel::get_degree(network.collapse(net.atli, at = 1))
+
+## Checking degree in outcome data
+
+# Main
+test <- subset(sf.main, select = degree.1:degree.10000)
+test <- subset(atl.main, select = degree.1:degree.10000)
+
+# Casual
+test <- subset(sf.casl, select = degree.1:degree.10000)
+test <- subset(atl.casl, select = degree.1:degree.10000)
+
+# Instantaneous
+test <- subset(sf.inst, select = degree.1:degree.10000)
+test <- subset(atl.inst, select = degree.1:degree.10000)
+
+
+
+# 3.Vertex IDs ------------------------------------------------------------
 
 ## Race
 
@@ -162,7 +189,7 @@ atl.64 <- which(get.vertex.attribute(net.atlm, "age.grp") == "5")
 
 
 
-# 3.FRP Analysis ----------------------------------------------------------
+# 4.FRP Analysis ----------------------------------------------------------
 
 
 ## Subset df to outcome of interest
@@ -184,119 +211,137 @@ sfi.frp <- subset(sf.inst, select = frp.1:frp.10000)
 atli.frp <- subset(atl.inst, select = frp.1:frp.10000)
 
 
-# 4.FRP Summary -----------------------------------------------------------
+# 5.FRP Summary -----------------------------------------------------------
 
+
+### Table 2: All partnerships
 
 ## SF
-
-# All ids
 sfa.sum1 <- summary(t(sfa.frp/10000))
-sfm.sum1 <- summary(t(sfm.frp/10000))
-sfc.sum1 <- summary(t(sfc.frp/10000))
-sfi.sum1 <- summary(t(sfi.frp/10000))
-
-# Race ids
-# Black
-sfa.sum1b <- summary(t(sfa.frp[sf.b]/10000))
-sfm.sum1b <- summary(t(sfm.frp[sf.b]/10000))
-sfc.sum1b <- summary(t(sfc.frp[sf.b]/10000))
-sfi.sum1b <- summary(t(sfi.frp[sf.b]/10000))
-
-# White
-sfa.sum1w <- summary(t(sfa.frp[sf.w]/10000))
-sfm.sum1w <- summary(t(sfm.frp[sf.w]/10000))
-sfc.sum1w <- summary(t(sfc.frp[sf.w]/10000))
-sfi.sum1w <- summary(t(sfi.frp[sf.w]/10000))
 
 # Age ids
-# 15-24
 sfa.sum124 <- summary(t(sfa.frp[sf.24]/10000))
-sfm.sum124 <- summary(t(sfm.frp[sf.24]/10000))
-sfc.sum124 <- summary(t(sfc.frp[sf.24]/10000))
-sfi.sum124 <- summary(t(sfi.frp[sf.24]/10000))
-
-# 25-34
 sfa.sum134 <- summary(t(sfa.frp[sf.34]/10000))
-sfm.sum134 <- summary(t(sfm.frp[sf.34]/10000))
-sfc.sum134 <- summary(t(sfc.frp[sf.34]/10000))
-sfi.sum134 <- summary(t(sfi.frp[sf.34]/10000))
-
-# 35-44
 sfa.sum144 <- summary(t(sfa.frp[sf.44]/10000))
-sfm.sum144 <- summary(t(sfm.frp[sf.44]/10000))
-sfc.sum144 <- summary(t(sfc.frp[sf.44]/10000))
-sfi.sum144 <- summary(t(sfi.frp[sf.44]/10000))
-
-# 45-54
 sfa.sum154 <- summary(t(sfa.frp[sf.54]/10000))
-sfm.sum154 <- summary(t(sfm.frp[sf.54]/10000))
-sfc.sum154 <- summary(t(sfc.frp[sf.54]/10000))
-sfi.sum154 <- summary(t(sfi.frp[sf.54]/10000))
-
-# 55-64
 sfa.sum164 <- summary(t(sfa.frp[sf.64]/10000))
-sfm.sum164 <- summary(t(sfm.frp[sf.64]/10000))
-sfc.sum164 <- summary(t(sfc.frp[sf.64]/10000))
-sfi.sum164 <- summary(t(sfi.frp[sf.64]/10000))
 
+# Race ids
+sfa.sum1b <- summary(t(sfa.frp[sf.b]/10000))
+sfa.sum1w <- summary(t(sfa.frp[sf.w]/10000))
 
 ## ATL
-
-# All ids
 atla.sum1 <- summary(t(atla.frp/10000))
-atlm.sum1 <- summary(t(atlm.frp/10000))
-atlc.sum1 <- summary(t(atlc.frp/10000))
-atli.sum1 <- summary(t(atli.frp/10000))
-atli.sum.check <- summary(t(atli.frp))
-
-# Race ids
-# Black
-atla.sum1b <- summary(t(atla.frp[atl.b]/10000))
-atlm.sum1b <- summary(t(atlm.frp[atl.b]/10000))
-atlc.sum1b <- summary(t(atlc.frp[atl.b]/10000))
-atli.sum1b <- summary(t(atli.frp[atl.b]/10000))
-
-# White
-atla.sum1w <- summary(t(atla.frp[atl.w]/10000))
-atlm.sum1w <- summary(t(atlm.frp[atl.w]/10000))
-atlc.sum1w <- summary(t(atlc.frp[atl.w]/10000))
-atli.sum1w <- summary(t(atli.frp[atl.w]/10000))
 
 # Age ids
-# 15-24
 atla.sum124 <- summary(t(atla.frp[atl.24]/10000))
-atlm.sum124 <- summary(t(atlm.frp[atl.24]/10000))
-atlc.sum124 <- summary(t(atlc.frp[atl.24]/10000))
-atli.sum124 <- summary(t(atli.frp[atl.24]/10000))
-
-# 25-34
 atla.sum134 <- summary(t(atla.frp[atl.34]/10000))
-atlm.sum134 <- summary(t(atlm.frp[atl.34]/10000))
-atlc.sum134 <- summary(t(atlc.frp[atl.34]/10000))
-atli.sum134 <- summary(t(atli.frp[atl.34]/10000))
-
-# 35-44
 atla.sum144 <- summary(t(atla.frp[atl.44]/10000))
-atlm.sum144 <- summary(t(atlm.frp[atl.44]/10000))
-atlc.sum144 <- summary(t(atlc.frp[atl.44]/10000))
-atli.sum144 <- summary(t(atli.frp[atl.44]/10000))
-
-# 45-54
 atla.sum154 <- summary(t(atla.frp[atl.54]/10000))
-atlm.sum154 <- summary(t(atlm.frp[atl.54]/10000))
-atlc.sum154 <- summary(t(atlc.frp[atl.54]/10000))
-atli.sum154 <- summary(t(atli.frp[atl.54]/10000))
-
-# 55-64
 atla.sum164 <- summary(t(atla.frp[atl.64]/10000))
+
+# Race ids
+atla.sum1b <- summary(t(atla.frp[atl.b]/10000))
+atla.sum1w <- summary(t(atla.frp[atl.w]/10000))
+
+
+### Table 3: Main partnerships
+
+## SF
+sfm.sum1 <- summary(t(sfm.frp/10000))
+
+# Age ids
+sfm.sum124 <- summary(t(sfm.frp[sf.24]/10000))
+sfm.sum134 <- summary(t(sfm.frp[sf.34]/10000))
+sfm.sum144 <- summary(t(sfm.frp[sf.44]/10000))
+sfm.sum154 <- summary(t(sfm.frp[sf.54]/10000))
+sfm.sum164 <- summary(t(sfm.frp[sf.64]/10000))
+
+# Race ids
+sfm.sum1b <- summary(t(sfm.frp[sf.b]/10000))
+sfm.sum1w <- summary(t(sfm.frp[sf.w]/10000))
+
+## ATL
+atlm.sum1 <- summary(t(atlm.frp/10000))
+
+# Age ids
+atlm.sum124 <- summary(t(atlm.frp[atl.24]/10000))
+atlm.sum134 <- summary(t(atlm.frp[atl.34]/10000))
+atlm.sum144 <- summary(t(atlm.frp[atl.44]/10000))
+atlm.sum154 <- summary(t(atlm.frp[atl.54]/10000))
 atlm.sum164 <- summary(t(atlm.frp[atl.64]/10000))
+
+# Race ids
+atlm.sum1b <- summary(t(atlm.frp[atl.b]/10000))
+atlm.sum1w <- summary(t(atlm.frp[atl.w]/10000))
+
+
+### Table 4: Casual partnerships
+
+## SF
+sfc.sum1 <- summary(t(sfc.frp/10000))
+
+# Age ids
+sfc.sum124 <- summary(t(sfc.frp[sf.24]/10000))
+sfc.sum134 <- summary(t(sfc.frp[sf.34]/10000))
+sfc.sum144 <- summary(t(sfc.frp[sf.44]/10000))
+sfc.sum154 <- summary(t(sfc.frp[sf.54]/10000))
+sfc.sum164 <- summary(t(sfc.frp[sf.64]/10000))
+
+# Race ids
+sfc.sum1b <- summary(t(sfc.frp[sf.b]/10000))
+sfc.sum1w <- summary(t(sfc.frp[sf.w]/10000))
+
+## ATL
+atlc.sum1 <- summary(t(atlc.frp/10000))
+
+# Age ids
+atlc.sum124 <- summary(t(atlc.frp[atl.24]/10000))
+atlc.sum134 <- summary(t(atlc.frp[atl.34]/10000))
+atlc.sum144 <- summary(t(atlc.frp[atl.44]/10000))
+atlc.sum154 <- summary(t(atlc.frp[atl.54]/10000))
 atlc.sum164 <- summary(t(atlc.frp[atl.64]/10000))
+
+# Race ids
+atlc.sum1b <- summary(t(atlc.frp[atl.b]/10000))
+atlc.sum1w <- summary(t(atlc.frp[atl.w]/10000))
+
+
+### Table 5: One-Time partnerships
+
+## SF
+sfi.sum1 <- summary(t(sfi.frp/10000))
+
+# Age ids
+sfi.sum124 <- summary(t(sfi.frp[sf.24]/10000))
+sfi.sum134 <- summary(t(sfi.frp[sf.34]/10000))
+sfi.sum144 <- summary(t(sfi.frp[sf.44]/10000))
+sfi.sum154 <- summary(t(sfi.frp[sf.54]/10000))
+sfi.sum164 <- summary(t(sfi.frp[sf.64]/10000))
+
+# Race ids
+sfi.sum1b <- summary(t(sfi.frp[sf.b]/10000))
+sfi.sum1w <- summary(t(sfi.frp[sf.w]/10000))
+
+## ATL
+atli.sum1 <- summary(t(atli.frp/10000))
+
+# Age ids
+atli.sum124 <- summary(t(atli.frp[atl.24]/10000))
+atli.sum134 <- summary(t(atli.frp[atl.34]/10000))
+atli.sum144 <- summary(t(atli.frp[atl.44]/10000))
+atli.sum154 <- summary(t(atli.frp[atl.54]/10000))
 atli.sum164 <- summary(t(atli.frp[atl.64]/10000))
 
+# Race ids
+atli.sum1b <- summary(t(atli.frp[atl.b]/10000))
+atli.sum1w <- summary(t(atli.frp[atl.w]/10000))
 
-# 5.FRP Median Plots ------------------------------------------------------
 
-## All partnerships
+
+# 6.FRP Median Plots ------------------------------------------------------
+
+## All partnerships (Table 2)
 
 sfa.frp.med <- apply(sfa.frp/10000, 1, median)
 atla.frp.med <- apply(atla.frp/10000, 1, median)
@@ -376,7 +421,7 @@ legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"),
        col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
 
 
-## Main
+## Main (Table 3)
 
 sfm.frp.med <- apply(sfm.frp/10000, 1, median)
 atlm.frp.med <- apply(atlm.frp/10000, 1, median)
@@ -455,7 +500,7 @@ legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"),
        col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
 
 
-## Casual
+## Casual (Table 4)
 
 sfc.frp.med <- apply(sfc.frp/10000, 1, median)
 atlc.frp.med <- apply(atlc.frp/10000, 1, median)
@@ -534,7 +579,7 @@ legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"),
        col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
 
 
-## Inst
+## Inst (Table 5)
 
 sfi.frp.med <- apply(sfi.frp/10000, 1, median)
 atli.frp.med <- apply(atli.frp/10000, 1, median)
