@@ -1,33 +1,21 @@
 ## tsna hyak post process
 
-# 1. rename all files to have trailing zeros so they load in correct order
-#    first batch only
-fn <- list.files("data/", full.names = TRUE, pattern = "sfo.all")
+# 1. Check no missing batches
+fn <- list.files("data/", full.names = TRUE, pattern = "atl.all")
 fn
 length(fn)
 
-for (i in 1:length(fn)) {
-  load(fn[i])
-  fns <- strsplit(fn[i], "[.]")
-  fns[[1]][4] <- stringr::str_pad(fns[[1]][4], 3, pad = "0")
-  fnn <- paste(fns[[1]], collapse = ".")
-  unlink(fn[i])
-  save(df, file = fnn)
-  rm(df)
-}
+batches <- as.numeric(sapply(1:400, function(x) strsplit(fn, "[.]")[[x]][4]))
+setdiff(1:400, batches)
 
 # 2. Merge all data files in column order
-
-fn <- list.files("data/done1/", full.names = TRUE, pattern = "sfo.all")
-fn
-length(fn)
 
 load(fn[1])
 dim(df)
 tdf <- df
 for (i in 2:length(fn)) {
   load(fn[i])
-  cat("\n ", dim(df))
+  if (ncol(df) != 25) cat("\nerror in", fn[i])
   tdf <- cbind(tdf, df)
 }
 dim(tdf)
@@ -40,7 +28,7 @@ unlink(fn)
 
 # 3. Split data frames and save as list of data frames
 
-fn <- list.files("data/", full.names = TRUE, pattern = "sfo.all.1")
+fn <- list.files("data/", full.names = TRUE, pattern = "atl.all")
 fn
 
 load(fn[1])
@@ -60,8 +48,9 @@ for (i in 1:vars) {
   rows <- defineSet(batchSize, i)
   out[[i]] <- tdf[rows, ]
 }
-names(out) <- c("frp", "medtdist", "medgeod", "degree", "cumldegree", "bcent")
 names(out) <- c("frp", "medtdist", "medgeod", "degree", "cumldegree")
 str(out)
+out$frp[1:25, 1:10]
+out$cumldegree[1:25, 1:10]
 
 save(out, file = fn)

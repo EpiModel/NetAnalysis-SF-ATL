@@ -7,7 +7,7 @@
 #SBATCH --ntasks-per-node=28
 
 ## Walltime
-#SBATCH --time=24:00:00
+#SBATCH --time=12:00:00
 
 ## Memory per node
 #SBATCH --mem=100G
