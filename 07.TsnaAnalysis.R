@@ -99,35 +99,35 @@ which(!(test4_inp == test4_out))
 ## Race
 
 # Black
-sf.b <- which(get.vertex.attribute(net.sfm, "race") == "0")
-atl.b <- which(get.vertex.attribute(net.atlm, "race") == "0")
+sf.b <- which(get.vertex.attribute(net.sfm, "race") == 0)
+atl.b <- which(get.vertex.attribute(net.atlm, "race") == 0)
 
 # White
-sf.w <- which(get.vertex.attribute(net.sfm, "race") == "1")
-atl.w <- which(get.vertex.attribute(net.atlm, "race") == "1")
+sf.w <- which(get.vertex.attribute(net.sfm, "race") == 1)
+atl.w <- which(get.vertex.attribute(net.atlm, "race") == 1)
 
 
 ## Age
 
 # 15-24
-sf.24 <- which(get.vertex.attribute(net.sfm, "age.grp") == "1")
-atl.24 <- which(get.vertex.attribute(net.atlm, "age.grp") == "1")
+sf.24 <- which(get.vertex.attribute(net.sfm, "age.grp") == 1)
+atl.24 <- which(get.vertex.attribute(net.atlm, "age.grp") == 1)
 
 # 25-34
-sf.34 <- which(get.vertex.attribute(net.sfm, "age.grp") == "2")
-atl.34 <- which(get.vertex.attribute(net.atlm, "age.grp") == "2")
+sf.34 <- which(get.vertex.attribute(net.sfm, "age.grp") == 2)
+atl.34 <- which(get.vertex.attribute(net.atlm, "age.grp") == 2)
 
 # 35-44
-sf.44 <- which(get.vertex.attribute(net.sfm, "age.grp") == "3")
-atl.44 <- which(get.vertex.attribute(net.atlm, "age.grp") == "3")
+sf.44 <- which(get.vertex.attribute(net.sfm, "age.grp") == 3)
+atl.44 <- which(get.vertex.attribute(net.atlm, "age.grp") == 3)
 
 # 45-54
-sf.54 <- which(get.vertex.attribute(net.sfm, "age.grp") == "4")
-atl.54 <- which(get.vertex.attribute(net.atlm, "age.grp") == "4")
+sf.54 <- which(get.vertex.attribute(net.sfm, "age.grp") == 4)
+atl.54 <- which(get.vertex.attribute(net.atlm, "age.grp") == 4)
 
 # 55-64
-sf.64 <- which(get.vertex.attribute(net.sfm, "age.grp") == "5")
-atl.64 <- which(get.vertex.attribute(net.atlm, "age.grp") == "5")
+sf.64 <- which(get.vertex.attribute(net.sfm, "age.grp") == 5)
+atl.64 <- which(get.vertex.attribute(net.atlm, "age.grp") == 5)
 
 
 # ## Race & Age
