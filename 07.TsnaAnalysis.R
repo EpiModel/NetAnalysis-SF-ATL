@@ -218,39 +218,45 @@ atli.frp <- sf.inst$frp
 
 # 5.FRP Summary -----------------------------------------------------------
 
+# unclear how you were subsetting the numerical results below, but I set up for the 
+# four time points of interest. You should put both mean and medians in the tables
+ts <- 52*c(0.5, 1, 2, 5)
 
 ### Table 2: All partnerships
 
 ## SF
-sfa.sum1 <- summary(t(sfa.frp/10000))
+sfa.sum1 <- summary(t(sfa.frp[ts, ])/10000)
+
 
 # Age ids
-sfa.sum124 <- summary(t(sfa.frp[sf.24]/10000))
-sfa.sum134 <- summary(t(sfa.frp[sf.34]/10000))
-sfa.sum144 <- summary(t(sfa.frp[sf.44]/10000))
-sfa.sum154 <- summary(t(sfa.frp[sf.54]/10000))
-sfa.sum164 <- summary(t(sfa.frp[sf.64]/10000))
+sfa.sum124 <- summary(t(sfa.frp[ts, sf.24]/10000))
+sfa.sum134 <- summary(t(sfa.frp[ts, sf.34]/10000))
+sfa.sum144 <- summary(t(sfa.frp[ts, sf.44]/10000))
+sfa.sum154 <- summary(t(sfa.frp[ts, sf.54]/10000))
+sfa.sum164 <- summary(t(sfa.frp[ts, sf.64]/10000))
 
 # Race ids
-sfa.sum1b <- summary(t(sfa.frp[sf.b]/10000))
-sfa.sum1w <- summary(t(sfa.frp[sf.w]/10000))
+sfa.sum1b <- summary(t(sfa.frp[ts, sf.b]/10000))
+sfa.sum1w <- summary(t(sfa.frp[ts, sf.w]/10000))
 
 ## ATL
-atla.sum1 <- summary(t(atla.frp/10000))
+atla.sum1 <- summary(t(atla.frp[ts,] /10000))
 
 # Age ids
-atla.sum124 <- summary(t(atla.frp[atl.24]/10000))
-atla.sum134 <- summary(t(atla.frp[atl.34]/10000))
-atla.sum144 <- summary(t(atla.frp[atl.44]/10000))
-atla.sum154 <- summary(t(atla.frp[atl.54]/10000))
-atla.sum164 <- summary(t(atla.frp[atl.64]/10000))
+atla.sum124 <- summary(t(atla.frp[ts, atl.24]/10000))
+atla.sum134 <- summary(t(atla.frp[ts, atl.34]/10000))
+atla.sum144 <- summary(t(atla.frp[ts, atl.44]/10000))
+atla.sum154 <- summary(t(atla.frp[ts, atl.54]/10000))
+atla.sum164 <- summary(t(atla.frp[ts, atl.64]/10000))
 
 # Race ids
-atla.sum1b <- summary(t(atla.frp[atl.b]/10000))
-atla.sum1w <- summary(t(atla.frp[atl.w]/10000))
+atla.sum1b <- summary(t(atla.frp[ts, atl.b]/10000))
+atla.sum1w <- summary(t(atla.frp[ts, atl.w]/10000))
 
 
 ### Table 3: Main partnerships
+
+# EA continue formatting as above
 
 ## SF
 sfm.sum1 <- summary(t(sfm.frp/10000))
@@ -348,8 +354,8 @@ atli.sum1w <- summary(t(atli.frp[atl.w]/10000))
 
 ## All partnerships (Table 2)
 
-sfa.frp.med <- apply(sfa.frp/10000, 1, median)
-atla.frp.med <- apply(atla.frp/10000, 1, median)
+sfa.frp.med <- apply(sfa.frp, 1, mean)/10000
+atla.frp.med <- apply(atla.frp, 1, mean)/10000
 
 plot(x = 1:260, y = sfa.frp.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable")
@@ -360,77 +366,80 @@ legend("bottomright", legend = c("San Francisco", "Atlanta"),
 
 # SF - Race ids
 
-sfa.b.med <- apply(sfa.frp[sf.b]/10000, 1, median)
-sfa.w.med <- apply(sfa.frp[sf.w]/10000, 1, median)
+sfa.b.med <- apply(sfa.frp[, sf.b], 1, mean)/10000
+sfa.w.med <- apply(sfa.frp[, sf.w], 1, mean)/10000
+
+atla.b.med <- apply(atla.frp[, atl.b], 1, mean)/10000
+atla.w.med <- apply(atla.frp[, atl.w], 1, mean)/10000
 
 plot(x = 1:260, y = sfa.b.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable")
 lines(x = 1:260, y = sfa.w.med, type = "l", col = alpha("blue", 0.5), 
       lwd = 2)
+lines(x = 1:260, y = atla.b.med, type = "l", col = alpha("yellow", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atla.w.med, type = "l", col = alpha("green", 0.5), 
+      lwd = 2)
+# fix legend
 legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), 
        lty = 1)
 
+
 # SF - Age ids
 
-sfa.24.med <- apply(sfa.frp[sf.24]/10000, 1, median)
-sfa.34.med <- apply(sfa.frp[sf.34]/10000, 1, median)
-sfa.44.med <- apply(sfa.frp[sf.44]/10000, 1, median)
-sfa.54.med <- apply(sfa.frp[sf.54]/10000, 1, median)
-sfa.64.med <- apply(sfa.frp[sf.64]/10000, 1, median)
+pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
 
-plot(x = 1:260, y = sfa.24.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
+sfa.24.med <- apply(sfa.frp[, sf.24], 1, mean)/10000
+sfa.34.med <- apply(sfa.frp[, sf.34], 1, mean)/10000
+sfa.44.med <- apply(sfa.frp[, sf.44], 1, mean)/10000
+sfa.54.med <- apply(sfa.frp[, sf.54], 1, mean)/10000
+sfa.64.med <- apply(sfa.frp[, sf.64], 1, mean)/10000
+
+par(mfrow = c(1,2))
+plot(x = 1:260, y = sfa.24.med, type = "l", col = pal[1], lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable ")
-lines(x = 1:260, y = sfa.34.med, type = "l", col = alpha("blue", 0.7), 
+lines(x = 1:260, y = sfa.34.med, type = "l", col = pal[2], 
       lwd = 2)
-lines(x = 1:260, y = sfa.44.med, type = "l", col = alpha("yellow", 0.7), 
+lines(x = 1:260, y = sfa.44.med, type = "l", col = pal[3], 
       lwd = 2)
-lines(x = 1:260, y = sfa.54.med, type = "l", col = alpha("green", 0.7), 
+lines(x = 1:260, y = sfa.54.med, type = "l", col = pal[4], 
       lwd = 2)
-lines(x = 1:260, y = sfa.64.med, type = "l", col = alpha("purple", 0.7), 
+lines(x = 1:260, y = sfa.64.med, type = "l", col = pal[5], 
       lwd = 2)
 legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
-       col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
+       col = pal, lty = 1)
 
 # ATL - Race ids
 
-# Median
-atla.b.med <- apply(atla.frp[atl.b]/10000, 1, median)
-atla.w.med <- apply(atla.frp[atl.w]/10000, 1, median)
-
-plot(x = 1:260, y = atla.b.med, type = "l", col = alpha("red", 0.7),
-     lwd = 2, xlab = "Week", ylab = "Proportion Reachable")
-lines(x = 1:260, y = atla.w.med, type = "l", col = alpha("blue", 0.7), 
-      lwd = 2)
-legend("bottomright", legend = c("Black", "White"), 
-       col = c("red", "blue"), lty = 1)
 
 # ATL - Age ids
 
-atla.24.med <- apply(atla.frp[atl.24]/10000, 1, median)
-atla.34.med <- apply(atla.frp[atl.34]/10000, 1, median)
-atla.44.med <- apply(atla.frp[atl.44]/10000, 1, median)
-atla.54.med <- apply(atla.frp[atl.54]/10000, 1, median)
-atla.64.med <- apply(atla.frp[atl.64]/10000, 1, median)
+atla.24.med <- apply(atla.frp[, atl.24], 1, mean)/10000
+atla.34.med <- apply(atla.frp[, atl.34], 1, mean)/10000
+atla.44.med <- apply(atla.frp[, atl.44], 1, mean)/10000
+atla.54.med <- apply(atla.frp[, atl.54], 1, mean)/10000
+atla.64.med <- apply(atla.frp[, atl.64], 1, mean)/10000
 
-plot(x = 1:260, y = atla.24.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
+plot(x = 1:260, y = atla.24.med, type = "l", col = pal[1], lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable ")
-lines(x = 1:260, y = atla.34.med, type = "l", col = alpha("blue", 0.7), 
+lines(x = 1:260, y = atla.34.med, type = "l", col = pal[2], 
       lwd = 2)
-lines(x = 1:260, y = atla.44.med, type = "l", col = alpha("yellow", 0.7), 
+lines(x = 1:260, y = atla.44.med, type = "l", col = pal[3], 
       lwd = 2)
-lines(x = 1:260, y = atla.54.med, type = "l", col = alpha("green", 0.7), 
+lines(x = 1:260, y = atla.54.med, type = "l", col = pal[4], 
       lwd = 2)
-lines(x = 1:260, y = atla.64.med, type = "l", col = alpha("purple", 0.7), 
+lines(x = 1:260, y = atla.64.med, type = "l", col = pal[5], 
       lwd = 2)
 legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
-       col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
+       col = pal, lty = 1)
 
 
 ## Main (Table 3)
 
-sfm.frp.med <- apply(sfm.frp/10000, 1, median)
-atlm.frp.med <- apply(atlm.frp/10000, 1, median)
+sfm.frp.med <- apply(sfm.frp, 1, mean)/10000
+atlm.frp.med <- apply(atlm.frp, 1, mean)/10000
 
+par(mfrow = c(1,1))
 plot(x = 1:260, y = sfm.frp.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable")
 lines(x = 1:260, y = atlm.frp.med, type = "l", col = alpha("blue", 0.7), 
@@ -440,8 +449,8 @@ legend("bottomright", legend = c("San Francisco", "Atlanta"),
 
 # SF - Race ids
 
-sfm.b.med <- apply(sfm.frp[sf.b]/10000, 1, median)
-sfm.w.med <- apply(sfm.frp[sf.w]/10000, 1, median)
+sfm.b.med <- apply(sfm.frp[, sf.b], 1, mean)/10000
+sfm.w.med <- apply(sfm.frp[, sf.w], 1, mean)/10000
 
 plot(x = 1:260, y = sfm.b.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable")
@@ -450,65 +459,73 @@ lines(x = 1:260, y = sfm.w.med, type = "l", col = alpha("blue", 0.5),
 legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), 
        lty = 1)
 
-# SF - Age ids
+# ATL - Race ids (add race to same plot, like above)
 
-sfm.24.med <- apply(sfm.frp[sf.24]/10000, 1, median)
-sfm.34.med <- apply(sfm.frp[sf.34]/10000, 1, median)
-sfm.44.med <- apply(sfm.frp[sf.44]/10000, 1, median)
-sfm.54.med <- apply(sfm.frp[sf.54]/10000, 1, median)
-sfm.64.med <- apply(sfm.frp[sf.64]/10000, 1, median)
+atlm.b.med <- apply(atlm.frp[, atl.b], 1, mean)/10000
+atlm.w.med <- apply(atlm.frp[, atl.w], 1, mean)/10000
 
-plot(x = 1:260, y = sfm.24.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable ")
-lines(x = 1:260, y = sfm.34.med, type = "l", col = alpha("blue", 0.7), 
-      lwd = 2)
-lines(x = 1:260, y = sfm.44.med, type = "l", col = alpha("yellow", 0.7), 
-      lwd = 2)
-lines(x = 1:260, y = sfm.54.med, type = "l", col = alpha("green", 0.7), 
-      lwd = 2)
-lines(x = 1:260, y = sfm.64.med, type = "l", col = alpha("purple", 0.7), 
-      lwd = 2)
-legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
-       col = c("red", "blue", "yellow", "green", "purple"), lty = 1, cex = 0.8)
-
-# ATL - Race ids
-
-atlm.b.med <- apply(atlm.frp[atl.b]/10000, 1, median)
-atlm.w.med <- apply(atlm.frp[atl.w]/10000, 1, median)
-
-plot(x = 1:260, y = atlm.b.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
+lines(x = 1:260, y = atlm.b.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable")
 lines(x = 1:260, y = atlm.w.med, type = "l", col = alpha("blue", 0.5), 
       lwd = 2)
 legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), 
        lty = 1)
 
-# ATL - Age ids
 
-atlm.24.med <- apply(atlm.frp[atl.24]/10000, 1, median)
-atlm.34.med <- apply(atlm.frp[atl.34]/10000, 1, median)
-atlm.44.med <- apply(atlm.frp[atl.44]/10000, 1, median)
-atlm.54.med <- apply(atlm.frp[atl.54]/10000, 1, median)
-atlm.64.med <- apply(atlm.frp[atl.64]/10000, 1, median)
+# SF - Age ids
 
-plot(x = 1:260, y = atlm.24.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
+sfm.24.med <- apply(sfm.frp[, sf.24], 1, mean)/10000
+sfm.34.med <- apply(sfm.frp[, sf.34], 1, mean)/10000
+sfm.44.med <- apply(sfm.frp[, sf.44], 1, mean)/10000
+sfm.54.med <- apply(sfm.frp[, sf.54], 1, mean)/10000
+sfm.64.med <- apply(sfm.frp[, sf.64], 1, mean)/10000
+
+par(mfrow = c(1,2))
+plot(x = 1:260, y = sfm.24.med, type = "l", col = pal[1], lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable ")
-lines(x = 1:260, y = atlm.34.med, type = "l", col = alpha("blue", 0.7), 
+lines(x = 1:260, y = sfm.34.med, type = "l", col = pal[2], 
       lwd = 2)
-lines(x = 1:260, y = atlm.44.med, type = "l", col = alpha("yellow", 0.7), 
+lines(x = 1:260, y = sfm.44.med, type = "l", col = pal[3], 
       lwd = 2)
-lines(x = 1:260, y = atlm.54.med, type = "l", col = alpha("green", 0.7), 
+lines(x = 1:260, y = sfm.54.med, type = "l", col = pal[4], 
       lwd = 2)
-lines(x = 1:260, y = atlm.64.med, type = "l", col = alpha("purple", 0.7), 
+lines(x = 1:260, y = sfm.64.med, type = "l", col = pal[5], 
       lwd = 2)
 legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
-       col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
+       col = pal, lty = 1, cex = 0.8)
+
+
+# ATL - Age ids
+
+atlm.24.med <- apply(atlm.frp[, atl.24], 1, mean)/10000
+atlm.34.med <- apply(atlm.frp[, atl.34], 1, mean)/10000
+atlm.44.med <- apply(atlm.frp[, atl.44], 1, mean)/10000
+atlm.54.med <- apply(atlm.frp[, atl.54], 1, mean)/10000
+atlm.64.med <- apply(atlm.frp[, atl.64], 1, mean)/10000
+
+plot(x = 1:260, y = atlm.24.med, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable ")
+lines(x = 1:260, y = atlm.34.med, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.44.med, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.54.med, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.64.med, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1)
+
+# experiment with box plots
+df <- t(atlm.frp[52*c(0.5, 1, 2, 4, 5), atl.24])
+boxplot(df)
+boxplot(df, outline = FALSE)
 
 
 ## Casual (Table 4)
 
-sfc.frp.med <- apply(sfc.frp/10000, 1, median)
-atlc.frp.med <- apply(atlc.frp/10000, 1, median)
+sfc.frp.med <- apply(sfc.frp, 1, mean)/10000
+atlc.frp.med <- apply(atlc.frp, 1, mean)/10000
 
 plot(x = 1:260, y = sfc.frp.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable")
@@ -516,6 +533,14 @@ lines(x = 1:260, y = atlc.frp.med, type = "l", col = alpha("blue", 0.7),
       lwd = 2)
 legend("topleft", legend = c("San Francisco", "Atlanta"), 
        col = c("red", "blue"), lty = 1)
+
+atlc.frp[1:52, 1:25]
+apply(atlc.frp, 1, mean)
+
+
+
+# EA: continue conversion from here
+
 
 # SF - Race ids
 
