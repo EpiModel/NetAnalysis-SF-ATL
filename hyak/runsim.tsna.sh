@@ -1,29 +1,16 @@
 #!/bin/bash
 
-## Job Name
-#SBATCH --job-name=TSNA
-
 ## Nodes
 #SBATCH --nodes=1
 
 ## Tasks per node
-#SBATCH --ntasks-per-node=16
+#SBATCH --ntasks-per-node=28
 
 ## Walltime
-#SBATCH --time=24:00:00
-
-## E-mail notification
-#SBATCH --mail-type=FAIL
-#SBATCH --mail-user=sjennes@emory.edu
+#SBATCH --time=12:00:00
 
 ## Memory per node
-#SBATCH --mem=58G
+#SBATCH --mem=100G
 
-## Specify the working directory
-#SBATCH --workdir=/suppscr/csde/sjenness/netparam
-
-. /suppscr/csde/sjenness/spack/share/spack/setup-env.sh
-module load gcc-8.1.0-gcc-4.4.7-eaajvcy
-module load r-3.5.1-gcc-8.1.0-unb32sy
-
+source ~/loadR.sh
 Rscript 06.tsna.R

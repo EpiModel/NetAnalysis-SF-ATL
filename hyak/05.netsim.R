@@ -17,9 +17,8 @@ if (city == "A") {
   city_name <- "San Francisco"
 }
 
-
 ## Load Data ##
-fn <- paste("input/artnet.NetEst", gsub(" ", "", city_name), "rda", sep = ".")
+fn <- paste("data/artnet.NetEst", gsub(" ", "", city_name), "rda", sep = ".")
 est <- readRDS(file = fn)
 
 
@@ -38,6 +37,8 @@ sim_network <- function(est, nsteps = 52*5) {
   # Dynamic time loop
   for (at in 1:nsteps) {
     # Main #
+    deg_dist_casl <- as.numeric(summary(nw[[2]] ~ sociality(base = 0), at = at))
+    nw[[1]] <- set.vertex.attribute(nw[[1]], attrname = "deg.casl", value = deg_dist_casl)
     nw[[1]] <- suppressWarnings(simulate(nw[[1]],
                         formation = est[[1]]$formation,
                         dissolution = est[[1]]$coef.diss$dissolution,
@@ -51,7 +52,6 @@ sim_network <- function(est, nsteps = 52*5) {
 
     deg_dist_main <- as.numeric(summary(nw[[1]] ~ sociality(base = 0), at = at))
     nw[[2]] <- set.vertex.attribute(nw[[2]], attrname = "deg.main", value = deg_dist_main)
-    nw[[3]] <- set.vertex.attribute(nw[[3]], attrname = "deg.main", value = deg_dist_main)
 
     # Casual #
     nw[[2]] <- suppressWarnings(simulate(nw[[2]],
@@ -65,9 +65,10 @@ sim_network <- function(est, nsteps = 52*5) {
                         monitor = "all",
                         output = "networkDynamic"))
 
+    deg_dist_main <- as.numeric(summary(nw[[1]] ~ sociality(base = 0), at = at))
     deg_dist_casl <- as.numeric(summary(nw[[2]] ~ sociality(base = 0), at = at))
-    nw[[1]] <- set.vertex.attribute(nw[[1]], attrname = "deg.pers", value = deg_dist_casl)
-    nw[[3]] <- set.vertex.attribute(nw[[3]], attrname = "deg.pers", value = deg_dist_casl)
+    deg_dist_tot <- pmin(deg_dist_main + deg_dist_casl, 3)
+    nw[[3]] <- set.vertex.attribute(nw[[3]], attrname = "deg.tot", value = deg_dist_tot)
 
     # One-Off #
     nw[[3]] <- suppressWarnings(simulate(nw[[3]],
