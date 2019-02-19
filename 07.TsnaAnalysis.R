@@ -197,24 +197,23 @@ atl.64 <- which(get.vertex.attribute(net.atlm, "age.grp") == 5)
 
 # 4.FRP Analysis ----------------------------------------------------------
 
-
 ## Subset df to outcome of interest
 
 # All partnerships
-sfa.frp <- subset(sf.all, select = frp.1:frp.10000)
-atla.frp <- subset(atl.all, select = frp.1:frp.10000)
+sfa.frp <- sf.all$frp
+atla.frp <- atl.all$frp
 
 # Main
-sfm.frp <- subset(sf.main, select = frp.1:frp.10000)
-atlm.frp <- subset(atl.main, select = frp.1:frp.10000)
+sfm.frp <- sf.main$frp
+atlm.frp <- atl.main$frp
 
 # Casual
-sfc.frp <- subset(sf.casl, select = frp.1:frp.10000)
-atlc.frp <- subset(atl.casl, select = frp.1:frp.10000)
+sfc.frp <- sf.casl$frp
+atlc.frp <- atl.casl$frp
 
 # Inst
-sfi.frp <- subset(sf.inst, select = frp.1:frp.10000)
-atli.frp <- subset(atl.inst, select = frp.1:frp.10000)
+sfi.frp <- sf.inst$frp
+atli.frp <- sf.inst$frp
 
 
 # 5.FRP Summary -----------------------------------------------------------
