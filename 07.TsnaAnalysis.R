@@ -63,28 +63,34 @@ atl.inst <- load_data("DataV2/atl.inst.1.rda")
 
 # 2.Validation ------------------------------------------------------------
 
+test_ts <- 260
 
 ## Checking degree in simulations
-EpiModel::get_degree(network.collapse(net.sfm, at = 1))
-EpiModel::get_degree(network.collapse(net.sfc, at = 1))
-EpiModel::get_degree(network.collapse(net.sfi, at = 1))
-EpiModel::get_degree(network.collapse(net.atlm, at = 1))
-EpiModel::get_degree(network.collapse(net.atlc, at = 1))
-EpiModel::get_degree(network.collapse(net.atli, at = 1))
+test1_inp <- EpiModel::get_degree(network.collapse(net.sfm, at = test_ts))
+test2_inp <- EpiModel::get_degree(network.collapse(net.sfc, at = test_ts))
+test3_inp <- EpiModel::get_degree(network.collapse(net.sfi, at = test_ts))
+test4_inp <- EpiModel::get_degree(network.collapse(net.atlm, at = test_ts))
+test5_inp <- EpiModel::get_degree(network.collapse(net.atlc, at = test_ts))
+test6_inp <- EpiModel::get_degree(network.collapse(net.atli, at = test_ts))
 
 ## Checking degree in outcome data
+test1_out <- sf.main$degree[test_ts, ]
+which(!(test1_inp == test1_out))
 
-# Main
-test <- subset(sf.main, select = degree.1:degree.10000)
-test <- subset(atl.main, select = degree.1:degree.10000)
+test2_out <- sf.casl$degree[test_ts, ]
+which(!(test2_inp == test2_out))
 
-# Casual
-test <- subset(sf.casl, select = degree.1:degree.10000)
-test <- subset(atl.casl, select = degree.1:degree.10000)
+test3_out <- sf.inst$degree[test_ts, ]
+which(!(test3_inp == test3_out))
 
-# Instantaneous
-test <- subset(sf.inst, select = degree.1:degree.10000)
-test <- subset(atl.inst, select = degree.1:degree.10000)
+test4_out <- atl.main$degree[test_ts, ]
+which(!(test4_inp == test4_out))
+
+test5_out <- atl.casl$degree[test_ts, ]
+which(!(test4_inp == test4_out))
+
+test6_out <- atl.inst$degree[test_ts, ]
+which(!(test4_inp == test4_out))
 
 
 
