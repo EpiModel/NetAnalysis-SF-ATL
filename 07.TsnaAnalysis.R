@@ -15,8 +15,8 @@ set.seed(803)
 
 ## Read in sims 
 
-sim.sf <- readRDS("artnet.NetSim.SanFrancisco.rda")
-sim.atl <- readRDS("artnet.NetSim.Atlanta.rda")
+sim.sf <- readRDS("DataV2/artnet.NetSim.SanFrancisco.rda")
+sim.atl <- readRDS("DataV2/artnet.NetSim.Atlanta.rda")
 
 ## Extract each partner type network
 
@@ -40,24 +40,24 @@ net.atli <- sim.atl[[3]] # inst
 load_data <- function(file) {
   x <- load(file = file)
   x <- out
-  x <- as.data.frame(x)
+  # x <- as.data.frame(x)
 }
 
 # All partnership types
-sf.all <- load_data("sfo.all.1.rda")
-atl.all <- load_data("atl.all.1.rda")
+sf.all <- load_data("DataV2/sfo.all.1.rda")
+atl.all <- load_data("DataV2/atl.all.1.rda")
 
 # Main
-sf.main <- load_data("sfo.main.1.rda")
-atl.main <- load_data("atl.main.1.rda")
+sf.main <- load_data("DataV2/sfo.main.1.rda")
+atl.main <- load_data("DataV2/atl.main.1.rda")
 
 # Casual
-sf.casl <- load_data("sfo.casl.1.rda")
-atl.casl <- load_data("atl.casl.1.rda")
+sf.casl <- load_data("DataV2/sfo.casl.1.rda")
+atl.casl <- load_data("DataV2/atl.casl.1.rda")
 
 # Inst
-sf.inst <- load_data("sfo.inst.1.rda")
-atl.inst <- load_data("atl.inst.1.rda")
+sf.inst <- load_data("DataV2/sfo.inst.1.rda")
+atl.inst <- load_data("DataV2/atl.inst.1.rda")
 
 
 
