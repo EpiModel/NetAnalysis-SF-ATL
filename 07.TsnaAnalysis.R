@@ -222,36 +222,44 @@ atli.frp <- sf.inst$frp
 # four time points of interest. You should put both mean and medians in the tables
 ts <- 52*c(0.5, 1, 2, 5)
 
+# summary_data <- function(df, ts, ids){
+#   summary <- summary(t(df[ts, ids]))
+#   sd <- sd(df[ts, ])
+#   return(c(summary, sd))
+# }
+
+# test <- summary_data(sfa.frp, ts, sf.24)
+
 ### Table 2: All partnerships
 
 ## SF
-sfa.sum1 <- summary(t(sfa.frp[ts, ])/10000)
-
+sfa.sum1 <- summary(t(sfa.frp[ts, ]))
+# sd(sfa.frp[ts, ])
 
 # Age ids
-sfa.sum124 <- summary(t(sfa.frp[ts, sf.24]/10000))
-sfa.sum134 <- summary(t(sfa.frp[ts, sf.34]/10000))
-sfa.sum144 <- summary(t(sfa.frp[ts, sf.44]/10000))
-sfa.sum154 <- summary(t(sfa.frp[ts, sf.54]/10000))
-sfa.sum164 <- summary(t(sfa.frp[ts, sf.64]/10000))
+sfa.sum124 <- summary(t(sfa.frp[ts, sf.24]))
+sfa.sum134 <- summary(t(sfa.frp[ts, sf.34]))
+sfa.sum144 <- summary(t(sfa.frp[ts, sf.44]))
+sfa.sum154 <- summary(t(sfa.frp[ts, sf.54]))
+sfa.sum164 <- summary(t(sfa.frp[ts, sf.64]))
 
 # Race ids
-sfa.sum1b <- summary(t(sfa.frp[ts, sf.b]/10000))
-sfa.sum1w <- summary(t(sfa.frp[ts, sf.w]/10000))
+sfa.sum1b <- summary(t(sfa.frp[ts, sf.b]))
+sfa.sum1w <- summary(t(sfa.frp[ts, sf.w]))
 
 ## ATL
-atla.sum1 <- summary(t(atla.frp[ts,] /10000))
+atla.sum1 <- summary(t(atla.frp[ts,]))
 
 # Age ids
-atla.sum124 <- summary(t(atla.frp[ts, atl.24]/10000))
-atla.sum134 <- summary(t(atla.frp[ts, atl.34]/10000))
-atla.sum144 <- summary(t(atla.frp[ts, atl.44]/10000))
-atla.sum154 <- summary(t(atla.frp[ts, atl.54]/10000))
-atla.sum164 <- summary(t(atla.frp[ts, atl.64]/10000))
+atla.sum124 <- summary(t(atla.frp[ts, atl.24]))
+atla.sum134 <- summary(t(atla.frp[ts, atl.34]))
+atla.sum144 <- summary(t(atla.frp[ts, atl.44]))
+atla.sum154 <- summary(t(atla.frp[ts, atl.54]))
+atla.sum164 <- summary(t(atla.frp[ts, atl.64]))
 
 # Race ids
-atla.sum1b <- summary(t(atla.frp[ts, atl.b]/10000))
-atla.sum1w <- summary(t(atla.frp[ts, atl.w]/10000))
+atla.sum1b <- summary(t(atla.frp[ts, atl.b]))
+atla.sum1w <- summary(t(atla.frp[ts, atl.w]))
 
 
 ### Table 3: Main partnerships
@@ -259,80 +267,80 @@ atla.sum1w <- summary(t(atla.frp[ts, atl.w]/10000))
 # EA continue formatting as above
 
 ## SF
-sfm.sum1 <- summary(t(sfm.frp/10000))
+sfm.sum1 <- summary(t(sfm.frp[ts, ]))
 
 # Age ids
-sfm.sum124 <- summary(t(sfm.frp[sf.24]/10000))
-sfm.sum134 <- summary(t(sfm.frp[sf.34]/10000))
-sfm.sum144 <- summary(t(sfm.frp[sf.44]/10000))
-sfm.sum154 <- summary(t(sfm.frp[sf.54]/10000))
-sfm.sum164 <- summary(t(sfm.frp[sf.64]/10000))
+sfm.sum124 <- summary(t(sfm.frp[ts, sf.24]))
+sfm.sum134 <- summary(t(sfm.frp[ts, sf.34]))
+sfm.sum144 <- summary(t(sfm.frp[ts, sf.44]))
+sfm.sum154 <- summary(t(sfm.frp[ts, sf.54]))
+sfm.sum164 <- summary(t(sfm.frp[ts, sf.64]))
 
 # Race ids
-sfm.sum1b <- summary(t(sfm.frp[sf.b]/10000))
-sfm.sum1w <- summary(t(sfm.frp[sf.w]/10000))
+sfm.sum1b <- summary(t(sfm.frp[ts, sf.b]))
+sfm.sum1w <- summary(t(sfm.frp[ts, sf.w]))
 
 ## ATL
-atlm.sum1 <- summary(t(atlm.frp/10000))
+atlm.sum1 <- summary(t(atlm.frp[ts, ]))
 
 # Age ids
-atlm.sum124 <- summary(t(atlm.frp[atl.24]/10000))
-atlm.sum134 <- summary(t(atlm.frp[atl.34]/10000))
-atlm.sum144 <- summary(t(atlm.frp[atl.44]/10000))
-atlm.sum154 <- summary(t(atlm.frp[atl.54]/10000))
-atlm.sum164 <- summary(t(atlm.frp[atl.64]/10000))
+atlm.sum124 <- summary(t(atlm.frp[ts, atl.24]))
+atlm.sum134 <- summary(t(atlm.frp[ts, atl.34]))
+atlm.sum144 <- summary(t(atlm.frp[ts, atl.44]))
+atlm.sum154 <- summary(t(atlm.frp[ts, atl.54]))
+atlm.sum164 <- summary(t(atlm.frp[ts, atl.64]))
 
 # Race ids
-atlm.sum1b <- summary(t(atlm.frp[atl.b]/10000))
-atlm.sum1w <- summary(t(atlm.frp[atl.w]/10000))
+atlm.sum1b <- summary(t(atlm.frp[ts, atl.b]))
+atlm.sum1w <- summary(t(atlm.frp[ts, atl.w]))
 
 
 ### Table 4: Casual partnerships
 
 ## SF
-sfc.sum1 <- summary(t(sfc.frp/10000))
+sfc.sum1 <- summary(t(sfc.frp[ts, ]))
 
 # Age ids
-sfc.sum124 <- summary(t(sfc.frp[sf.24]/10000))
-sfc.sum134 <- summary(t(sfc.frp[sf.34]/10000))
-sfc.sum144 <- summary(t(sfc.frp[sf.44]/10000))
-sfc.sum154 <- summary(t(sfc.frp[sf.54]/10000))
-sfc.sum164 <- summary(t(sfc.frp[sf.64]/10000))
+sfc.sum124 <- summary(t(sfc.frp[ts, sf.24]))
+sfc.sum134 <- summary(t(sfc.frp[ts, sf.34]))
+sfc.sum144 <- summary(t(sfc.frp[ts, sf.44]))
+sfc.sum154 <- summary(t(sfc.frp[ts, sf.54]))
+sfc.sum164 <- summary(t(sfc.frp[ts, sf.64]))
 
 # Race ids
-sfc.sum1b <- summary(t(sfc.frp[sf.b]/10000))
-sfc.sum1w <- summary(t(sfc.frp[sf.w]/10000))
+sfc.sum1b <- summary(t(sfc.frp[ts, sf.b]))
+sfc.sum1w <- summary(t(sfc.frp[ts, sf.w]))
 
 ## ATL
-atlc.sum1 <- summary(t(atlc.frp/10000))
+atlc.sum1 <- summary(t(atlc.frp[ts, ]))
 
 # Age ids
-atlc.sum124 <- summary(t(atlc.frp[atl.24]/10000))
-atlc.sum134 <- summary(t(atlc.frp[atl.34]/10000))
-atlc.sum144 <- summary(t(atlc.frp[atl.44]/10000))
-atlc.sum154 <- summary(t(atlc.frp[atl.54]/10000))
-atlc.sum164 <- summary(t(atlc.frp[atl.64]/10000))
+atlc.sum124 <- summary(t(atlc.frp[ts, atl.24]))
+atlc.sum134 <- summary(t(atlc.frp[ts, atl.34]))
+atlc.sum144 <- summary(t(atlc.frp[ts, atl.44]))
+atlc.sum154 <- summary(t(atlc.frp[ts, atl.54]))
+atlc.sum164 <- summary(t(atlc.frp[ts, atl.64]))
 
 # Race ids
-atlc.sum1b <- summary(t(atlc.frp[atl.b]/10000))
-atlc.sum1w <- summary(t(atlc.frp[atl.w]/10000))
+atlc.sum1b <- summary(t(atlc.frp[ts, atl.b]))
+atlc.sum1w <- summary(t(atlc.frp[ts, atl.w]))
 
 
 ### Table 5: One-Time partnerships
 
 ## SF
-sfi.sum1 <- summary(t(sfi.frp/10000))
+sfi.sum1 <- summary(t(sfi.frp[ts, ]))
 
 # Age ids
-sfi.sum124 <- summary(t(sfi.frp[sf.24]/10000))
-sfi.sum134 <- summary(t(sfi.frp[sf.34]/10000))
-sfi.sum144 <- summary(t(sfi.frp[sf.44]/10000))
-sfi.sum154 <- summary(t(sfi.frp[sf.54]/10000))
-sfi.sum164 <- summary(t(sfi.frp[sf.64]/10000))
+sfi.sum124 <- summary(t(sfi.frp[ts, sf.24]))
+sfi.sum134 <- summary(t(sfi.frp[ts, sf.34]))
+sfi.sum144 <- summary(t(sfi.frp[ts, sf.44]))
+sfi.sum154 <- summary(t(sfi.frp[ts, sf.54]))
+sfi.sum164 <- summary(t(sfi.frp[ts, sf.64]))
 
 # Race ids
-sfi.sum1b <- summary(t(sfi.frp[sf.b]/10000))
-sfi.sum1w <- summary(t(sfi.frp[sf.w]/10000))
+sfi.sum1b <- summary(t(sfi.frp[ts, sf.b]))
+sfi.sum1w <- summary(t(sfi.frp[ts, sf.w]))
 
 ## ATL
 atli.sum1 <- summary(t(atli.frp/10000))
