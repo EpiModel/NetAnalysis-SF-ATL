@@ -40,7 +40,6 @@ net.atli <- sim.atl[[3]] # inst
 load_data <- function(file) {
   x <- load(file = file)
   x <- out
-  # x <- as.data.frame(x)
 }
 
 # All partnership types
@@ -213,13 +212,12 @@ atlc.frp <- atl.casl$frp
 
 # Inst
 sfi.frp <- sf.inst$frp
-atli.frp <- sf.inst$frp
+atli.frp <- atl.inst$frp
 
 
 # 5.FRP Summary -----------------------------------------------------------
 
-# unclear how you were subsetting the numerical results below, but I set up for the 
-# four time points of interest. You should put both mean and medians in the tables
+# Time steps: 6 months, 1 year, 2 years, 5 years
 ts <- 52*c(0.5, 1, 2, 5)
 
 # summary_data <- function(df, ts, ids){
@@ -343,18 +341,18 @@ sfi.sum1b <- summary(t(sfi.frp[ts, sf.b]))
 sfi.sum1w <- summary(t(sfi.frp[ts, sf.w]))
 
 ## ATL
-atli.sum1 <- summary(t(atli.frp/10000))
+atli.sum1 <- summary(t(atli.frp[ts, ]))
 
 # Age ids
-atli.sum124 <- summary(t(atli.frp[atl.24]/10000))
-atli.sum134 <- summary(t(atli.frp[atl.34]/10000))
-atli.sum144 <- summary(t(atli.frp[atl.44]/10000))
-atli.sum154 <- summary(t(atli.frp[atl.54]/10000))
-atli.sum164 <- summary(t(atli.frp[atl.64]/10000))
+atli.sum124 <- summary(t(atli.frp[ts, atl.24]))
+atli.sum134 <- summary(t(atli.frp[ts, atl.34]))
+atli.sum144 <- summary(t(atli.frp[ts, atl.44]))
+atli.sum154 <- summary(t(atli.frp[ts, atl.54]))
+atli.sum164 <- summary(t(atli.frp[ts, atl.64]))
 
 # Race ids
-atli.sum1b <- summary(t(atli.frp[atl.b]/10000))
-atli.sum1w <- summary(t(atli.frp[atl.w]/10000))
+atli.sum1b <- summary(t(atli.frp[ts, atl.b]))
+atli.sum1w <- summary(t(atli.frp[ts, atl.w]))
 
 
 
