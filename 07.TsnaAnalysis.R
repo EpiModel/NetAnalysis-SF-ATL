@@ -402,6 +402,12 @@ sfa.44.av <- apply(sfa.frp[, sf.44], 1, mean)/10000
 sfa.54.av <- apply(sfa.frp[, sf.54], 1, mean)/10000
 sfa.64.av <- apply(sfa.frp[, sf.64], 1, mean)/10000
 
+atla.24.av <- apply(atla.frp[, atl.24], 1, mean)/10000
+atla.34.av <- apply(atla.frp[, atl.34], 1, mean)/10000
+atla.44.av <- apply(atla.frp[, atl.44], 1, mean)/10000
+atla.54.av <- apply(atla.frp[, atl.54], 1, mean)/10000
+atla.64.av <- apply(atla.frp[, atl.64], 1, mean)/10000
+
 par(mfrow = c(1,2))
 plot(x = 1:260, y = sfa.24.av, type = "l", col = pal[1], lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable ", main = "San Francisco")
@@ -415,12 +421,6 @@ lines(x = 1:260, y = sfa.64.av, type = "l", col = pal[5],
       lwd = 2)
 legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
        col = pal, lty = 1)
-
-atla.24.av <- apply(atla.frp[, atl.24], 1, mean)/10000
-atla.34.av <- apply(atla.frp[, atl.34], 1, mean)/10000
-atla.44.av <- apply(atla.frp[, atl.44], 1, mean)/10000
-atla.54.av <- apply(atla.frp[, atl.54], 1, mean)/10000
-atla.64.av <- apply(atla.frp[, atl.64], 1, mean)/10000
 
 plot(x = 1:260, y = atla.24.av, type = "l", col = pal[1], lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta")
@@ -438,85 +438,82 @@ legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"),
 
 ## Main (Table 3)
 
-sfm.frp.med <- apply(sfm.frp, 1, mean)/10000
-atlm.frp.med <- apply(atlm.frp, 1, mean)/10000
+sfm.frp.av <- apply(sfm.frp, 1, mean)/10000
+atlm.frp.av <- apply(atlm.frp, 1, mean)/10000
 
 par(mfrow = c(1,1))
-plot(x = 1:260, y = sfm.frp.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
+plot(x = 1:260, y = sfm.frp.av, type = "l", col = alpha("red", 0.7), lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable")
-lines(x = 1:260, y = atlm.frp.med, type = "l", col = alpha("blue", 0.7), 
+lines(x = 1:260, y = atlm.frp.av, type = "l", col = alpha("blue", 0.7), 
       lwd = 2)
 legend("bottomright", legend = c("San Francisco", "Atlanta"), 
        col = c("red", "blue"), lty = 1)
 
-# SF - Race ids
+# Race ids
 
-sfm.b.med <- apply(sfm.frp[, sf.b], 1, mean)/10000
-sfm.w.med <- apply(sfm.frp[, sf.w], 1, mean)/10000
+sfm.b.av <- apply(sfm.frp[, sf.b], 1, mean)/10000
+sfm.w.av <- apply(sfm.frp[, sf.w], 1, mean)/10000
 
-plot(x = 1:260, y = sfm.b.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
+atlm.b.av <- apply(atlm.frp[, atl.b], 1, mean)/10000
+atlm.w.av <- apply(atlm.frp[, atl.w], 1, mean)/10000
+
+plot(x = 1:260, y = sfm.b.av, type = "l", col = alpha("red", 0.5), lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable")
-lines(x = 1:260, y = sfm.w.med, type = "l", col = alpha("blue", 0.5), 
+lines(x = 1:260, y = sfm.w.av, type = "l", col = alpha("blue", 0.5), 
       lwd = 2)
-legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), 
-       lty = 1)
-
-# ATL - Race ids (add race to same plot, like above)
-
-atlm.b.med <- apply(atlm.frp[, atl.b], 1, mean)/10000
-atlm.w.med <- apply(atlm.frp[, atl.w], 1, mean)/10000
-
-lines(x = 1:260, y = atlm.b.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable")
-lines(x = 1:260, y = atlm.w.med, type = "l", col = alpha("blue", 0.5), 
+lines(x = 1:260, y = atlm.b.av, type = "l", col = alpha("yellow", 0.5), 
       lwd = 2)
-legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), 
-       lty = 1)
+lines(x = 1:260, y = atlm.w.av, type = "l", col = alpha("green", 0.5), 
+      lwd = 2)
+legend("bottomright", 
+       legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
+       col = c("red", "blue", "yellow", "green"), lty = 1, cex = 0.8)
 
+# Age ids
 
-# SF - Age ids
+sfm.24.av <- apply(sfm.frp[, sf.24], 1, mean)/10000
+sfm.34.av <- apply(sfm.frp[, sf.34], 1, mean)/10000
+sfm.44.av <- apply(sfm.frp[, sf.44], 1, mean)/10000
+sfm.54.av <- apply(sfm.frp[, sf.54], 1, mean)/10000
+sfm.64.av <- apply(sfm.frp[, sf.64], 1, mean)/10000
 
-sfm.24.med <- apply(sfm.frp[, sf.24], 1, mean)/10000
-sfm.34.med <- apply(sfm.frp[, sf.34], 1, mean)/10000
-sfm.44.med <- apply(sfm.frp[, sf.44], 1, mean)/10000
-sfm.54.med <- apply(sfm.frp[, sf.54], 1, mean)/10000
-sfm.64.med <- apply(sfm.frp[, sf.64], 1, mean)/10000
+atlm.24.av <- apply(atlm.frp[, atl.24], 1, mean)/10000
+atlm.34.av <- apply(atlm.frp[, atl.34], 1, mean)/10000
+atlm.44.av <- apply(atlm.frp[, atl.44], 1, mean)/10000
+atlm.54.av <- apply(atlm.frp[, atl.54], 1, mean)/10000
+atlm.64.av <- apply(atlm.frp[, atl.64], 1, mean)/10000
 
 par(mfrow = c(1,2))
-plot(x = 1:260, y = sfm.24.med, type = "l", col = pal[1], lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable ")
-lines(x = 1:260, y = sfm.34.med, type = "l", col = pal[2], 
+plot(x = 1:260, y = sfm.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "San Francisco", 
+     ylim = c(0.0001, 0.0005))
+lines(x = 1:260, y = sfm.34.av, type = "l", col = pal[2], 
       lwd = 2)
-lines(x = 1:260, y = sfm.44.med, type = "l", col = pal[3], 
+lines(x = 1:260, y = sfm.44.av, type = "l", col = pal[3], 
       lwd = 2)
-lines(x = 1:260, y = sfm.54.med, type = "l", col = pal[4], 
+lines(x = 1:260, y = sfm.54.av, type = "l", col = pal[4], 
       lwd = 2)
-lines(x = 1:260, y = sfm.64.med, type = "l", col = pal[5], 
+lines(x = 1:260, y = sfm.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.8)
+
+plot(x = 1:260, y = atlm.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta",
+     ylim = c(0.0001, 0.0005))
+lines(x = 1:260, y = atlm.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.64.av, type = "l", col = pal[5], 
       lwd = 2)
 legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
        col = pal, lty = 1, cex = 0.8)
 
 
-# ATL - Age ids
-
-atlm.24.med <- apply(atlm.frp[, atl.24], 1, mean)/10000
-atlm.34.med <- apply(atlm.frp[, atl.34], 1, mean)/10000
-atlm.44.med <- apply(atlm.frp[, atl.44], 1, mean)/10000
-atlm.54.med <- apply(atlm.frp[, atl.54], 1, mean)/10000
-atlm.64.med <- apply(atlm.frp[, atl.64], 1, mean)/10000
-
-plot(x = 1:260, y = atlm.24.med, type = "l", col = pal[1], lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable ")
-lines(x = 1:260, y = atlm.34.med, type = "l", col = pal[2], 
-      lwd = 2)
-lines(x = 1:260, y = atlm.44.med, type = "l", col = pal[3], 
-      lwd = 2)
-lines(x = 1:260, y = atlm.54.med, type = "l", col = pal[4], 
-      lwd = 2)
-lines(x = 1:260, y = atlm.64.med, type = "l", col = pal[5], 
-      lwd = 2)
-legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
-       col = pal, lty = 1)
+# box plots ---------------------------------------------------------------
 
 # experiment with box plots
 df <- t(atlm.frp[52*c(0.5, 1, 2, 4, 5), atl.24])
