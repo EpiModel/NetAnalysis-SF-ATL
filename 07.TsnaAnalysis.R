@@ -602,81 +602,81 @@ legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"),
 
 ## Inst (Table 5)
 
-sfi.frp.med <- apply(sfi.frp/10000, 1, median)
-atli.frp.med <- apply(atli.frp/10000, 1, median)
+sfi.frp.av <- apply(sfi.frp, 1, mean)/10000
+atli.frp.av <- apply(atli.frp, 1, mean)/10000
 
-plot(x = 1:260, y = sfi.frp.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
+par(mfrow = c(1,1))
+
+plot(x = 1:260, y = sfi.frp.av, type = "l", col = alpha("red", 0.7), lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable")
-lines(x = 1:260, y = atli.frp.med, type = "l", col = alpha("blue", 0.7), 
+lines(x = 1:260, y = atli.frp.av, type = "l", col = alpha("blue", 0.7), 
       lwd = 2)
-legend("topleft", legend = c("San Francisco", "Atlanta"), 
+legend("bottomright", legend = c("San Francisco", "Atlanta"), 
        col = c("red", "blue"), lty = 1)
 
-# SF - Race ids
+# Race ids
 
-sfi.b.med <- apply(sfi.frp[sf.b]/10000, 1, median)
-sfi.w.med <- apply(sfi.frp[sf.w]/10000, 1, median)
+sfi.b.av <- apply(sfi.frp[, sf.b], 1, mean)/10000
+sfi.w.av <- apply(sfi.frp[, sf.w], 1, mean)/10000
 
-plot(x = 1:260, y = sfi.b.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
+atli.b.av <- apply(atli.frp[, atl.b], 1, mean)/10000
+atli.w.av <- apply(atli.frp[, atl.w], 1, mean)/10000
+
+plot(x = 1:260, y = sfi.b.av, type = "l", col = alpha("red", 0.5), lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable")
-lines(x = 1:260, y = sfi.w.med, type = "l", col = alpha("blue", 0.5), 
+lines(x = 1:260, y = sfi.w.av, type = "l", col = alpha("blue", 0.5), 
       lwd = 2)
-legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), 
-       lty = 1)
+lines(x = 1:260, y = atli.b.av, type = "l", col = alpha("yellow", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atli.w.av, type = "l", col = alpha("green", 0.5), 
+      lwd = 2)
+legend("bottomright", 
+       legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
+       col = c("red", "blue", "yellow", "green"), lty = 1, cex = 0.8)
 
-# SF - Age ids
+# Age ids
 
-sfi.24.med <- apply(sfi.frp[sf.24]/10000, 1, median)
-sfi.34.med <- apply(sfi.frp[sf.34]/10000, 1, median)
-sfi.44.med <- apply(sfi.frp[sf.44]/10000, 1, median)
-sfi.54.med <- apply(sfi.frp[sf.54]/10000, 1, median)
-sfi.64.med <- apply(sfi.frp[sf.64]/10000, 1, median)
+sfi.24.av <- apply(sfi.frp[, sf.24], 1, mean)/10000
+sfi.34.av <- apply(sfi.frp[, sf.34], 1, mean)/10000
+sfi.44.av <- apply(sfi.frp[, sf.44], 1, mean)/10000
+sfi.54.av <- apply(sfi.frp[, sf.54], 1, mean)/10000
+sfi.64.av <- apply(sfi.frp[, sf.64], 1, mean)/10000
 
-plot(x = 1:260, y = sfi.24.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable ")
-lines(x = 1:260, y = sfi.34.med, type = "l", col = alpha("blue", 0.7), 
-      lwd = 2)
-lines(x = 1:260, y = sfi.44.med, type = "l", col = alpha("yellow", 0.7), 
-      lwd = 2)
-lines(x = 1:260, y = sfi.54.med, type = "l", col = alpha("green", 0.7), 
-      lwd = 2)
-lines(x = 1:260, y = sfi.64.med, type = "l", col = alpha("purple", 0.7), 
-      lwd = 2)
-legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
-       col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
+atli.24.av <- apply(atli.frp[, atl.24], 1, mean)/10000
+atli.34.av <- apply(atli.frp[, atl.34], 1, mean)/10000
+atli.44.av <- apply(atli.frp[, atl.44], 1, mean)/10000
+atli.54.av <- apply(atli.frp[, atl.54], 1, mean)/10000
+atli.64.av <- apply(atli.frp[, atl.64], 1, mean)/10000
 
-# ATL - Race ids
-
-atli.b.med <- apply(atli.frp[atl.b]/10000, 1, median)
-atli.w.med <- apply(atli.frp[atl.w]/10000, 1, median)
-
-plot(x = 1:260, y = atli.b.med, type = "l", col = alpha("red", 0.5), lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable")
-lines(x = 1:260, y = atli.w.med, type = "l", col = alpha("blue", 0.5), 
+par(mfrow = c(1,2))
+plot(x = 1:260, y = sfi.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "San Francisco",
+     ylim = c(0, 0.35))
+lines(x = 1:260, y = sfi.34.av, type = "l", col = pal[2], 
       lwd = 2)
-legend("bottomright", legend = c("Black", "White"), col = c("red", "blue"), 
-       lty = 1)
+lines(x = 1:260, y = sfi.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfi.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfi.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.7)
 
-# ATL - Age ids
+plot(x = 1:260, y = atli.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta", 
+     ylim = c(0, 0.35))
+lines(x = 1:260, y = atli.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atli.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atli.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atli.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.7)
 
-atli.24.med <- apply(atli.frp[atl.24]/10000, 1, median)
-atli.34.med <- apply(atli.frp[atl.34]/10000, 1, median)
-atli.44.med <- apply(atli.frp[atl.44]/10000, 1, median)
-atli.54.med <- apply(atli.frp[atl.54]/10000, 1, median)
-atli.64.med <- apply(atli.frp[atl.64]/10000, 1, median)
-
-plot(x = 1:260, y = atli.24.med, type = "l", col = alpha("red", 0.7), lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable ", ylim = c(0, 0.6))
-lines(x = 1:260, y = atli.34.med, type = "l", col = alpha("blue", 0.7), 
-      lwd = 2)
-lines(x = 1:260, y = atli.44.med, type = "l", col = alpha("yellow", 0.7), 
-      lwd = 2)
-lines(x = 1:260, y = atli.54.med, type = "l", col = alpha("green", 0.7), 
-      lwd = 2)
-lines(x = 1:260, y = atli.64.med, type = "l", col = alpha("purple", 0.7), 
-      lwd = 2)
-legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
-       col = c("red", "blue", "yellow", "green", "purple"), lty = 1)
 
 # END ---------------------------------------------------------------------
 
