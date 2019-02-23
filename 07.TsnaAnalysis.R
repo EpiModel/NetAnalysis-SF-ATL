@@ -698,6 +698,7 @@ title("Distribution of 5-Year Foward Reachable Paths by Partnership Type",
 title()
 
 
+
 # 8.Box plots of FRPs -----------------------------------------------------
 
 par(mfrow = c(1,1))
@@ -707,8 +708,10 @@ df <- t(atlm.frp[ts, atl.24])
 boxplot(df)
 # boxplot(df, outline = FALSE)
 
-df <- t(atlc.frp[ts, ])
+df <- t(sfc.frp[ts, ])
 boxplot(df)
+
+
 
 # END ---------------------------------------------------------------------
 
