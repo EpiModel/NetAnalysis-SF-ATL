@@ -513,14 +513,6 @@ legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"),
        col = pal, lty = 1, cex = 0.8)
 
 
-# box plots ---------------------------------------------------------------
-
-# experiment with box plots
-df <- t(atlm.frp[52*c(0.5, 1, 2, 4, 5), atl.24])
-boxplot(df)
-boxplot(df, outline = FALSE)
-
-
 ## Casual (Table 4)
 
 sfc.frp.av <- apply(sfc.frp, 1, mean)/10000
@@ -677,6 +669,46 @@ lines(x = 1:260, y = atli.64.av, type = "l", col = pal[5],
 legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
        col = pal, lty = 1, cex = 0.7)
 
+
+
+# 7.Distribution of FRPs --------------------------------------------------
+
+
+par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA)
+
+## All partnerships
+
+# SF
+matplot(sfm.frp, type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
+matplot(sfc.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", 
+        main = "SF Casual")
+matplot(sfi.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", 
+        main = "SF One-Time")
+
+# ATL
+matplot(atlm.frp, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", 
+        main = "ATL Main")
+matplot(atlc.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", 
+        main = "ATL Casual")
+matplot(atli.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", 
+        main = "ATL One-Time")
+
+title("Distribution of 5-Year Foward Reachable Paths by Partnership Type", 
+      outer = TRUE)
+title()
+
+
+# 8.Box plots of FRPs -----------------------------------------------------
+
+par(mfrow = c(1,1))
+
+# experiment with box plots
+df <- t(atlm.frp[ts, atl.24])
+boxplot(df)
+# boxplot(df, outline = FALSE)
+
+df <- t(atlc.frp[ts, ])
+boxplot(df)
 
 # END ---------------------------------------------------------------------
 
