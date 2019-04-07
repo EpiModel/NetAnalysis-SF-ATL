@@ -266,7 +266,6 @@ atla.sum1w <- summary(t(atla.frp[ts, atl.w]))
 
 ### Table 3: Main partnerships
 
-# EA continue formatting as above
 
 ## SF
 sfm.sum1 <- summary(t(sfm.frp[ts, ]))
@@ -678,6 +677,28 @@ legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"),
 
 # 7.Distribution of FRPs --------------------------------------------------
 
+# par(mfrow = c(1, 2), oma = c(2, 0, 2, 0), xpd = NA)
+par(mfrow = c(1, 2))
+# pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.6)
+matplot(sfa.frp/10000, type = "l", xlab = "Week", ylab = "FRP",
+        col = alpha("red", 0.7))
+matplot(atla.frp/10000, type = "l", xlab = "Week", ylab = "FRP",
+        col = alpha("blue", 0.7))
+
+par(mfrow = c(1, 2))
+# pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.6)
+matplot(sfa.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
+matplot(atla.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
+
+matplot(sfc.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
+matplot(atlc.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
+
+plot(x = 1:260, y = sfa.frp.av, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atla.frp.av, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+legend("bottomright", legend = c("San Francisco", "Atlanta"), 
+       col = c("red", "blue"), lty = 1, cex(1.5))
 
 par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA)
 
@@ -703,6 +724,20 @@ title("Distribution of 5-Year Foward Reachable Paths by Partnership Type",
 title()
 
 
+par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA)
+par(mfrow = c(1,3))
+## All partnerships
+
+# SF
+matplot(sfm.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
+matplot(sfc.frp/10000, type = "l", ylim = c(0, 1), xlab = "Week", ylab = "FRP")
+matplot(sfi.frp/10000, type = "l", ylim = c(0, 1), xlab = "Week", ylab = "FRP")
+matplot(atlm.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
+matplot(atlc.frp/10000, type = "l", ylim = c(0, 1), xlab = "Week", ylab = "FRP")
+matplot(atli.frp/10000, type = "l", ylim = c(0, 1), xlab = "Week", ylab = "FRP")
+
+
+
 
 # 8.Box plots of FRPs -----------------------------------------------------
 
@@ -720,7 +755,7 @@ boxplot(df)
 # Plots for poster --------------------------------------------------------
 
 
-par(mfrow = c(1, 3))
+par(mfrow = c(2, 1))
 
 ## Overall
 plot(x = 1:260, y = sfm.frp.av, type = "l", col = alpha("red", 0.7), lwd = 2, 
@@ -746,46 +781,45 @@ lines(x = 1:260, y = atli.frp.av, type = "l", col = alpha("blue", 0.7),
 
 
 # Race
-plot(x = 1:260, y = sfm.b.av, type = "l", col = alpha("red", 0.5), lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable", main = "Main", 
+plot(x = 1:260, y = sfm.b.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", 
      ylim = c(0.0001, 0.0003))
-lines(x = 1:260, y = sfm.w.av, type = "l", col = alpha("blue", 0.5), 
+lines(x = 1:260, y = sfm.w.av, type = "l", col = pal[2], 
       lwd = 2)
-lines(x = 1:260, y = atlm.b.av, type = "l", col = alpha("yellow", 0.5), 
+lines(x = 1:260, y = atlm.b.av, type = "l", col = pal[3], 
       lwd = 2)
-lines(x = 1:260, y = atlm.w.av, type = "l", col = alpha("green", 0.5), 
+lines(x = 1:260, y = atlm.w.av, type = "l", col = pal[4], 
       lwd = 2)
 legend("topleft", 
        legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
-       col = c("red", "blue", "yellow", "green"), lty = 1, cex = 0.8)
+       col = c(pal[1], pal[2], pal[3], pal[4]), lty = 1, cex = 0.8)
 
-plot(x = 1:260, y = sfc.b.av, type = "l", col = alpha("red", 0.5), lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable", main = "Casual")
-lines(x = 1:260, y = sfc.w.av, type = "l", col = alpha("blue", 0.5), 
+plot(x = 1:260, y = sfc.b.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfc.w.av, type = "l", col = pal[2], 
       lwd = 2)
-lines(x = 1:260, y = atlc.b.av, type = "l", col = alpha("yellow", 0.5), 
+lines(x = 1:260, y = atlc.b.av, type = "l", col = pal[3], 
       lwd = 2)
-lines(x = 1:260, y = atlc.w.av, type = "l", col = alpha("green", 0.5), 
+lines(x = 1:260, y = atlc.w.av, type = "l", col = pal[4], 
       lwd = 2)
 # legend("topleft", 
 #        legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
 #        col = c("red", "blue", "yellow", "green"), lty = 1, cex = 0.8)
 
-plot(x = 1:260, y = sfi.b.av, type = "l", col = alpha("red", 0.5), lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable", 
-     main = "One-Time")
-lines(x = 1:260, y = sfi.w.av, type = "l", col = alpha("blue", 0.5), 
+plot(x = 1:260, y = sfi.b.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfi.w.av, type = "l", col = pal[2], 
       lwd = 2)
-lines(x = 1:260, y = atli.b.av, type = "l", col = alpha("yellow", 0.5), 
+lines(x = 1:260, y = atli.b.av, type = "l", col = pal[3], 
       lwd = 2)
-lines(x = 1:260, y = atli.w.av, type = "l", col = alpha("green", 0.5), 
+lines(x = 1:260, y = atli.w.av, type = "l", col = pal[4], 
       lwd = 2)
 # legend("topleft", 
 #        legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
 #        col = c("red", "blue", "yellow", "green"), lty = 1, cex = 0.8)
 
 # Age
-par(mfrow = c(2, 3))
+par(mfrow = c(1, 3))
 
 # SF
 plot(x = 1:260, y = sfm.24.av, type = "l", col = pal[1], lwd = 2, 
@@ -803,7 +837,7 @@ legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"),
        col = pal, lty = 1, cex = 0.2)
 
 plot(x = 1:260, y = sfc.24.av, type = "l", col = pal[1], lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable", main = "SF - Casual")
+     xlab = "Week", ylab = "Proportion Reachable", ylim = c(0, 1))
 lines(x = 1:260, y = sfc.34.av, type = "l", col = pal[2], 
       lwd = 2)
 lines(x = 1:260, y = sfc.44.av, type = "l", col = pal[3], 
@@ -812,8 +846,8 @@ lines(x = 1:260, y = sfc.54.av, type = "l", col = pal[4],
       lwd = 2)
 lines(x = 1:260, y = sfc.64.av, type = "l", col = pal[5], 
       lwd = 2)
-# legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
-#        col = pal, lty = 1, cex = 0.8)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+        col = pal, lty = 1, cex = 0.8)
 
 plot(x = 1:260, y = sfi.24.av, type = "l", col = pal[1], lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable", main = "SF - One-Time",
@@ -844,8 +878,21 @@ lines(x = 1:260, y = atlm.64.av, type = "l", col = pal[5],
 # legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
 #        col = pal, lty = 1, cex = 0.8)
 
+plot(x = 1:260, y = sfc.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfc.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.8)
+
 plot(x = 1:260, y = atlc.24.av, type = "l", col = pal[1], lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable", main = "ATL - Casual")
+     xlab = "Week", ylab = "Proportion Reachable")
 lines(x = 1:260, y = atlc.34.av, type = "l", col = pal[2], 
       lwd = 2)
 lines(x = 1:260, y = atlc.44.av, type = "l", col = pal[3], 
@@ -871,6 +918,20 @@ lines(x = 1:260, y = atli.64.av, type = "l", col = pal[5],
 # legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
 #        col = pal, lty = 1)
 
+
+
+plot(x = 1:260, y = sfc.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", ylim = c(0, 1))
+lines(x = 1:260, y = sfc.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.8)
 
 
 # END ---------------------------------------------------------------------
