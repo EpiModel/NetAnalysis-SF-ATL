@@ -14,8 +14,11 @@ city_name <- "San Francisco"
 
 
 ## Data ##
-d <- readRDS("data/ARTNet-vars.rda")
-l <- readRDS("data/ARTNet-long.rda")
+# d <- readRDS("ARTNet.wide.rda")
+# l <- readRDS("ARTNet.long.rda")
+
+d <- ARTnet.wide
+l <- ARTnet.long
 
 ## Derivatives ##
 coef_name <- paste0("city2", city_name)
