@@ -41,3 +41,4 @@ data/artnet.NetSim.SanFrancisco.rda
 data/atl.*.rda
 data/sfo.*.rda
 data/done1.zip
+.Rproj.user

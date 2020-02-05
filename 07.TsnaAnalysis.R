@@ -217,16 +217,159 @@ atli.frp <- atl.inst$frp
 
 # 5.FRP Summary -----------------------------------------------------------
 
+
+### Manuscript table 3
+
+## SF casual
+
+t.sfc.frp <- t(sfc.frp)
+summary(t.sfc.frp[, 52])
+quantile(t.sfc.frp[, 52], 0.025)
+quantile(t.sfc.frp[, 52], 0.975)
+
+# Age summary
+summary(t.sfc.frp[sf.24, 52])
+summary(t.sfc.frp[sf.34, 52])
+summary(t.sfc.frp[sf.44, 52])
+summary(t.sfc.frp[sf.54, 52])
+summary(t.sfc.frp[sf.64, 52])
+
+# Age quantiles
+quantile(t.sfc.frp[sf.24, 52], 0.025)
+quantile(t.sfc.frp[sf.24, 52], 0.975)
+quantile(t.sfc.frp[sf.34, 52], 0.025)
+quantile(t.sfc.frp[sf.34, 52], 0.975)
+quantile(t.sfc.frp[sf.44, 52], 0.025)
+quantile(t.sfc.frp[sf.44, 52], 0.975)
+quantile(t.sfc.frp[sf.54, 52], 0.025)
+quantile(t.sfc.frp[sf.54, 52], 0.975)
+quantile(t.sfc.frp[sf.64, 52], 0.025)
+quantile(t.sfc.frp[sf.64, 52], 0.975)
+
+# Race summary
+summary(t.sfc.frp[sf.b, 52])
+summary(t.sfc.frp[sf.w, 52])
+
+# Race quantiles
+quantile(t.sfc.frp[sf.b, 52], 0.025)
+quantile(t.sfc.frp[sf.b, 52], 0.975)
+quantile(t.sfc.frp[sf.w, 52], 0.025)
+quantile(t.sfc.frp[sf.w, 52], 0.975)
+
+
+## SF one-time
+
+t.sfi.frp <- t(sfi.frp)
+summary(t.sfi.frp[, 52])
+quantile(t.sfi.frp[, 52], 0.025)
+quantile(t.sfi.frp[, 52], 0.975)
+
+# Age summary
+summary(t.sfi.frp[sf.24, 52])
+summary(t.sfi.frp[sf.34, 52])
+summary(t.sfi.frp[sf.44, 52])
+summary(t.sfi.frp[sf.54, 52])
+summary(t.sfi.frp[sf.64, 52])
+
+# Age quantiles
+quantile(t.sfi.frp[sf.24, 52], 0.025)
+quantile(t.sfi.frp[sf.24, 52], 0.975)
+quantile(t.sfi.frp[sf.34, 52], 0.025)
+quantile(t.sfi.frp[sf.34, 52], 0.975)
+quantile(t.sfi.frp[sf.44, 52], 0.025)
+quantile(t.sfi.frp[sf.44, 52], 0.975)
+quantile(t.sfi.frp[sf.54, 52], 0.025)
+quantile(t.sfi.frp[sf.54, 52], 0.975)
+quantile(t.sfi.frp[sf.64, 52], 0.025)
+quantile(t.sfi.frp[sf.64, 52], 0.975)
+
+# Race summary
+summary(t.sfi.frp[sf.b, 52])
+summary(t.sfi.frp[sf.w, 52])
+
+# Race quantiles
+quantile(t.sfi.frp[sf.b, 52], 0.025)
+quantile(t.sfi.frp[sf.b, 52], 0.975)
+quantile(t.sfi.frp[sf.w, 52], 0.025)
+quantile(t.sfi.frp[sf.w, 52], 0.975)
+
+
+## ATL casual
+
+t.atlc.frp <- t(atlc.frp)
+summary(t.atlc.frp[, 52])
+quantile(t.atlc.frp[, 52], 0.025)
+quantile(t.atlc.frp[, 52], 0.975)
+
+# Age summary
+summary(t.atlc.frp[atl.24, 52])
+summary(t.atlc.frp[atl.34, 52])
+summary(t.atlc.frp[atl.44, 52])
+summary(t.atlc.frp[atl.54, 52])
+summary(t.atlc.frp[atl.64, 52])
+
+# Age quantiles
+quantile(t.atlc.frp[atl.24, 52], 0.025)
+quantile(t.atlc.frp[atl.24, 52], 0.975)
+quantile(t.atlc.frp[atl.34, 52], 0.025)
+quantile(t.atlc.frp[atl.34, 52], 0.975)
+quantile(t.atlc.frp[atl.44, 52], 0.025)
+quantile(t.atlc.frp[atl.44, 52], 0.975)
+quantile(t.atlc.frp[atl.54, 52], 0.025)
+quantile(t.atlc.frp[atl.54, 52], 0.975)
+quantile(t.atlc.frp[atl.64, 52], 0.025)
+quantile(t.atlc.frp[atl.64, 52], 0.975)
+
+# Race summary
+summary(t.atlc.frp[atl.b, 52])
+summary(t.atlc.frp[atl.w, 52])
+
+# Race quantiles
+quantile(t.atlc.frp[atl.b, 52], 0.025)
+quantile(t.atlc.frp[atl.b, 52], 0.975)
+quantile(t.atlc.frp[atl.w, 52], 0.025)
+quantile(t.atlc.frp[atl.w, 52], 0.975)
+
+
+## ATL one-time
+
+t.atli.frp <- t(atli.frp)
+summary(t.atli.frp[, 52])
+quantile(t.atli.frp[, 52], 0.025)
+quantile(t.atli.frp[, 52], 0.975)
+
+# Age summary
+summary(t.atli.frp[atl.24, 52])
+summary(t.atli.frp[atl.34, 52])
+summary(t.atli.frp[atl.44, 52])
+summary(t.atli.frp[atl.54, 52])
+summary(t.atli.frp[atl.64, 52])
+
+# Age quantiles
+quantile(t.atli.frp[atl.24, 52], 0.025)
+quantile(t.atli.frp[atl.24, 52], 0.975)
+quantile(t.atli.frp[atl.34, 52], 0.025)
+quantile(t.atli.frp[atl.34, 52], 0.975)
+quantile(t.atli.frp[atl.44, 52], 0.025)
+quantile(t.atli.frp[atl.44, 52], 0.975)
+quantile(t.atli.frp[atl.54, 52], 0.025)
+quantile(t.atli.frp[atl.54, 52], 0.975)
+quantile(t.atli.frp[atl.64, 52], 0.025)
+quantile(t.atli.frp[atl.64, 52], 0.975)
+
+# Race summary
+summary(t.atli.frp[atl.b, 52])
+summary(t.atli.frp[atl.w, 52])
+
+# Race quantiles
+quantile(t.atli.frp[atl.b, 52], 0.025)
+quantile(t.atli.frp[atl.b, 52], 0.975)
+quantile(t.atli.frp[atl.w, 52], 0.025)
+quantile(t.atli.frp[atl.w, 52], 0.975)
+
+
 # Time steps: 6 months, 1 year, 2 years, 5 years
 ts <- 52*c(0.5, 1, 2, 5)
-
-# summary_data <- function(df, ts, ids){
-#   summary <- summary(t(df[ts, ids]))
-#   sd <- sd(df[ts, ])
-#   return(c(summary, sd))
-# }
-
-# test <- summary_data(sfa.frp, ts, sf.24)
 
 ### Table 2: All partnerships
 
