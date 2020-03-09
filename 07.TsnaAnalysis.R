@@ -711,8 +711,9 @@ atlc.44.av <- apply(atlc.frp[, atl.44], 1, mean)/10000
 atlc.54.av <- apply(atlc.frp[, atl.54], 1, mean)/10000
 atlc.64.av <- apply(atlc.frp[, atl.64], 1, mean)/10000
 
+pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
 jpeg("Plot3.jpeg", width = 8, height = 4, units = 'in', res = 300)
-par(mfrow = c(1,2), mgp = c(2,1,0), mar = c(3,3,1,1))
+par(mfrow = c(1,2), mgp = c(2,1,0), mar = c(3,3,2,1))
 plot(x = 1:260, y = sfc.24.av, type = "l", col = pal[1], lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable", main = "San Francisco")
 lines(x = 1:260, y = sfc.34.av, type = "l", col = pal[2], 
@@ -847,24 +848,28 @@ legend("bottomright", legend = c("San Francisco", "Atlanta"),
 
 #title()
 
+library("viridis")
+palv <- viridis(n = 4, alpha = 0.25, option = "inferno")
+
 ## All partnerships
-jpeg("Plot2.jpeg", width = 7.5, height = 4, units = 'in', res = 300)
-par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA, mgp = c(2,1,0), 
-    mar = c(3,3,1,1))
+jpeg("Plot2.jpeg", width = 8, height = 4, units = 'in', res = 250)
+par(mfrow = c(2, 3), oma = c(1, 0, 1, 0), xpd = NA, mgp = c(2,1,0), 
+    mar = c(3,3,2,1))
 # SF
-matplot(sfm.frp, type = "l", ylim = c(0, 30), xlab = "", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp, type = "l", ylim = c(0, 10000), xlab = "", ylab = "",
-        main = "SF Casual")
-matplot(sfi.frp, type = "l", ylim = c(0, 10000), xlab = "", ylab = "", 
-        main = "SF One-Time")
+matplot(sfm.frp, type = "l", ylim = c(0, 30), xlab = "", ylab = "FRP", lty = 1,
+        col = palv, lwd = 0.5, main = "SF Main")
+matplot(sfc.frp, type = "l", ylim = c(0, 10000), xlab = "", ylab = "", lty = 1,
+        col = palv, lwd = 0.5, main = "SF Casual")
+matplot(sfi.frp, type = "l", ylim = c(0, 10000), xlab = "", ylab = "", lty = 1,
+        col = palv, lwd = 0.5, main = "SF One-Time")
 
 # ATL
-matplot(atlm.frp, type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP", 
-        main = "ATL Main")
-matplot(atlc.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "",
-        main = "ATL Casual")
-matplot(atli.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "",
-        main = "ATL One-Time")
+matplot(atlm.frp, type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP", lty = 1,
+        col = palv, lwd = 0.5, main = "ATL Main")
+matplot(atlc.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", lty = 1,
+        col = palv, lwd = 0.5, main = "ATL Casual")
+matplot(atli.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", lty = 1,
+        col = palv, lwd = 0.5, main = "ATL One-Time")
 
 dev.off()
 
