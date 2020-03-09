@@ -711,7 +711,8 @@ atlc.44.av <- apply(atlc.frp[, atl.44], 1, mean)/10000
 atlc.54.av <- apply(atlc.frp[, atl.54], 1, mean)/10000
 atlc.64.av <- apply(atlc.frp[, atl.64], 1, mean)/10000
 
-par(mfrow = c(1,2))
+jpeg("Plot3.jpeg", width = 8, height = 4, units = 'in', res = 300)
+par(mfrow = c(1,2), mgp = c(2,1,0), mar = c(3,3,1,1))
 plot(x = 1:260, y = sfc.24.av, type = "l", col = pal[1], lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable", main = "San Francisco")
 lines(x = 1:260, y = sfc.34.av, type = "l", col = pal[2], 
@@ -737,7 +738,7 @@ lines(x = 1:260, y = atlc.64.av, type = "l", col = pal[5],
       lwd = 2)
 legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
        col = pal, lty = 1, cex = 0.8)
-
+dev.off()
 
 ## Inst (Table 5)
 
@@ -843,28 +844,33 @@ lines(x = 1:260, y = atla.frp.av, type = "l", col = alpha("blue", 0.7),
 legend("bottomright", legend = c("San Francisco", "Atlanta"), 
        col = c("red", "blue"), lty = 1, cex(1.5))
 
-par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA)
+
+#title()
 
 ## All partnerships
-
+jpeg("Plot2.jpeg", width = 7.5, height = 4, units = 'in', res = 300)
+par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA, mgp = c(2,1,0), 
+    mar = c(3,3,1,1))
 # SF
-matplot(sfm.frp, type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", 
+matplot(sfm.frp, type = "l", ylim = c(0, 30), xlab = "", ylab = "FRP", main = "SF Main")
+matplot(sfc.frp, type = "l", ylim = c(0, 10000), xlab = "", ylab = "",
         main = "SF Casual")
-matplot(sfi.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", 
+matplot(sfi.frp, type = "l", ylim = c(0, 10000), xlab = "", ylab = "", 
         main = "SF One-Time")
 
 # ATL
-matplot(atlm.frp, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", 
+matplot(atlm.frp, type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP", 
         main = "ATL Main")
-matplot(atlc.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", 
+matplot(atlc.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "",
         main = "ATL Casual")
-matplot(atli.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", 
+matplot(atli.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "",
         main = "ATL One-Time")
 
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type", 
-      outer = TRUE)
-title()
+dev.off()
+
+# title("Distribution of 5-Year Foward Reachable Paths by Partnership Type", 
+      # outer = TRUE)
+
 
 
 par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA)
@@ -962,7 +968,7 @@ lines(x = 1:260, y = atli.w.av, type = "l", col = pal[4],
 #        col = c("red", "blue", "yellow", "green"), lty = 1, cex = 0.8)
 
 # Age
-par(mfrow = c(1, 3))
+par(mfrow = c(1, 2))
 
 # SF
 plot(x = 1:260, y = sfm.24.av, type = "l", col = pal[1], lwd = 2, 
