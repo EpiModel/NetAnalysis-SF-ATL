@@ -849,27 +849,30 @@ legend("bottomright", legend = c("San Francisco", "Atlanta"),
 #title()
 
 library("viridis")
+library("wesanderson")
 palv <- viridis(n = 4, alpha = 0.25, option = "inferno")
+palv <- adjustcolor(wes_palette(5, name = "Zissou1"), alpha.f = 1)
+palv <- rainbow(10)
 
 ## All partnerships
 jpeg("Plot2.jpeg", width = 8, height = 4, units = 'in', res = 250)
-par(mfrow = c(2, 3), oma = c(1, 0, 1, 0), xpd = NA, mgp = c(2,1,0), 
+par(mfrow = c(2, 3), oma = c(0, 0, 0, 0), xpd = NA, mgp = c(2,1,0), 
     mar = c(3,3,2,1))
 # SF
 matplot(sfm.frp, type = "l", ylim = c(0, 30), xlab = "", ylab = "FRP", lty = 1,
-        col = palv, lwd = 0.5, main = "SF Main")
+        col = palv, lwd = 0.1, main = "SF Main")
 matplot(sfc.frp, type = "l", ylim = c(0, 10000), xlab = "", ylab = "", lty = 1,
-        col = palv, lwd = 0.5, main = "SF Casual")
+        col = palv, lwd = 0.1, main = "SF Casual")
 matplot(sfi.frp, type = "l", ylim = c(0, 10000), xlab = "", ylab = "", lty = 1,
-        col = palv, lwd = 0.5, main = "SF One-Time")
+        col = palv, lwd = 0.1, main = "SF One-Time")
 
 # ATL
 matplot(atlm.frp, type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP", lty = 1,
-        col = palv, lwd = 0.5, main = "ATL Main")
+        col = palv, lwd = 0.1, main = "ATL Main")
 matplot(atlc.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", lty = 1,
-        col = palv, lwd = 0.5, main = "ATL Casual")
+        col = palv, lwd = 0.1, main = "ATL Casual")
 matplot(atli.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", lty = 1,
-        col = palv, lwd = 0.5, main = "ATL One-Time")
+        col = palv, lwd = 0.1, main = "ATL One-Time")
 
 dev.off()
 
