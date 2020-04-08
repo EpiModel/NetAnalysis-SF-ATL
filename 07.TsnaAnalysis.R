@@ -220,6 +220,45 @@ atli.frp <- atl.inst$frp
 
 ### Manuscript table 3
 
+## SF all
+
+t.sfa.frp <- t(sfa.frp)
+summary(t.sfa.frp[, 52])
+quantile(t.sfa.frp[, 52], 0.025)
+quantile(t.sfa.frp[, 52], 0.975)
+
+# Age summary
+summary(t.sfa.frp[sf.24, 52])
+summary(t.sfa.frp[sf.34, 52])
+summary(t.sfa.frp[sf.44, 52])
+summary(t.sfa.frp[sf.54, 52])
+summary(t.sfa.frp[sf.64, 52])
+
+# Race summary
+summary(t.sfa.frp[sf.b, 52])
+summary(t.sfa.frp[sf.w, 52])
+
+
+## SF main
+
+t.sfm.frp <- t(sfm.frp)
+summary(t.sfm.frp[, 52])
+quantile(t.sfm.frp[, 52], 0.025)
+quantile(t.sfm.frp[, 52], 0.975)
+
+# Age summary
+summary(t.sfm.frp[sf.24, 52])
+summary(t.sfm.frp[sf.34, 52])
+summary(t.sfm.frp[sf.44, 52])
+summary(t.sfm.frp[sf.54, 52])
+summary(t.sfm.frp[sf.64, 52])
+
+# Race summary
+summary(t.sfm.frp[sf.b, 52])
+summary(t.sfm.frp[sf.w, 52])
+
+
+
 ## SF casual
 
 t.sfc.frp <- t(sfc.frp)
@@ -292,6 +331,44 @@ quantile(t.sfi.frp[sf.b, 52], 0.025)
 quantile(t.sfi.frp[sf.b, 52], 0.975)
 quantile(t.sfi.frp[sf.w, 52], 0.025)
 quantile(t.sfi.frp[sf.w, 52], 0.975)
+
+
+## ATL all
+
+t.atla.frp <- t(atla.frp)
+summary(t.atla.frp[, 52])
+quantile(t.atla.frp[, 52], 0.025)
+quantile(t.atla.frp[, 52], 0.975)
+
+# Age summary
+summary(t.atla.frp[sf.24, 52])
+summary(t.atla.frp[sf.34, 52])
+summary(t.atla.frp[sf.44, 52])
+summary(t.atla.frp[sf.54, 52])
+summary(t.atla.frp[sf.64, 52])
+
+# Race summary
+summary(t.atla.frp[sf.b, 52])
+summary(t.atla.frp[sf.w, 52])
+
+
+## ATL main
+
+t.atlm.frp <- t(atlm.frp)
+summary(t.atlm.frp[, 52])
+quantile(t.atlm.frp[, 52], 0.025)
+quantile(t.atlm.frp[, 52], 0.975)
+
+# Age summary
+summary(t.atlm.frp[sf.24, 52])
+summary(t.atlm.frp[sf.34, 52])
+summary(t.atlm.frp[sf.44, 52])
+summary(t.atlm.frp[sf.54, 52])
+summary(t.atlm.frp[sf.64, 52])
+
+# Race summary
+summary(t.atlm.frp[sf.b, 52])
+summary(t.atlm.frp[sf.w, 52])
 
 
 ## ATL casual
