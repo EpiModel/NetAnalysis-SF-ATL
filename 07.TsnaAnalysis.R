@@ -1,46 +1,48 @@
-## TSNA Analysis
-## v0.2
-## 2/16/2019
 
+## 
+## tsna anlaysis for San Francisco & Atlanta sexual networks
+## 
+
+## Packages ##
 library("tsna")
 library("networkDynamicData")
 suppressMessages(library("EpiModel"))
 library("scales")
 
+## Set seed for analysis ##
 set.seed(803)
 
 
-# 0.Network data ----------------------------------------------------------
+# 0. Network data ----------------------------------------------------------
 
-
-## Read in sims 
+## Read in network simulations ##
 
 sim.sf <- readRDS("DataV2/artnet.NetSim.SanFrancisco.rda")
 sim.atl <- readRDS("DataV2/artnet.NetSim.Atlanta.rda")
 
-## Extract each partner type network
+## Extract each partner type network ##
 
-# SF
+# SF networks
 net.sfm <- sim.sf[[1]] # main
 net.sfc <- sim.sf[[2]] # casual
 net.sfi <- sim.sf[[3]] # inst
 
-# ATL
+# ATL networks
 net.atlm <- sim.atl[[1]] # main
 net.atlc <- sim.atl[[2]] # casual
 net.atli <- sim.atl[[3]] # inst
 
 
+# 1. Outcome data ----------------------------------------------------------
 
-# 1.Outcome data ----------------------------------------------------------
-
-
-## Function to load outcome data
+## Function to load outcome data ##
 
 load_data <- function(file) {
   x <- load(file = file)
   x <- out
 }
+
+## Load outcome data into global environment ##
 
 # All partnership types
 sf.all <- load_data("DataV2/sfo.all.1.rda")
@@ -59,12 +61,13 @@ sf.inst <- load_data("DataV2/sfo.inst.1.rda")
 atl.inst <- load_data("DataV2/atl.inst.1.rda")
 
 
+# 2. Validation ------------------------------------------------------------
 
-# 2.Validation ------------------------------------------------------------
-
+# Time step to test 
 test_ts <- 260
 
-## Checking degree in simulations
+## Checking degree in simulations ##
+
 test1_inp <- EpiModel::get_degree(network.collapse(net.sfm, at = test_ts))
 test2_inp <- EpiModel::get_degree(network.collapse(net.sfc, at = test_ts))
 test3_inp <- EpiModel::get_degree(network.collapse(net.sfi, at = test_ts))
@@ -72,7 +75,8 @@ test4_inp <- EpiModel::get_degree(network.collapse(net.atlm, at = test_ts))
 test5_inp <- EpiModel::get_degree(network.collapse(net.atlc, at = test_ts))
 test6_inp <- EpiModel::get_degree(network.collapse(net.atli, at = test_ts))
 
-## Checking degree in outcome data
+## Checking degree in outcome data ##
+
 test1_out <- sf.main$degree[test_ts, ]
 which(!(test1_inp == test1_out))
 
@@ -93,7 +97,10 @@ which(!(test4_inp == test4_out))
 
 
 
-# 3.Vertex IDs ------------------------------------------------------------
+
+# 3. Extract vertex IDs ---------------------------------------------------
+
+## Extract vertex ids for age & race categories ##
 
 ## Race
 
@@ -129,74 +136,9 @@ sf.64 <- which(get.vertex.attribute(net.sfm, "age.grp") == 5)
 atl.64 <- which(get.vertex.attribute(net.atlm, "age.grp") == 5)
 
 
-# ## Race & Age
-# 
-# # Black 0-24
-# sf.b24 <- which(get.vertex.attribute(net.sfm, "race") == "B" & 
-#                      get.vertex.attribute(net.sfm, "age.grp") == "1")
-# atl.b24 <- which(get.vertex.attribute(net.atlm, "race") == "B" & 
-#                       get.vertex.attribute(net.atlm, "age.grp") == "1")
-# 
-# # White 0-24
-# sf.w24 <- which(get.vertex.attribute(net.sfm, "race") == "W" & 
-#                      get.vertex.attribute(net.sfm, "age.grp") == "1")
-# atl.w24 <- which(get.vertex.attribute(net.atlm, "race") == "W" & 
-#                       get.vertex.attribute(net.atlm, "age.grp") == "1")
-# 
-# 
-# # Black 25-34
-# sf.b34 <- which(get.vertex.attribute(net.sfm, "race") == "B" & 
-#                      get.vertex.attribute(net.sfm, "age.grp") == "2")
-# atl.b34 <- which(get.vertex.attribute(net.atlm, "race") == "B" & 
-#                       get.vertex.attribute(net.atlm, "age.grp") == "2")
-# 
-# # White 25-34
-# sf.w34 <- which(get.vertex.attribute(net.sfm, "race") == "W" & 
-#                      get.vertex.attribute(net.sfm, "age.grp") == "2")
-# atl.w34 <- which(get.vertex.attribute(net.atlm, "race") == "W" & 
-#                       get.vertex.attribute(net.atlm, "age.grp") == "2")
-# 
-# # Black 35-44
-# sf.b44 <- which(get.vertex.attribute(net.sfm, "race") == "B" & 
-#                      get.vertex.attribute(net.sfm, "age.grp") == "3")
-# atl.b44 <- which(get.vertex.attribute(net.atlm, "race") == "B" & 
-#                       get.vertex.attribute(net.atlm, "age.grp") == "3")
-# 
-# # White 35-44
-# sf.w44 <- which(get.vertex.attribute(net.sfm, "race") == "W" & 
-#                      get.vertex.attribute(net.sfm, "age.grp") == "3")
-# atl.w44 <- which(get.vertex.attribute(net.atlm, "race") == "W" & 
-#                       get.vertex.attribute(net.atlm, "age.grp") == "3")
-# 
-# # Black 45-54
-# sf.b54 <- which(get.vertex.attribute(net.sfm, "race") == "B" & 
-#                      get.vertex.attribute(net.sfm, "age.grp") == "4")
-# atl.b54 <- which(get.vertex.attribute(net.atlm, "race") == "B" & 
-#                       get.vertex.attribute(net.atlm, "age.grp") == "4")
-# 
-# # White 45-54
-# sf.w54 <- which(get.vertex.attribute(net.sfm, "race") == "W" & 
-#                      get.vertex.attribute(net.sfm, "age.grp") == "4")
-# atl.w54 <- which(get.vertex.attribute(net.atlm, "race") == "W" & 
-#                       get.vertex.attribute(net.atlm, "age.grp") == "4")
-# 
-# # Black 55+
-# sf.b64 <- which(get.vertex.attribute(net.sfm, "race") == "B" & 
-#                      get.vertex.attribute(net.sfm, "age.grp") == "5")
-# atl.b64 <- which(get.vertex.attribute(net.atlm, "race") == "B" & 
-#                       get.vertex.attribute(net.atlm, "age.grp") == "5")
-# 
-# # White 55+
-# sf.w64 <- which(get.vertex.attribute(net.sfm, "race") == "W" & 
-#                      get.vertex.attribute(net.sfm, "age.grp") == "5")
-# atl.w64 <- which(get.vertex.attribute(net.atlm, "race") == "W" & 
-#                       get.vertex.attribute(net.atlm, "age.grp") == "5")
+# 4. Extract FRP ----------------------------------------------------------
 
-
-
-# 4.FRP Analysis ----------------------------------------------------------
-
-## Subset df to outcome of interest
+## Subset outcome data frame by FRP ##
 
 # All partnerships
 sfa.frp <- sf.all$frp
