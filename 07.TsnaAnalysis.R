@@ -12,6 +12,9 @@ library("scales")
 ## Set seed for analysis ##
 set.seed(803)
 
+## Setup output list ##
+out <- list()
+
 
 # 0. Network data ----------------------------------------------------------
 
@@ -96,8 +99,6 @@ test6_out <- atl.inst$degree[test_ts, ]
 which(!(test4_inp == test4_out))
 
 
-
-
 # 3. Extract vertex IDs ---------------------------------------------------
 
 ## Extract vertex ids for age & race categories ##
@@ -138,36 +139,42 @@ atl.64 <- which(get.vertex.attribute(net.atlm, "age.grp") == 5)
 
 # 4. Extract FRP ----------------------------------------------------------
 
+## Setup output list ##
+out <- list()
+
 ## Subset outcome data frame by FRP ##
 
 # All partnerships
-sfa.frp <- sf.all$frp
-atla.frp <- atl.all$frp
+out$sfa.frp <- sf.all$frp
+out$atla.frp <- atl.all$frp
 
 # Main
-sfm.frp <- sf.main$frp
-atlm.frp <- atl.main$frp
+out$sfm.frp <- sf.main$frp
+out$atlm.frp <- atl.main$frp
 
 # Casual
-sfc.frp <- sf.casl$frp
+out$sfc.frp <- sf.casl$frp
 atlc.frp <- atl.casl$frp
 
 # Inst
-sfi.frp <- sf.inst$frp
-atli.frp <- atl.inst$frp
+out$sfi.frp <- sf.inst$frp
+out$atli.frp <- atl.inst$frp
 
+
+fn <- "data/artnet.TsnaData.rda"
+saveRDS(out, file = fn)
 
 # 5.FRP Summary -----------------------------------------------------------
 
+## Manuscript table 2 ##
 
-### Manuscript table 3
+## SF all partnerships
 
-## SF all
-
+# Transpose data frame
 t.sfa.frp <- t(sfa.frp)
+
+# Overall
 summary(t.sfa.frp[, 52])
-quantile(t.sfa.frp[, 52], 0.025)
-quantile(t.sfa.frp[, 52], 0.975)
 
 # Age summary
 summary(t.sfa.frp[sf.24, 52])
@@ -519,6 +526,9 @@ atli.sum164 <- summary(t(atli.frp[ts, atl.64]))
 atli.sum1b <- summary(t(atli.frp[ts, atl.b]))
 atli.sum1w <- summary(t(atli.frp[ts, atl.w]))
 
+# Potentiall include
+quantile(t.sfa.frp[, 52], 0.025)
+quantile(t.sfa.frp[, 52], 0.975)
 
 
 # 6.Mean FRP Plots --------------------------------------------------------
