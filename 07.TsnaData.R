@@ -152,7 +152,7 @@ out$atlm.frp <- atl.main$frp
 
 # Casual
 out$sfc.frp <- sf.casl$frp
-atlc.frp <- atl.casl$frp
+out$atlc.frp <- atl.casl$frp
 
 # Inst
 out$sfi.frp <- sf.inst$frp
