@@ -99,64 +99,68 @@ which(!(test4_inp == test4_out))
 
 # 3. Extract vertex IDs ---------------------------------------------------
 
+## Setup output list ##
+out <- list()
+out$demog <- list()
+
 ## Extract vertex ids for age & race categories ##
 
 ## Race
 
 # Black
-sf.b <- which(get.vertex.attribute(net.sfm, "race") == 0)
-atl.b <- which(get.vertex.attribute(net.atlm, "race") == 0)
+out$demog$sf.b <- which(get.vertex.attribute(net.sfm, "race") == 0)
+out$demog$atl.b <- which(get.vertex.attribute(net.atlm, "race") == 0)
 
 # White
-sf.w <- which(get.vertex.attribute(net.sfm, "race") == 1)
-atl.w <- which(get.vertex.attribute(net.atlm, "race") == 1)
+out$demog$sf.w <- which(get.vertex.attribute(net.sfm, "race") == 1)
+out$demog$atl.w <- which(get.vertex.attribute(net.atlm, "race") == 1)
 
 
 ## Age
 
 # 15-24
-sf.24 <- which(get.vertex.attribute(net.sfm, "age.grp") == 1)
-atl.24 <- which(get.vertex.attribute(net.atlm, "age.grp") == 1)
+out$demog$sf.24 <- which(get.vertex.attribute(net.sfm, "age.grp") == 1)
+out$demog$atl.24 <- which(get.vertex.attribute(net.atlm, "age.grp") == 1)
 
 # 25-34
-sf.34 <- which(get.vertex.attribute(net.sfm, "age.grp") == 2)
-atl.34 <- which(get.vertex.attribute(net.atlm, "age.grp") == 2)
+out$demog$sf.34 <- which(get.vertex.attribute(net.sfm, "age.grp") == 2)
+out$demog$atl.34 <- which(get.vertex.attribute(net.atlm, "age.grp") == 2)
 
 # 35-44
-sf.44 <- which(get.vertex.attribute(net.sfm, "age.grp") == 3)
-atl.44 <- which(get.vertex.attribute(net.atlm, "age.grp") == 3)
+out$demog$sf.44 <- which(get.vertex.attribute(net.sfm, "age.grp") == 3)
+out$demog$atl.44 <- which(get.vertex.attribute(net.atlm, "age.grp") == 3)
 
 # 45-54
-sf.54 <- which(get.vertex.attribute(net.sfm, "age.grp") == 4)
-atl.54 <- which(get.vertex.attribute(net.atlm, "age.grp") == 4)
+out$demog$sf.54 <- which(get.vertex.attribute(net.sfm, "age.grp") == 4)
+out$demog$atl.54 <- which(get.vertex.attribute(net.atlm, "age.grp") == 4)
 
 # 55-64
-sf.64 <- which(get.vertex.attribute(net.sfm, "age.grp") == 5)
-atl.64 <- which(get.vertex.attribute(net.atlm, "age.grp") == 5)
+out$demog$sf.64 <- which(get.vertex.attribute(net.sfm, "age.grp") == 5)
+out$demog$atl.64 <- which(get.vertex.attribute(net.atlm, "age.grp") == 5)
 
 
 # 4. Extract FRP ----------------------------------------------------------
 
 ## Setup output list ##
-out <- list()
+out$frp <- list()
 
 ## Subset outcome data frame by FRP ##
 
 # All partnerships
-out$sfa.frp <- sf.all$frp
-out$atla.frp <- atl.all$frp
+out$frp$sfa.frp <- sf.all$frp
+out$frp$atla.frp <- atl.all$frp
 
 # Main
-out$sfm.frp <- sf.main$frp
-out$atlm.frp <- atl.main$frp
+out$frp$sfm.frp <- sf.main$frp
+out$frp$atlm.frp <- atl.main$frp
 
 # Casual
-out$sfc.frp <- sf.casl$frp
-out$atlc.frp <- atl.casl$frp
+out$frp$sfc.frp <- sf.casl$frp
+out$frp$atlc.frp <- atl.casl$frp
 
 # Inst
-out$sfi.frp <- sf.inst$frp
-out$atli.frp <- atl.inst$frp
+out$frp$sfi.frp <- sf.inst$frp
+out$frp$atli.frp <- atl.inst$frp
 
 
 # Save out file -----------------------------------------------------------
