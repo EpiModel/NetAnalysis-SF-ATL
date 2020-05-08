@@ -232,18 +232,6 @@ dev.off()
 
 
 
-par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA)
-par(mfrow = c(1,3))
-## All partnerships
-
-# SF
-matplot(sfm.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
-matplot(sfc.frp/10000, type = "l", ylim = c(0, 1), xlab = "Week", ylab = "FRP")
-matplot(sfi.frp/10000, type = "l", ylim = c(0, 1), xlab = "Week", ylab = "FRP")
-matplot(atlm.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
-matplot(atlc.frp/10000, type = "l", ylim = c(0, 1), xlab = "Week", ylab = "FRP")
-matplot(atli.frp/10000, type = "l", ylim = c(0, 1), xlab = "Week", ylab = "FRP")
-
 
 
 
