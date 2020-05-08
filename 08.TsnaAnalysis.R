@@ -384,16 +384,18 @@ atliw.quant <- quant.95int(atli.frp1[sf.w])
 
 # Additional figures ------------------------------------------------------
 
-## Mean FRP over 5-years ##
+## All partnerships - Mean FRP over 5-years ##
 
-## All partnerships
+## Overall - PLOT 1 (all ptypes)
 
-# Overall
+# Mean proportional reachable
 sfa.frp.avg <- colMeans(as.data.frame(sfa.frp))/10000
 atla.frp.avg <- colMeans(as.data.frame(atla.frp))/10000
 
+# Set plot options
 par(mfrow = c(1,1))
 
+# Plot
 plot(x = 1:260, y = sfa.frp.avg, type = "l", col = alpha("red", 0.7), lwd = 2, 
      xlab = "Week", ylab = "Proportion Reachable")
 lines(x = 1:260, y = atla.frp.avg, type = "l", col = alpha("blue", 0.7), 
@@ -401,12 +403,326 @@ lines(x = 1:260, y = atla.frp.avg, type = "l", col = alpha("blue", 0.7),
 legend("bottomright", legend = c("San Francisco", "Atlanta"), 
        col = c("red", "blue"), lty = 1, cex(1.5))
 
-# By age
+
+## By age - PLOT 2 (all ptypes)
+
+# SF mean proportional reachable
+sfa.24.avg <- colMeans(as.data.frame(sfa.frp[sf.24, ]))/10000
+sfa.34.avg <- colMeans(as.data.frame(sfa.frp[sf.34, ]))/10000
+sfa.44.avg <- colMeans(as.data.frame(sfa.frp[sf.44, ]))/10000
+sfa.54.avg <- colMeans(as.data.frame(sfa.frp[sf.54, ]))/10000
+sfa.64.avg <- colMeans(as.data.frame(sfa.frp[sf.64, ]))/10000
+
+# ATL mean proportional reachable
+atla.24.avg <- colMeans(as.data.frame(atla.frp[atl.24, ]))/10000
+atla.34.avg <- colMeans(as.data.frame(atla.frp[atl.34, ]))/10000
+atla.44.avg <- colMeans(as.data.frame(atla.frp[atl.44, ]))/10000
+atla.54.avg <- colMeans(as.data.frame(atla.frp[atl.54, ]))/10000
+atla.64.avg <- colMeans(as.data.frame(atla.frp[atl.64, ]))/10000
+
+# Set plot options
+pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
+par(mfrow = c(1,2))
+
+# Plots
+plot(x = 1:260, y = sfa.24.avg, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable ", main = "San Francisco")
+lines(x = 1:260, y = sfa.34.avg, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfa.44.avg, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfa.54.avg, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfa.64.avg, type = "l", col = pal[5], 
+      lwd = 2)
+legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1)
+
+plot(x = 1:260, y = atla.24.avg, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta")
+lines(x = 1:260, y = atla.34.avg, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atla.44.avg, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atla.54.avg, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atla.64.avg, type = "l", col = pal[5], 
+      lwd = 2)
+legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1)
 
 
+## By race - PLOT 3 (all ptypes)
+
+# SF mean proportional reachable
+sfa.b.avg <- colMeans(as.data.frame(sfa.frp[sf.b, ]))/10000
+sfa.w.avg <- colMeans(as.data.frame(sfa.frp[sf.w, ]))/10000
+
+# ATL mean proportional reachable
+atla.b.avg <- colMeans(as.data.frame(atla.frp[atl.b, ]))/10000
+atla.w.avg <- colMeans(as.data.frame(atla.frp[atl.w, ]))/10000
+
+# Set plot options
+par(mfrow = c(1,1))
+
+# Plot
+plot(x = 1:260, y = sfa.b.avg, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfa.w.avg, type = "l", col = alpha("blue", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atla.b.avg, type = "l", col = alpha("yellow", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atla.w.avg, type = "l", col = alpha("green", 0.5), 
+      lwd = 2)
+legend("bottomright", 
+       legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
+       col = c("red", "blue", "yellow", "green"), lty = 1)
 
 
+## Main partnerships - Mean FRP over 5-years ##
 
+## Overall - PLOT 4 (main ptypes)
+
+# Mean proportional reachable
+sfm.frp.avg <- colMeans(as.data.frame(sfm.frp))/10000
+atlm.frp.avg <- colMeans(as.data.frame(atlm.frp))/10000
+
+# Set plot options
+par(mfrow = c(1,1))
+
+# Plots
+plot(x = 1:260, y = sfm.frp.avg, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atlm.frp.avg, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+legend("bottomright", legend = c("San Francisco", "Atlanta"), 
+       col = c("red", "blue"), lty = 1)
+
+
+## By age - PLOT 5 (main ptypes)
+
+# SF mean proportional reachable
+sfm.24.avg <- colMeans(as.data.frame(sfm.frp[sf.24, ]))/10000
+sfm.34.avg <- colMeans(as.data.frame(sfm.frp[sf.34, ]))/10000
+sfm.44.avg <- colMeans(as.data.frame(sfm.frp[sf.44, ]))/10000
+sfm.54.avg <- colMeans(as.data.frame(sfm.frp[sf.54, ]))/10000
+sfm.64.avg <- colMeans(as.data.frame(sfm.frp[sf.64, ]))/10000
+
+# ATL mean proportional reachable
+atlm.24.avg <- colMeans(as.data.frame(atlm.frp[atl.24, ]))/10000
+atlm.34.avg <- colMeans(as.data.frame(atlm.frp[atl.34, ]))/10000
+atlm.44.avg <- colMeans(as.data.frame(atlm.frp[atl.44, ]))/10000
+atlm.54.avg <- colMeans(as.data.frame(atlm.frp[atl.54, ]))/10000
+atlm.64.avg <- colMeans(as.data.frame(atlm.frp[atl.64, ]))/10000
+
+# Set plot options
+pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
+par(mfrow = c(1,2))
+
+# Plots
+plot(x = 1:260, y = sfm.24.avg, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable ", main = "San Francisco",
+     ylim = c(0.0001, 0.0005))
+lines(x = 1:260, y = sfm.34.avg, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfm.44.avg, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfm.54.avg, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfm.64.avg, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1)
+
+plot(x = 1:260, y = atlm.24.avg, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta",
+     ylim = c(0.0001, 0.0005))
+lines(x = 1:260, y = atlm.34.avg, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.44.avg, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.54.avg, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.64.avg, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1)
+
+
+## By race - PLOT 6 (main ptypes)
+
+# SF mean proportional reachable
+sfm.b.avg <- colMeans(as.data.frame(sfm.frp[sf.b, ]))/10000
+sfm.w.avg <- colMeans(as.data.frame(sfm.frp[sf.w, ]))/10000
+
+# ATL mean proportional reachable
+atlm.b.avg <- colMeans(as.data.frame(atlm.frp[atl.b, ]))/10000
+atlm.w.avg <- colMeans(as.data.frame(atlm.frp[atl.w, ]))/10000
+
+# Set plot options
+par(mfrow = c(1,1))
+
+# Plot
+plot(x = 1:260, y = sfm.b.avg, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfm.w.avg, type = "l", col = alpha("blue", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atlm.b.avg, type = "l", col = alpha("yellow", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atlm.w.avg, type = "l", col = alpha("green", 0.5), 
+      lwd = 2)
+legend("bottomright", 
+       legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
+       col = c("red", "blue", "yellow", "green"), lty = 1)
+
+
+## Casual partnerships - Mean FRP over 5-years ##
+
+## Overall - PLOT 7 (casual ptypes)
+
+# Mean proportional reachable
+sfc.frp.avg <- colMeans(as.data.frame(sfc.frp))/10000
+atlc.frp.avg <- colMeans(as.data.frame(atlc.frp))/10000
+
+# Set plot options
+par(mfrow = c(1,1))
+
+# Plots
+plot(x = 1:260, y = sfc.frp.avg, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atlc.frp.avg, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+legend("topleft", legend = c("San Francisco", "Atlanta"), 
+       col = c("red", "blue"), lty = 1)
+
+
+## By age - see lines 179-232 for manuscript table 3 code
+
+
+## By race - PLOT 8 (casual ptypes)
+
+# SF mean proportional reachable
+sfc.b.avg <- colMeans(as.data.frame(sfc.frp[sf.b, ]))/10000
+sfc.w.avg <- colMeans(as.data.frame(sfc.frp[sf.w, ]))/10000
+
+# ATL mean proportional reachable
+atlc.b.avg <- colMeans(as.data.frame(atlc.frp[atl.b, ]))/10000
+atlc.w.avg <- colMeans(as.data.frame(atlc.frp[atl.w, ]))/10000
+
+# Set plot options
+par(mfrow = c(1,1))
+
+# Plot
+plot(x = 1:260, y = sfc.b.avg, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfc.w.avg, type = "l", col = alpha("blue", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atlc.b.avg, type = "l", col = alpha("yellow", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atlc.w.avg, type = "l", col = alpha("green", 0.5), 
+      lwd = 2)
+legend("topleft", 
+       legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
+       col = c("red", "blue", "yellow", "green"), lty = 1)
+
+
+## One-time partnerships - Mean FRP over 5-years ##
+
+## Overall - PLOT 9 (inst. ptypes)
+
+# Mean proportional reachable
+sfi.frp.avg <- colMeans(as.data.frame(sfi.frp))/10000
+atli.frp.avg <- colMeans(as.data.frame(atli.frp))/10000
+
+# Set plot options
+par(mfrow = c(1,1))
+
+# Plots
+plot(x = 1:260, y = sfi.frp.avg, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atli.frp.avg, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+legend("topleft", legend = c("San Francisco", "Atlanta"), 
+       col = c("red", "blue"), lty = 1)
+
+
+## By age - PLOT 10 (inst. ptypes)
+
+# SF mean proportional reachable
+sfi.24.avg <- colMeans(as.data.frame(sfi.frp[sf.24, ]))/10000
+sfi.34.avg <- colMeans(as.data.frame(sfi.frp[sf.34, ]))/10000
+sfi.44.avg <- colMeans(as.data.frame(sfi.frp[sf.44, ]))/10000
+sfi.54.avg <- colMeans(as.data.frame(sfi.frp[sf.54, ]))/10000
+sfi.64.avg <- colMeans(as.data.frame(sfi.frp[sf.64, ]))/10000
+  
+# ATL mean proportional reachable
+atli.24.avg <- colMeans(as.data.frame(atli.frp[atl.24, ]))/10000
+atli.34.avg <- colMeans(as.data.frame(atli.frp[atl.34, ]))/10000
+atli.44.avg <- colMeans(as.data.frame(atli.frp[atl.44, ]))/10000
+atli.54.avg <- colMeans(as.data.frame(atli.frp[atl.54, ]))/10000
+atli.64.avg <- colMeans(as.data.frame(atli.frp[atl.64, ]))/10000
+  
+# Set plot options
+pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
+par(mfrow = c(1,2))
+  
+# Plots
+plot(x = 1:260, y = sfi.24.avg, type = "l", col = pal[1], lwd = 2, 
+      xlab = "Week", ylab = "Proportion Reachable", main = "San Francisco",
+      ylim = c(0, 0.35))
+lines(x = 1:260, y = sfi.34.avg, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfi.44.avg, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfi.54.avg, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfi.64.avg, type = "l", col = pal[5], 
+      lwd = 2)
+legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+         col = pal, lty = 1, cex = 0.7)
+  
+plot(x = 1:260, y = atli.24.avg, type = "l", col = pal[1], lwd = 2, 
+      xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta", 
+      ylim = c(0, 0.35))
+lines(x = 1:260, y = atli.34.avg, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atli.44.avg, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atli.54.avg, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atli.64.avg, type = "l", col = pal[5], 
+      lwd = 2)
+legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+        col = pal, lty = 1, cex = 0.7)
+
+  
+## By race - PLOT 11 (inst. ptypes)
+  
+# SF mean proportional reachable
+sfi.b.avg <- colMeans(as.data.frame(sfi.frp[sf.b, ]))/10000
+sfi.w.avg <- colMeans(as.data.frame(sfi.frp[sf.w, ]))/10000
+  
+# ATL mean proportional reachable
+atli.b.avg <- colMeans(as.data.frame(atli.frp[atl.b, ]))/10000
+atli.w.avg <- colMeans(as.data.frame(atli.frp[atl.w, ]))/10000
+  
+# Set plot options
+par(mfrow = c(1,1))
+
+# Plots
+plot(x = 1:260, y = sfi.b.avg, type = "l", col = alpha("red", 0.5), lwd = 2, 
+      xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfi.w.avg, type = "l", col = alpha("blue", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atli.b.avg, type = "l", col = alpha("yellow", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atli.w.avg, type = "l", col = alpha("green", 0.5), 
+      lwd = 2)
+legend("bottomright", 
+       legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
+       col = c("red", "blue", "yellow", "green"), lty = 1, cex = 0.8)
+
+# END ---------------------------------------------------------------------
 
 
 
