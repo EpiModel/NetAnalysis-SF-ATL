@@ -891,7 +891,7 @@ palv <- adjustcolor(wes_palette(5, name = "Zissou1"), alpha.f = 1)
 palv <- rainbow(10)
 
 ## All partnerships
-jpeg("Plot2.jpeg", width = 8, height = 4, units = 'in', res = 250)
+# jpeg("Plot2.jpeg", width = 8, height = 4, units = 'in', res = 250)
 par(mfrow = c(2, 3), oma = c(0, 0, 0, 0), xpd = NA, mgp = c(2,1,0), 
     mar = c(3,3,2,1))
 # SF

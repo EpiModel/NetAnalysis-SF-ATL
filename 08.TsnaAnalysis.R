@@ -160,17 +160,89 @@ rownames(comp.table2) <- c("SF, Overall", "SF, Age: 15-24", "SF, Age: 25-34",
                        "ATL, White")
 
 
-colnames(comp.table2) <- c("All Mean", "All Median", "All IQR Lower", "All IQR Upper",
-                    "Main Mean", "Main Median", "Main IQR Lower", 
-                    "Main IQR Upper", "Cas Mean", "Cas Median", 
-                    "Cas IQR Lower", "Cas IQR Upper", "OT Mean", "OT Median",
-                    "OT IQR Lower", "OT IQR Upper")
+colnames(comp.table2) <- c("All Mean", "All Median", "All IQR Lower", 
+                           "All IQR Upper", "Main Mean", "Main Median", 
+                           "Main IQR Lower", "Main IQR Upper", "Cas Mean", 
+                           "Cas Median", "Cas IQR Lower", "Cas IQR Upper", 
+                           "OT Mean", "OT Median","OT IQR Lower", 
+                           "OT IQR Upper")
 
 ## Export table to csv ##
 write.csv(comp.table2, "Table_2.csv")
 
 
 # Manuscript Figure 2 -----------------------------------------------------
+
+# Insert code
+
+
+# Manuscript Figure 3 -----------------------------------------------------
+
+## Mean proportional reachable among casual partnerships by age over 5-years ##
+
+## SF
+sfc.24.avg <- colMeans(as.data.frame(sfc.frp[sf.24, ]))/10000
+sfc.34.avg <- colMeans(as.data.frame(sfc.frp[sf.34, ]))/10000
+sfc.44.avg <- colMeans(as.data.frame(sfc.frp[sf.44, ]))/10000
+sfc.54.avg <- colMeans(as.data.frame(sfc.frp[sf.54, ]))/10000
+sfc.64.avg <- colMeans(as.data.frame(sfc.frp[sf.64, ]))/10000
+
+## ATL
+atlc.24.avg <- colMeans(as.data.frame(atlc.frp[atl.24, ]))/10000
+atlc.34.avg <- colMeans(as.data.frame(atlc.frp[atl.34, ]))/10000
+atlc.44.avg <- colMeans(as.data.frame(atlc.frp[atl.44, ]))/10000
+atlc.54.avg <- colMeans(as.data.frame(atlc.frp[atl.54, ]))/10000
+atlc.64.avg <- colMeans(as.data.frame(atlc.frp[atl.64, ]))/10000
+
+## Line plots ##
+
+## Set plot options
+pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
+jpeg("Plot3.jpeg", width = 8, height = 4, units = 'in', res = 300)
+par(mfrow = c(1,2), mgp = c(2,1,0), mar = c(3,3,2,1))
+
+## SF
+plot(x = 1:260, y = sfc.24.avg, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "San Francisco")
+lines(x = 1:260, y = sfc.34.avg, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.44.avg, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.54.avg, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.64.avg, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.8)
+
+## ATL
+plot(x = 1:260, y = atlc.24.avg, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta")
+lines(x = 1:260, y = atlc.34.avg, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atlc.44.avg, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atlc.54.avg, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atlc.64.avg, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.8)
+
+dev.off()
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
