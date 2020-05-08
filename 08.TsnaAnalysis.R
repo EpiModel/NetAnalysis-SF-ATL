@@ -382,4 +382,31 @@ atlib.quant <- quant.95int(atli.frp1[sf.b])
 atliw.quant <- quant.95int(atli.frp1[sf.w])
 
 
+# Additional figures ------------------------------------------------------
+
+## Mean FRP over 5-years ##
+
+## All partnerships
+
+# Overall
+sfa.frp.avg <- colMeans(as.data.frame(sfa.frp))/10000
+atla.frp.avg <- colMeans(as.data.frame(atla.frp))/10000
+
+par(mfrow = c(1,1))
+
+plot(x = 1:260, y = sfa.frp.avg, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atla.frp.avg, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+legend("bottomright", legend = c("San Francisco", "Atlanta"), 
+       col = c("red", "blue"), lty = 1, cex(1.5))
+
+# By age
+
+
+
+
+
+
+
 
