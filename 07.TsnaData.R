@@ -734,48 +734,48 @@ legend("topleft",
        col = c("red", "blue", "yellow", "green"), lty = 1, cex = 0.8)
 
 # Age ids
-
-sfc.24.av <- apply(sfc.frp[, sf.24], 1, mean)/10000
-sfc.34.av <- apply(sfc.frp[, sf.34], 1, mean)/10000
-sfc.44.av <- apply(sfc.frp[, sf.44], 1, mean)/10000
-sfc.54.av <- apply(sfc.frp[, sf.54], 1, mean)/10000
-sfc.64.av <- apply(sfc.frp[, sf.64], 1, mean)/10000
-
-atlc.24.av <- apply(atlc.frp[, atl.24], 1, mean)/10000
-atlc.34.av <- apply(atlc.frp[, atl.34], 1, mean)/10000
-atlc.44.av <- apply(atlc.frp[, atl.44], 1, mean)/10000
-atlc.54.av <- apply(atlc.frp[, atl.54], 1, mean)/10000
-atlc.64.av <- apply(atlc.frp[, atl.64], 1, mean)/10000
-
-pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
-jpeg("Plot3.jpeg", width = 8, height = 4, units = 'in', res = 300)
-par(mfrow = c(1,2), mgp = c(2,1,0), mar = c(3,3,2,1))
-plot(x = 1:260, y = sfc.24.av, type = "l", col = pal[1], lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable", main = "San Francisco")
-lines(x = 1:260, y = sfc.34.av, type = "l", col = pal[2], 
-      lwd = 2)
-lines(x = 1:260, y = sfc.44.av, type = "l", col = pal[3], 
-      lwd = 2)
-lines(x = 1:260, y = sfc.54.av, type = "l", col = pal[4], 
-      lwd = 2)
-lines(x = 1:260, y = sfc.64.av, type = "l", col = pal[5], 
-      lwd = 2)
-legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
-       col = pal, lty = 1, cex = 0.8)
-
-plot(x = 1:260, y = atlc.24.av, type = "l", col = pal[1], lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta")
-lines(x = 1:260, y = atlc.34.av, type = "l", col = pal[2], 
-      lwd = 2)
-lines(x = 1:260, y = atlc.44.av, type = "l", col = pal[3], 
-      lwd = 2)
-lines(x = 1:260, y = atlc.54.av, type = "l", col = pal[4], 
-      lwd = 2)
-lines(x = 1:260, y = atlc.64.av, type = "l", col = pal[5], 
-      lwd = 2)
-legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
-       col = pal, lty = 1, cex = 0.8)
-dev.off()
+# 
+# sfc.24.av <- apply(sfc.frp[, sf.24], 1, mean)/10000
+# sfc.34.av <- apply(sfc.frp[, sf.34], 1, mean)/10000
+# sfc.44.av <- apply(sfc.frp[, sf.44], 1, mean)/10000
+# sfc.54.av <- apply(sfc.frp[, sf.54], 1, mean)/10000
+# sfc.64.av <- apply(sfc.frp[, sf.64], 1, mean)/10000
+# 
+# atlc.24.av <- apply(atlc.frp[, atl.24], 1, mean)/10000
+# atlc.34.av <- apply(atlc.frp[, atl.34], 1, mean)/10000
+# atlc.44.av <- apply(atlc.frp[, atl.44], 1, mean)/10000
+# atlc.54.av <- apply(atlc.frp[, atl.54], 1, mean)/10000
+# atlc.64.av <- apply(atlc.frp[, atl.64], 1, mean)/10000
+# 
+# pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
+# jpeg("Plot3.jpeg", width = 8, height = 4, units = 'in', res = 300)
+# par(mfrow = c(1,2), mgp = c(2,1,0), mar = c(3,3,2,1))
+# plot(x = 1:260, y = sfc.24.av, type = "l", col = pal[1], lwd = 2, 
+#      xlab = "Week", ylab = "Proportion Reachable", main = "San Francisco")
+# lines(x = 1:260, y = sfc.34.av, type = "l", col = pal[2], 
+#       lwd = 2)
+# lines(x = 1:260, y = sfc.44.av, type = "l", col = pal[3], 
+#       lwd = 2)
+# lines(x = 1:260, y = sfc.54.av, type = "l", col = pal[4], 
+#       lwd = 2)
+# lines(x = 1:260, y = sfc.64.av, type = "l", col = pal[5], 
+#       lwd = 2)
+# legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+#        col = pal, lty = 1, cex = 0.8)
+# 
+# plot(x = 1:260, y = atlc.24.av, type = "l", col = pal[1], lwd = 2, 
+#      xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta")
+# lines(x = 1:260, y = atlc.34.av, type = "l", col = pal[2], 
+#       lwd = 2)
+# lines(x = 1:260, y = atlc.44.av, type = "l", col = pal[3], 
+#       lwd = 2)
+# lines(x = 1:260, y = atlc.54.av, type = "l", col = pal[4], 
+#       lwd = 2)
+# lines(x = 1:260, y = atlc.64.av, type = "l", col = pal[5], 
+#       lwd = 2)
+# legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+#        col = pal, lty = 1, cex = 0.8)
+# dev.off()
 
 ## Inst (Table 5)
 

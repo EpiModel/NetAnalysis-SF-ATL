@@ -232,21 +232,46 @@ legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"),
 dev.off()
 
 
+# Additional analyses -----------------------------------------------------
+
+## 95th interval of FRP at one-year ##
+
+## Function to calculate 2.5th and 97.5th percentiles
+quant.95int <- function(df) {
+  df.L <- quantile(df , 0.025)
+  df.U <- quantile(df , 0.975)
+  interval <- cbind(df.L, df.U)
+  rownames(interval) <- c('FRP')
+  return(interval)
+}
+
+
+## SF all partnerships
+
+# Overall
+sfa.quant <- quant.95int(sfa.frp1)
+
+# By age
+sfa24.quant <- quant.95int(sfa.frp1[sf.24])
+sfa34.quant <- quant.95int(sfa.frp1[sf.34])
+sfa44.quant <- quant.95int(sfa.frp1[sf.44])
+sfa54.quant <- quant.95int(sfa.frp1[sf.54])
+sfa64.quant <- quant.95int(sfa.frp1[sf.64])
+
+# By race
+sfab.quant <- quant.95int(sfa.frp1[sf.b])
+sfaw.quant <- quant.95int(sfa.frp1[sf.w])
+
+
+## SF main partnerships
 
 
 
 
+## SF casual partnerships
 
 
 
-
-
-
-
-
-
-
-
-
+## SF one-time partnerships
 
 
