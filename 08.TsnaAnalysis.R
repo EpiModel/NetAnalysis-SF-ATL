@@ -265,13 +265,121 @@ sfaw.quant <- quant.95int(sfa.frp1[sf.w])
 
 ## SF main partnerships
 
+# Overall
+sfm.quant <- quant.95int(sfm.frp1)
 
+# By age
+sfm24.quant <- quant.95int(sfm.frp1[sf.24])
+sfm34.quant <- quant.95int(sfm.frp1[sf.34])
+sfm44.quant <- quant.95int(sfm.frp1[sf.44])
+sfm54.quant <- quant.95int(sfm.frp1[sf.54])
+sfm64.quant <- quant.95int(sfm.frp1[sf.64])
+
+# By race
+sfmb.quant <- quant.95int(sfm.frp1[sf.b])
+sfmw.quant <- quant.95int(sfm.frp1[sf.w])
 
 
 ## SF casual partnerships
 
+# Overall
+sfc.quant <- quant.95int(sfa.frp1)
+
+# By age
+sfc24.quant <- quant.95int(sfc.frp1[sf.24])
+sfc34.quant <- quant.95int(sfc.frp1[sf.34])
+sfc44.quant <- quant.95int(sfc.frp1[sf.44])
+sfc54.quant <- quant.95int(sfc.frp1[sf.54])
+sfc64.quant <- quant.95int(sfc.frp1[sf.64])
+
+# By race
+sfcb.quant <- quant.95int(sfc.frp1[sf.b])
+sfcw.quant <- quant.95int(sfc.frp1[sf.w])
 
 
 ## SF one-time partnerships
+
+# Overall
+sfi.quant <- quant.95int(sfa.frp1)
+
+# By age
+sfi24.quant <- quant.95int(sfi.frp1[sf.24])
+sfi34.quant <- quant.95int(sfi.frp1[sf.34])
+sfi44.quant <- quant.95int(sfi.frp1[sf.44])
+sfi54.quant <- quant.95int(sfi.frp1[sf.54])
+sfi64.quant <- quant.95int(sfi.frp1[sf.64])
+
+# By race
+sfib.quant <- quant.95int(sfi.frp1[sf.b])
+sfiw.quant <- quant.95int(sfi.frp1[sf.w])
+
+
+## ATL all partnerships
+
+# Overall
+atla.quant <- quant.95int(atla.frp1)
+
+# By age
+atla24.quant <- quant.95int(atla.frp1[sf.24])
+atla34.quant <- quant.95int(atla.frp1[sf.34])
+atla44.quant <- quant.95int(atla.frp1[sf.44])
+atla54.quant <- quant.95int(atla.frp1[sf.54])
+atla64.quant <- quant.95int(atla.frp1[sf.64])
+
+# By race
+atlab.quant <- quant.95int(atla.frp1[sf.b])
+atlaw.quant <- quant.95int(atla.frp1[sf.w])
+
+
+## ATL main partnerships
+
+# Overall
+atlm.quant <- quant.95int(atlm.frp1)
+
+# By age
+atlm24.quant <- quant.95int(atlm.frp1[sf.24])
+atlm34.quant <- quant.95int(atlm.frp1[sf.34])
+atlm44.quant <- quant.95int(atlm.frp1[sf.44])
+atlm54.quant <- quant.95int(atlm.frp1[sf.54])
+atlm64.quant <- quant.95int(atlm.frp1[sf.64])
+
+# By race
+atlmb.quant <- quant.95int(atlm.frp1[sf.b])
+atlmw.quant <- quant.95int(atlm.frp1[sf.w])
+
+
+## ATL casual partnerships
+
+# Overall
+atlc.quant <- quant.95int(atlc.frp1)
+
+# By age
+atlc24.quant <- quant.95int(atlc.frp1[sf.24])
+atlc34.quant <- quant.95int(atlc.frp1[sf.34])
+atlc44.quant <- quant.95int(atlc.frp1[sf.44])
+atlc54.quant <- quant.95int(atlc.frp1[sf.54])
+atlc64.quant <- quant.95int(atlc.frp1[sf.64])
+
+# By race
+atlcb.quant <- quant.95int(atlc.frp1[sf.b])
+atlcw.quant <- quant.95int(atlc.frp1[sf.w])
+
+
+## ATL one-time partnerships
+
+# Overall
+atli.quant <- quant.95int(atli.frp1)
+
+# By age
+atli24.quant <- quant.95int(atli.frp1[sf.24])
+atli34.quant <- quant.95int(atli.frp1[sf.34])
+atli44.quant <- quant.95int(atli.frp1[sf.44])
+atli54.quant <- quant.95int(atli.frp1[sf.54])
+atli64.quant <- quant.95int(atli.frp1[sf.64])
+
+# By race
+atlib.quant <- quant.95int(atli.frp1[sf.b])
+atliw.quant <- quant.95int(atli.frp1[sf.w])
+
 
 
