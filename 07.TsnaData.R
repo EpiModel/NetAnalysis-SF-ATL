@@ -4,11 +4,7 @@
 ## 
 
 ## Packages ##
-# library("tsna")
-# library("scales")
 library("networkDynamicData")
-# suppressMessages(library("EpiModel"))
-
 
 ## Set seed for analysis ##
 set.seed(803)
@@ -168,67 +164,14 @@ out$frp$atli.frp <- atl.inst$frp
 fn <- "data/artnet.TsnaData.rda"
 saveRDS(out, file = fn)
 
-# END script here ---------------------------------------------------------
+
+# END ---------------------------------------------------------------------
 
 
-# 7.Distribution of FRPs --------------------------------------------------
-
-# par(mfrow = c(1, 2), oma = c(2, 0, 2, 0), xpd = NA)
-par(mfrow = c(1, 2))
-# pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.6)
-matplot(sfa.frp/10000, type = "l", xlab = "Week", ylab = "FRP",
-        col = alpha("red", 0.7))
-matplot(atla.frp/10000, type = "l", xlab = "Week", ylab = "FRP",
-        col = alpha("blue", 0.7))
-
-par(mfrow = c(1, 2))
-# pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.6)
-matplot(sfa.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
-matplot(atla.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
-
-matplot(sfc.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
-matplot(atlc.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
-
-plot(x = 1:260, y = sfa.frp.av, type = "l", col = alpha("red", 0.7), lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable")
-lines(x = 1:260, y = atla.frp.av, type = "l", col = alpha("blue", 0.7), 
-      lwd = 2)
-legend("bottomright", legend = c("San Francisco", "Atlanta"), 
-       col = c("red", "blue"), lty = 1, cex(1.5))
 
 
-#title()
 
-library("viridis")
-library("wesanderson")
-palv <- viridis(n = 4, alpha = 0.25, option = "inferno")
-palv <- adjustcolor(wes_palette(5, name = "Zissou1"), alpha.f = 1)
-palv <- rainbow(10)
 
-## All partnerships
-# jpeg("Plot2.jpeg", width = 8, height = 4, units = 'in', res = 250)
-par(mfrow = c(2, 3), oma = c(0, 0, 0, 0), xpd = NA, mgp = c(2,1,0), 
-    mar = c(3,3,2,1))
-# SF
-matplot(sfm.frp, type = "l", ylim = c(0, 30), xlab = "", ylab = "FRP", lty = 1,
-        col = palv, lwd = 0.1, main = "SF Main")
-matplot(sfc.frp, type = "l", ylim = c(0, 10000), xlab = "", ylab = "", lty = 1,
-        col = palv, lwd = 0.1, main = "SF Casual")
-matplot(sfi.frp, type = "l", ylim = c(0, 10000), xlab = "", ylab = "", lty = 1,
-        col = palv, lwd = 0.1, main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp, type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP", lty = 1,
-        col = palv, lwd = 0.1, main = "ATL Main")
-matplot(atlc.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", lty = 1,
-        col = palv, lwd = 0.1, main = "ATL Casual")
-matplot(atli.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", lty = 1,
-        col = palv, lwd = 0.1, main = "ATL One-Time")
-
-dev.off()
-
-# title("Distribution of 5-Year Foward Reachable Paths by Partnership Type", 
-      # outer = TRUE)
 
 
 
