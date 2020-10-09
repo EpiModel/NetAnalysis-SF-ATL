@@ -5,14 +5,14 @@
 
 ## Packages ##
 library("tidyverse")
-# library("ARTnetData")
-
-## Inputs ##
-city_name <- "Atlanta"
+library("ARTnetData")
 
 ## Data ##
 d <- ARTnet.wide
 l <- ARTnet.long
+
+## Inputs ##
+city_name <- "Atlanta"
 
 ## Derivatives ##
 coef_name <- paste0("city2", city_name)
@@ -86,12 +86,12 @@ l$p_hiv2 <- ifelse(l$p_hiv == 1, 1, 0)
 table(l$p_hiv2, l$p_hiv, useNA = "always")
 
 hiv.combo <- rep(NA, nrow(l))
-hiv.combo[l$hiv == 0 & l$p_hiv == 0] <- 1
-hiv.combo[l$hiv == 1 & l$p_hiv == 1] <- 2
-hiv.combo[l$hiv == 1 & l$p_hiv == 0] <- 3
-hiv.combo[l$hiv == 0 & l$p_hiv == 1] <- 3
-hiv.combo[l$hiv == 0 & l$p_hiv == 2] <- 4
-hiv.combo[l$hiv == 1 & l$p_hiv == 2] <- 5
+hiv.combo[l$hiv2 == 0 & l$p_hiv == 0] <- 1
+hiv.combo[l$hiv2 == 1 & l$p_hiv == 1] <- 2
+hiv.combo[l$hiv2 == 1 & l$p_hiv == 0] <- 3
+hiv.combo[l$hiv2 == 0 & l$p_hiv == 1] <- 3
+hiv.combo[l$hiv2 == 0 & l$p_hiv == 2] <- 4
+hiv.combo[l$hiv2 == 1 & l$p_hiv == 2] <- 5
 table(hiv.combo, useNA = "always")
 
 l$hiv.combo <- hiv.combo
@@ -99,6 +99,7 @@ l$hiv.concord <- ifelse(hiv.combo %in% 0:1, 1, 0)
 l$hiv.concord.pos <- ifelse(hiv.combo == 2, 1, 0)
 table(l$hiv.concord)
 table(l$hiv.concord.pos)
+
 
 # PrEP
 names(d)
@@ -110,6 +111,7 @@ table(d$prep, useNA = "always")
 
 dlim <- select(d, c(AMIS_ID, survey.year, prep))
 l <- left_join(l, dlim, by = "AMIS_ID")
+
 
 # city
 l$cityYN <- ifelse(l$city2 == city_name, 1, 0)
@@ -261,5 +263,6 @@ out$acts.mod <- acts.mod
 out$cond.mc.mod <- cond.mc.mod
 out$cond.oo.mod <- cond.oo.mod
 out$hiv.mod <- hiv.mod
-fn <- paste("data/artnet.EpiStats", gsub(" ", "", city_name), "rda", sep = ".")
-saveRDS(out, file = fn)
+fn.01 <- paste("data/artnet.EpiStats", gsub(" ", "", city_name), "rda", sep = ".")
+saveRDS(out, file = fn.01)
+

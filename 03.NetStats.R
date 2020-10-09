@@ -7,7 +7,7 @@
 library("tidyverse")
 library("EpiModelHIV")
 library("ARTnetData")
-
+library("readxl")
 
 ## Inputs ##
 city_name <- "Atlanta"
@@ -18,11 +18,11 @@ edges_avg_nfrace <- FALSE
 
 
 ## Load Data ##
-fn <- paste("data/artnet.NetParam", gsub(" ", "", city_name), "rda", sep = ".")
-nstats <- readRDS(file = fn)
+fn.01 <- paste("data/artnet.EpiStats", gsub(" ", "", city_name), "rda", sep = ".")
+estats <- readRDS(file = fn.01)
 
-fn <- paste("data/artnet.EpiStats", gsub(" ", "", city_name), "rda", sep = ".")
-estats <- readRDS(file = fn)
+fn.02 <- paste("data/artnet.NetParam", gsub(" ", "", city_name), "rda", sep = ".")
+nstats <- readRDS(file = fn.02)
 
 
 # Demographic Initialization ----------------------------------------------
@@ -34,12 +34,12 @@ out$demog <- list()
 num <- network_size
 
 # Population size by race group
-race.dist.3cat
-props <- race.dist.3cat[which(race.dist.3cat$City == city_name), -1]/100
+rdist <- as.data.frame(read_excel("RaceDistribution.xlsx"))
+prop <- rdist[which(rdist$City == city_name), -1]/100
 
-num.B <- out$demog$num.B <- round(num * props$Black)
-num.H <- out$demog$num.H <- round(num * props$Hispanic)
-num.W <- out$demog$num.W <- num - num.B - num.H
+num.B <- out$demog$num.B <- round(num * prop$`Black + Hispanic`)
+num.W <- out$demog$num.W <- round(num * prop$`White + Other`)
+
 
 ## Age-sex-specific mortality rates (B, H, W)
 #    in 5-year age decrments starting with age 15
@@ -47,21 +47,17 @@ num.W <- out$demog$num.W <- num - num.B - num.H
 ages <- out$demog$ages <- 15:64
 asmr.B <- c(0.00078, 0.00148, 0.00157, 0.00168, 0.00198,
             0.00254, 0.00376, 0.00628, 0.00999, 0.01533)
-asmr.H <- c(0.00078, 0.00148, 0.00157, 0.00168, 0.00198,
-            0.00254, 0.00376, 0.00628, 0.00999, 0.01533)
 asmr.W <- c(0.00059, 0.00117, 0.00144, 0.00168, 0.00194,
             0.00249, 0.00367, 0.00593, 0.00881, 0.01255)
 
 # transformed to weekly rates
 trans.asmr.B <- 1 - (1 - asmr.B)^(1/52)
-trans.asmr.H <- 1 - (1 - asmr.H)^(1/52)
 trans.asmr.W <- 1 - (1 - asmr.W)^(1/52)
 
 # Null rate for 0-14, transformed rates, total rate for 65
 vec.asmr.B <- c(rep(0, 14), rep(trans.asmr.B, each = 5), 1)
-vec.asmr.H <- c(rep(0, 14), rep(trans.asmr.H, each = 5), 1)
 vec.asmr.W <- c(rep(0, 14), rep(trans.asmr.W, each = 5), 1)
-asmr <- data.frame(age = 1:65, vec.asmr.B, vec.asmr.H, vec.asmr.W)
+asmr <- data.frame(age = 1:65, vec.asmr.B, vec.asmr.W)
 
 out$demog$asmr <- asmr
 
@@ -81,7 +77,7 @@ attr_age.grp <- cut(attr_age, age.breaks, labels = FALSE)
 out$attr$age.grp <- attr_age.grp
 
 # race attribute
-attr_race <- apportion_lr(num, 0:2, c(num.B/num, num.H/num, num.W/num), shuffled = TRUE)
+attr_race <- apportion_lr(num, 0:1, c(num.B/num, num.W/num), shuffled = TRUE)
 out$attr$race <- attr_race
 
 # deg.casl attribute
@@ -103,13 +99,6 @@ out$attr$risk.grp <- attr_risk.grp
 # role class
 attr_role.class <- apportion_lr(num, 0:2, nstats$all$role.type, shuffled = TRUE)
 out$attr$role.class <- attr_role.class
-
-# diag status
-xs <- data.frame(age = attr_age, race.cat3 = attr_race, cityYN = 1)
-preds <- predict(estats$hiv.mod, newdata = xs, type = "response")
-attr_diag.status <- rbinom(num, 1, preds)
-out$attr$diag.status <- attr_diag.status
-
 
 # 1. Main Partnership Stats --------------------------------------------------
 
