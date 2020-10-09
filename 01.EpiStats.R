@@ -6,6 +6,12 @@
 ## Packages ##
 library("tidyverse")
 library("ARTnetData")
+<<<<<<< Updated upstream
+=======
+
+## Inputs ##
+city_name <- "Atlanta"
+>>>>>>> Stashed changes
 
 ## Data ##
 d <- ARTnet.wide
@@ -124,7 +130,7 @@ d$cityYN <- ifelse(d$city2 == city_name, 1, 0)
 
 # Pull Data
 la <- select(l, ptype, duration, comb.age, city = cityYN,
-             race.combo, RAI, IAI, hiv.concord.pos, prep,
+             race.combo, RAI, IAI, hiv.concord.pos, prep.x,
              acts = anal.acts.week, cp.acts = anal.acts.week.cp) %>%
   filter(ptype %in% 1:2) %>%
   filter(RAI == 1 | IAI == 1)
