@@ -20,7 +20,6 @@ tstats <- readRDS(file = fn)
 # 0. Initialize Network ---------------------------------------------------
 
 num.B <- tstats$demog$num.B
-num.H <- tstats$demog$num.H
 num.W <- tstats$demog$num.W
 num <- num.B + num.H + num.W
 nw <- network::network.initialize(num, directed = FALSE)
