@@ -1,7 +1,6 @@
 
 ##
-## Network modeling for ART-Net Data
-## v1: 2018-08
+## Network modeling for ARTnet Data
 ##
 
 ## Packages ##
@@ -31,7 +30,6 @@ nw <- network::set.vertex.attribute(nw, attr.names, attr.values)
 nw_main <- nw_casl <- nw_inst <- nw
 
 
-
 # 1. Main Model -----------------------------------------------------------
 
 # Formula
@@ -45,6 +43,17 @@ model_main <- ~edges +
   degrange(from = 3) +
   nodematch("role.class", diff = TRUE, keep = 1:2)
 
+# model_main <- ~edges +
+#                nodematch("age.grp", diff = TRUE) +
+#                nodefactor("age.grp", base = 1) +
+#                nodematch("race", diff = FALSE) +
+#                nodefactor("race", base = 1) +
+#                nodefactor("deg.casl", base = 1) +
+#                concurrent +
+#                nodefactor("diag.status", base = 1) +
+#                degrange(from = 3) +
+#                nodematch("role.class", diff = TRUE, keep = 1:2)
+
 # Target Stats
 tstats_main <- c(
   edges = tstats$main$edges,
@@ -57,6 +66,19 @@ tstats_main <- c(
   degrange = 0,
   nodematch_role.class = c(0, 0)
 )
+
+# tstats_main <- c(
+#   edges = tstats$main$edges,
+#   nodematch_age.grp = tstats$main$nodematch_age.grp,
+#   nodefactor_age.grp = tstats$main$nodefactor_age.grp[-1],
+#   nodematch_race = tstats$main$nodematch_race_diffF,
+#   nodefactor_race = tstats$main$nodefactor_race[-1],
+#   nodefactor_deg.casl = tstats$main$nodefactor_deg.casl[-1],
+#   concurrent = tstats$main$concurrent,
+#   nodefactor_diag.status = tstats$main$nodefactor_diag.status[-1],
+#   degrange = 0,
+#   nodematch_role.class = c(0, 0)
+# )
 cbind(tstats_main)
 tstats_main <- unname(tstats_main)
 
@@ -69,7 +91,6 @@ fit_main <- netest(nw_main,
                                                    SAN.maxit = 2,
                                                    SAN.nsteps.times = 2),
                    verbose = TRUE)
-
 
 
 # 2. Casual Model ---------------------------------------------------------
@@ -109,7 +130,6 @@ fit_casl <- netest(nw_casl,
                                                    SAN.maxit = 10,
                                                    SAN.nsteps.times = 10),
                    verbose = TRUE)
-
 
 # 3. One-Off Model --------------------------------------------------------
 
@@ -154,3 +174,5 @@ fns <- strsplit(fn, "[.]")[[1]]
 fn.new <- paste(fns[1], "NetEst", fns[3], "rda", sep = ".")
 
 saveRDS(out, file = fn.new)
+
+

@@ -3,14 +3,13 @@
 
 suppressMessages(library("tsna"))
 suppressMessages(library("EpiModel"))
-suppressMessages(library("sna"))
 suppressMessages(library("doParallel"))
 
 city <- Sys.getenv("CITY")
 if (city == "atl") {
-  sim <- readRDS("input/artnet.NetSim.Atlanta.rda")
+  sim <- readRDS("data/artnet.NetSim.Atlanta.rda")
 } else {
-  sim <- readRDS("input/artnet.NetSim.SanFrancisco.rda")
+  sim <- readRDS("data/artnet.NetSim.SanFrancisco.rda")
 }
 
 net <- Sys.getenv("NET")
@@ -74,4 +73,4 @@ out <- foreach(vv = 1:length(v)) %dopar% {
 df <- do.call("cbind", out)
 
 fn <- paste(city, net, int, stringr::str_pad(simset, 3, pad = "0"), "rda", sep = ".")
-save(df, file = paste0("output/", fn))
+save(df, file = paste0("data/", fn))

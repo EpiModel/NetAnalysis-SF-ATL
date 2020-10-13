@@ -1,1813 +1,1125 @@
-## TSNA Analysis
-## 9/23/2018
 
+## 
+## tsna anlaysis for San Francisco & Atlanta sexual networks
+## 
+
+## Packages ##
 library("tsna")
 library("networkDynamicData")
 suppressMessages(library("EpiModel"))
-# library("sna")
-# library("ggplot2")
+library("scales")
 
+## Set seed for analysis ##
 set.seed(803)
 
+## Setup output list ##
+out <- list()
 
-# 0. Netowrk data ---------------------------------------------------------
 
-### Read in sims ###
+# 0. Network data ----------------------------------------------------------
 
-sim.sf <- readRDS("artnet.NetSim.SanFrancisco.rda")
-sim.atl <- readRDS("artnet.NetSim.Atlanta.rda")
+## Read in network simulations ##
 
-# Extract each partner type network
+sim.sf <- readRDS("DataV2/artnet.NetSim.SanFrancisco.rda")
+sim.atl <- readRDS("DataV2/artnet.NetSim.Atlanta.rda")
+
+## Extract each partner type network ##
+
+# SF networks
+net.sfm <- sim.sf[[1]] # main
+net.sfc <- sim.sf[[2]] # casual
+net.sfi <- sim.sf[[3]] # inst
+
+# ATL networks
+net.atlm <- sim.atl[[1]] # main
+net.atlc <- sim.atl[[2]] # casual
+net.atli <- sim.atl[[3]] # inst
+
+
+# 1. Outcome data ----------------------------------------------------------
+
+## Function to load outcome data ##
+
+load_data <- function(file) {
+  x <- load(file = file)
+  x <- out
+}
+
+## Load outcome data into global environment ##
+
+# All partnership types
+sf.all <- load_data("DataV2/sfo.all.1.rda")
+atl.all <- load_data("DataV2/atl.all.1.rda")
+
+# Main
+sf.main <- load_data("DataV2/sfo.main.1.rda")
+atl.main <- load_data("DataV2/atl.main.1.rda")
+
+# Casual
+sf.casl <- load_data("DataV2/sfo.casl.1.rda")
+atl.casl <- load_data("DataV2/atl.casl.1.rda")
+
+# Inst
+sf.inst <- load_data("DataV2/sfo.inst.1.rda")
+atl.inst <- load_data("DataV2/atl.inst.1.rda")
+
+
+# 2. Validation ------------------------------------------------------------
+
+# Time step to test 
+test_ts <- 260
+
+## Checking degree in simulations ##
+
+test1_inp <- EpiModel::get_degree(network.collapse(net.sfm, at = test_ts))
+test2_inp <- EpiModel::get_degree(network.collapse(net.sfc, at = test_ts))
+test3_inp <- EpiModel::get_degree(network.collapse(net.sfi, at = test_ts))
+test4_inp <- EpiModel::get_degree(network.collapse(net.atlm, at = test_ts))
+test5_inp <- EpiModel::get_degree(network.collapse(net.atlc, at = test_ts))
+test6_inp <- EpiModel::get_degree(network.collapse(net.atli, at = test_ts))
+
+## Checking degree in outcome data ##
+
+test1_out <- sf.main$degree[test_ts, ]
+which(!(test1_inp == test1_out))
+
+test2_out <- sf.casl$degree[test_ts, ]
+which(!(test2_inp == test2_out))
+
+test3_out <- sf.inst$degree[test_ts, ]
+which(!(test3_inp == test3_out))
+
+test4_out <- atl.main$degree[test_ts, ]
+which(!(test4_inp == test4_out))
+
+test5_out <- atl.casl$degree[test_ts, ]
+which(!(test4_inp == test4_out))
+
+test6_out <- atl.inst$degree[test_ts, ]
+which(!(test4_inp == test4_out))
+
+
+# 3. Extract vertex IDs ---------------------------------------------------
+
+## Extract vertex ids for age & race categories ##
+
+## Race
+
+# Black
+sf.b <- which(get.vertex.attribute(net.sfm, "race") == 0)
+atl.b <- which(get.vertex.attribute(net.atlm, "race") == 0)
+
+# White
+sf.w <- which(get.vertex.attribute(net.sfm, "race") == 1)
+atl.w <- which(get.vertex.attribute(net.atlm, "race") == 1)
+
+
+## Age
+
+# 15-24
+sf.24 <- which(get.vertex.attribute(net.sfm, "age.grp") == 1)
+atl.24 <- which(get.vertex.attribute(net.atlm, "age.grp") == 1)
+
+# 25-34
+sf.34 <- which(get.vertex.attribute(net.sfm, "age.grp") == 2)
+atl.34 <- which(get.vertex.attribute(net.atlm, "age.grp") == 2)
+
+# 35-44
+sf.44 <- which(get.vertex.attribute(net.sfm, "age.grp") == 3)
+atl.44 <- which(get.vertex.attribute(net.atlm, "age.grp") == 3)
+
+# 45-54
+sf.54 <- which(get.vertex.attribute(net.sfm, "age.grp") == 4)
+atl.54 <- which(get.vertex.attribute(net.atlm, "age.grp") == 4)
+
+# 55-64
+sf.64 <- which(get.vertex.attribute(net.sfm, "age.grp") == 5)
+atl.64 <- which(get.vertex.attribute(net.atlm, "age.grp") == 5)
+
+
+# 4. Extract FRP ----------------------------------------------------------
+
+## Setup output list ##
+out <- list()
+
+## Subset outcome data frame by FRP ##
+
+# All partnerships
+out$sfa.frp <- sf.all$frp
+out$atla.frp <- atl.all$frp
+
+# Main
+out$sfm.frp <- sf.main$frp
+out$atlm.frp <- atl.main$frp
+
+# Casual
+out$sfc.frp <- sf.casl$frp
+atlc.frp <- atl.casl$frp
+
+# Inst
+out$sfi.frp <- sf.inst$frp
+out$atli.frp <- atl.inst$frp
+
+
+fn <- "data/artnet.TsnaData.rda"
+saveRDS(out, file = fn)
+
+# 5.FRP Summary -----------------------------------------------------------
+
+## Manuscript table 2 ##
+
+## SF all partnerships
+
+# Transpose data frame
+t.sfa.frp <- t(sfa.frp)
+
+# Overall
+summary(t.sfa.frp[, 52])
+
+# Age summary
+summary(t.sfa.frp[sf.24, 52])
+summary(t.sfa.frp[sf.34, 52])
+summary(t.sfa.frp[sf.44, 52])
+summary(t.sfa.frp[sf.54, 52])
+summary(t.sfa.frp[sf.64, 52])
+
+# Race summary
+summary(t.sfa.frp[sf.b, 52])
+summary(t.sfa.frp[sf.w, 52])
+
+
+## SF main
+
+t.sfm.frp <- t(sfm.frp)
+summary(t.sfm.frp[, 52])
+quantile(t.sfm.frp[, 52], 0.025)
+quantile(t.sfm.frp[, 52], 0.975)
+
+# Age summary
+summary(t.sfm.frp[sf.24, 52])
+summary(t.sfm.frp[sf.34, 52])
+summary(t.sfm.frp[sf.44, 52])
+summary(t.sfm.frp[sf.54, 52])
+summary(t.sfm.frp[sf.64, 52])
+
+# Race summary
+summary(t.sfm.frp[sf.b, 52])
+summary(t.sfm.frp[sf.w, 52])
+
+
+
+## SF casual
+
+t.sfc.frp <- t(sfc.frp)
+summary(t.sfc.frp[, 52])
+quantile(t.sfc.frp[, 52], 0.025)
+quantile(t.sfc.frp[, 52], 0.975)
+
+# Age summary
+summary(t.sfc.frp[sf.24, 52])
+summary(t.sfc.frp[sf.34, 52])
+summary(t.sfc.frp[sf.44, 52])
+summary(t.sfc.frp[sf.54, 52])
+summary(t.sfc.frp[sf.64, 52])
+
+# Age quantiles
+quantile(t.sfc.frp[sf.24, 52], 0.025)
+quantile(t.sfc.frp[sf.24, 52], 0.975)
+quantile(t.sfc.frp[sf.34, 52], 0.025)
+quantile(t.sfc.frp[sf.34, 52], 0.975)
+quantile(t.sfc.frp[sf.44, 52], 0.025)
+quantile(t.sfc.frp[sf.44, 52], 0.975)
+quantile(t.sfc.frp[sf.54, 52], 0.025)
+quantile(t.sfc.frp[sf.54, 52], 0.975)
+quantile(t.sfc.frp[sf.64, 52], 0.025)
+quantile(t.sfc.frp[sf.64, 52], 0.975)
+
+# Race summary
+summary(t.sfc.frp[sf.b, 52])
+summary(t.sfc.frp[sf.w, 52])
+
+# Race quantiles
+quantile(t.sfc.frp[sf.b, 52], 0.025)
+quantile(t.sfc.frp[sf.b, 52], 0.975)
+quantile(t.sfc.frp[sf.w, 52], 0.025)
+quantile(t.sfc.frp[sf.w, 52], 0.975)
+
+
+## SF one-time
+
+t.sfi.frp <- t(sfi.frp)
+summary(t.sfi.frp[, 52])
+quantile(t.sfi.frp[, 52], 0.025)
+quantile(t.sfi.frp[, 52], 0.975)
+
+# Age summary
+summary(t.sfi.frp[sf.24, 52])
+summary(t.sfi.frp[sf.34, 52])
+summary(t.sfi.frp[sf.44, 52])
+summary(t.sfi.frp[sf.54, 52])
+summary(t.sfi.frp[sf.64, 52])
+
+# Age quantiles
+quantile(t.sfi.frp[sf.24, 52], 0.025)
+quantile(t.sfi.frp[sf.24, 52], 0.975)
+quantile(t.sfi.frp[sf.34, 52], 0.025)
+quantile(t.sfi.frp[sf.34, 52], 0.975)
+quantile(t.sfi.frp[sf.44, 52], 0.025)
+quantile(t.sfi.frp[sf.44, 52], 0.975)
+quantile(t.sfi.frp[sf.54, 52], 0.025)
+quantile(t.sfi.frp[sf.54, 52], 0.975)
+quantile(t.sfi.frp[sf.64, 52], 0.025)
+quantile(t.sfi.frp[sf.64, 52], 0.975)
+
+# Race summary
+summary(t.sfi.frp[sf.b, 52])
+summary(t.sfi.frp[sf.w, 52])
+
+# Race quantiles
+quantile(t.sfi.frp[sf.b, 52], 0.025)
+quantile(t.sfi.frp[sf.b, 52], 0.975)
+quantile(t.sfi.frp[sf.w, 52], 0.025)
+quantile(t.sfi.frp[sf.w, 52], 0.975)
+
+
+## ATL all
+
+t.atla.frp <- t(atla.frp)
+summary(t.atla.frp[, 52])
+quantile(t.atla.frp[, 52], 0.025)
+quantile(t.atla.frp[, 52], 0.975)
+
+# Age summary
+summary(t.atla.frp[sf.24, 52])
+summary(t.atla.frp[sf.34, 52])
+summary(t.atla.frp[sf.44, 52])
+summary(t.atla.frp[sf.54, 52])
+summary(t.atla.frp[sf.64, 52])
+
+# Race summary
+summary(t.atla.frp[sf.b, 52])
+summary(t.atla.frp[sf.w, 52])
+
+
+## ATL main
+
+t.atlm.frp <- t(atlm.frp)
+summary(t.atlm.frp[, 52])
+quantile(t.atlm.frp[, 52], 0.025)
+quantile(t.atlm.frp[, 52], 0.975)
+
+# Age summary
+summary(t.atlm.frp[sf.24, 52])
+summary(t.atlm.frp[sf.34, 52])
+summary(t.atlm.frp[sf.44, 52])
+summary(t.atlm.frp[sf.54, 52])
+summary(t.atlm.frp[sf.64, 52])
+
+# Race summary
+summary(t.atlm.frp[sf.b, 52])
+summary(t.atlm.frp[sf.w, 52])
+
+
+## ATL casual
+
+t.atlc.frp <- t(atlc.frp)
+summary(t.atlc.frp[, 52])
+quantile(t.atlc.frp[, 52], 0.025)
+quantile(t.atlc.frp[, 52], 0.975)
+
+# Age summary
+summary(t.atlc.frp[atl.24, 52])
+summary(t.atlc.frp[atl.34, 52])
+summary(t.atlc.frp[atl.44, 52])
+summary(t.atlc.frp[atl.54, 52])
+summary(t.atlc.frp[atl.64, 52])
+
+# Age quantiles
+quantile(t.atlc.frp[atl.24, 52], 0.025)
+quantile(t.atlc.frp[atl.24, 52], 0.975)
+quantile(t.atlc.frp[atl.34, 52], 0.025)
+quantile(t.atlc.frp[atl.34, 52], 0.975)
+quantile(t.atlc.frp[atl.44, 52], 0.025)
+quantile(t.atlc.frp[atl.44, 52], 0.975)
+quantile(t.atlc.frp[atl.54, 52], 0.025)
+quantile(t.atlc.frp[atl.54, 52], 0.975)
+quantile(t.atlc.frp[atl.64, 52], 0.025)
+quantile(t.atlc.frp[atl.64, 52], 0.975)
+
+# Race summary
+summary(t.atlc.frp[atl.b, 52])
+summary(t.atlc.frp[atl.w, 52])
+
+# Race quantiles
+quantile(t.atlc.frp[atl.b, 52], 0.025)
+quantile(t.atlc.frp[atl.b, 52], 0.975)
+quantile(t.atlc.frp[atl.w, 52], 0.025)
+quantile(t.atlc.frp[atl.w, 52], 0.975)
+
+
+## ATL one-time
+
+t.atli.frp <- t(atli.frp)
+summary(t.atli.frp[, 52])
+quantile(t.atli.frp[, 52], 0.025)
+quantile(t.atli.frp[, 52], 0.975)
+
+# Age summary
+summary(t.atli.frp[atl.24, 52])
+summary(t.atli.frp[atl.34, 52])
+summary(t.atli.frp[atl.44, 52])
+summary(t.atli.frp[atl.54, 52])
+summary(t.atli.frp[atl.64, 52])
+
+# Age quantiles
+quantile(t.atli.frp[atl.24, 52], 0.025)
+quantile(t.atli.frp[atl.24, 52], 0.975)
+quantile(t.atli.frp[atl.34, 52], 0.025)
+quantile(t.atli.frp[atl.34, 52], 0.975)
+quantile(t.atli.frp[atl.44, 52], 0.025)
+quantile(t.atli.frp[atl.44, 52], 0.975)
+quantile(t.atli.frp[atl.54, 52], 0.025)
+quantile(t.atli.frp[atl.54, 52], 0.975)
+quantile(t.atli.frp[atl.64, 52], 0.025)
+quantile(t.atli.frp[atl.64, 52], 0.975)
+
+# Race summary
+summary(t.atli.frp[atl.b, 52])
+summary(t.atli.frp[atl.w, 52])
+
+# Race quantiles
+quantile(t.atli.frp[atl.b, 52], 0.025)
+quantile(t.atli.frp[atl.b, 52], 0.975)
+quantile(t.atli.frp[atl.w, 52], 0.025)
+quantile(t.atli.frp[atl.w, 52], 0.975)
+
+
+# Time steps: 6 months, 1 year, 2 years, 5 years
+ts <- 52*c(0.5, 1, 2, 5)
+
+### Table 2: All partnerships
 
 ## SF
+sfa.sum1 <- summary(t(sfa.frp[ts, ]))
+# sd(sfa.frp[ts, ])
+frp1 <- summary(t(sfa.frp))
+write.csv(frp1, "sf_frp_2_24_19.csv")
 
-sf.m <- sim.sf[[1]] # main
-sf.c <- sim.sf[[2]] # casual
-sf.i <- sim.sf[[3]] # inst
+# Age ids
+sfa.sum124 <- summary(t(sfa.frp[ts, sf.24]))
+sfa.sum134 <- summary(t(sfa.frp[ts, sf.34]))
+sfa.sum144 <- summary(t(sfa.frp[ts, sf.44]))
+sfa.sum154 <- summary(t(sfa.frp[ts, sf.54]))
+sfa.sum164 <- summary(t(sfa.frp[ts, sf.64]))
+
+# Race ids
+sfa.sum1b <- summary(t(sfa.frp[ts, sf.b]))
+sfa.sum1w <- summary(t(sfa.frp[ts, sf.w]))
 
 ## ATL
+atla.sum1 <- summary(t(atla.frp[ts,]))
+frp2 <- summary(t(atla.frp))
+write.csv(frp2, "atl_frp_2_24_19.csv")
 
-atl.m <- sim.atl[[1]] # main
-atl.c <- sim.atl[[2]] # casual
-atl.i <- sim.atl[[3]] # inst
+# Age ids
+atla.sum124 <- summary(t(atla.frp[ts, atl.24]))
+atla.sum134 <- summary(t(atla.frp[ts, atl.34]))
+atla.sum144 <- summary(t(atla.frp[ts, atl.44]))
+atla.sum154 <- summary(t(atla.frp[ts, atl.54]))
+atla.sum164 <- summary(t(atla.frp[ts, atl.64]))
+
+# Race ids
+atla.sum1b <- summary(t(atla.frp[ts, atl.b]))
+atla.sum1w <- summary(t(atla.frp[ts, atl.w]))
 
 
-# 1. Outcome Data ---------------------------------------------------------
+### Table 3: Main partnerships
 
-
-### ALL ptypes ###
 
 ## SF
-# Load in data
-sf.all <- load(file = "sfo.all.1.rda")
-sf.all <- out
-sf.all <- as.data.frame(sf.all)
+sfm.sum1 <- summary(t(sfm.frp[ts, ]))
 
-# Subset by outcome
-sf.a.frp <- subset(sf.all, select = frp.1:frp.10000)
-sf.a.tdist <- subset(sf.all, select = medtdist.1:medtdist.10000)
-sf.a.gstep <- subset(sf.all, select = medgeod.1:medgeod.10000)
-sf.a.deg <- subset(sf.all, select = degree.1:degree.10000)
-sf.a.cumldeg <- subset(sf.all, select = cumldegree.1:cumldegree.10000)
-# sf.a.bcent <- subset(sf.all, select = bcent.1:bcent.10000)
+# Age ids
+sfm.sum124 <- summary(t(sfm.frp[ts, sf.24]))
+sfm.sum134 <- summary(t(sfm.frp[ts, sf.34]))
+sfm.sum144 <- summary(t(sfm.frp[ts, sf.44]))
+sfm.sum154 <- summary(t(sfm.frp[ts, sf.54]))
+sfm.sum164 <- summary(t(sfm.frp[ts, sf.64]))
 
-##ATl
-# Load in data
-atl.all <- load(file = "atl.all.1.rda")
-atl.all <- out
-atl.all <- as.data.frame(atl.all)
-
-# Subset by outcome
-atl.a.frp <- subset(atl.all, select = frp.1:frp.10000)
-atl.a.tdist <- subset(atl.all, select = medtdist.1:medtdist.10000)
-atl.a.gstep <- subset(atl.all, select = medgeod.1:medgeod.10000)
-atl.a.deg <- subset(atl.all, select = degree.1:degree.10000)
-atl.a.cumldeg <- subset(atl.all, select = cumldegree.1:cumldegree.10000)
-atl.a.bcent <- subset(atl.all, select = bcent.1:bcent.10000)
-
-
-### Main ###
-
-## SF
-# Load in data
-sf.main <- load(file = "sfo.main.1.rda")
-sf.main <- out
-sf.main <- as.data.frame(sf.main)
-
-# Subset by outcome
-sf.m.frp <- subset(sf.main, select = frp.1:frp.10000)
-sf.m.tdist <- subset(sf.main, select = medtdist.1:medtdist.10000)
-sf.m.gstep <- subset(sf.main, select = medgeod.1:medgeod.10000)
-sf.m.deg <- subset(sf.main, select = degree.1:degree.10000)
-sf.m.cumldeg <- subset(sf.main, select = cumldegree.1:cumldegree.10000)
-sf.m.bcent <- subset(sf.main, select = bcent.1:bcent.10000)
-
-write.csv(sf.m.tdist, file = "sfm_tdist.csv")
+# Race ids
+sfm.sum1b <- summary(t(sfm.frp[ts, sf.b]))
+sfm.sum1w <- summary(t(sfm.frp[ts, sf.w]))
 
 ## ATL
-# Load in data
-atl.main <- load(file = "atl.main.1.rda")
-atl.main <- out
-atl.main <- as.data.frame(atl.main)
+atlm.sum1 <- summary(t(atlm.frp[ts, ]))
 
-# Subset by outcome
-atl.m.frp <- subset(atl.main, select = frp.1:frp.10000)
-atl.m.tdist <- subset(atl.main, select = medtdist.1:medtdist.10000)
-atl.m.gstep <- subset(atl.main, select = medgeod.1:medgeod.10000)
-atl.m.deg <- subset(atl.main, select = degree.1:degree.10000)
-atl.m.cumldeg <- subset(atl.main, select = cumldegree.1:cumldegree.10000)
-atl.m.bcent <- subset(atl.main, select = bcent.1:bcent.10000)
+# Age ids
+atlm.sum124 <- summary(t(atlm.frp[ts, atl.24]))
+atlm.sum134 <- summary(t(atlm.frp[ts, atl.34]))
+atlm.sum144 <- summary(t(atlm.frp[ts, atl.44]))
+atlm.sum154 <- summary(t(atlm.frp[ts, atl.54]))
+atlm.sum164 <- summary(t(atlm.frp[ts, atl.64]))
+
+# Race ids
+atlm.sum1b <- summary(t(atlm.frp[ts, atl.b]))
+atlm.sum1w <- summary(t(atlm.frp[ts, atl.w]))
 
 
-### CASUAL ###
- 
+### Table 4: Casual partnerships
+
 ## SF
-# Load in data
-sf.casl <- load(file = "sfo.casl.1.rda")
-sf.casl <- out
-sf.casl <- as.data.frame(sf.casl)
+sfc.sum1 <- summary(t(sfc.frp[ts, ]))
 
-# Subset by outcome
-sf.c.frp <- subset(sf.casl, select = frp.1:frp.10000)
-sf.c.tdist <- subset(sf.casl, select = medtdist.1:medtdist.10000)
-sf.c.gstep <- subset(sf.casl, select = medgeod.1:medgeod.10000)
-sf.c.deg <- subset(sf.casl, select = degree.1:degree.10000)
-sf.c.cumldeg <- subset(sf.casl, select = cumldegree.1:cumldegree.10000)
-sf.c.bcent <- subset(sf.casl, select = bcent.1:bcent.10000)
+# Age ids
+sfc.sum124 <- summary(t(sfc.frp[ts, sf.24]))
+sfc.sum134 <- summary(t(sfc.frp[ts, sf.34]))
+sfc.sum144 <- summary(t(sfc.frp[ts, sf.44]))
+sfc.sum154 <- summary(t(sfc.frp[ts, sf.54]))
+sfc.sum164 <- summary(t(sfc.frp[ts, sf.64]))
+
+# Race ids
+sfc.sum1b <- summary(t(sfc.frp[ts, sf.b]))
+sfc.sum1w <- summary(t(sfc.frp[ts, sf.w]))
 
 ## ATL
-# Load in data
-atl.casl <- load(file = "atl.casl.1.rda")
-atl.casl <- out
-atl.casl <- as.data.frame(atl.casl)
+atlc.sum1 <- summary(t(atlc.frp[ts, ]))
 
-# Subset by outcome
-atl.c.frp <- subset(atl.casl, select = frp.1:frp.10000)
-atl.c.tdist <- subset(atl.casl, select = medtdist.1:medtdist.10000)
-atl.c.gstep <- subset(atl.casl, select = medgeod.1:medgeod.10000)
-atl.c.deg <- subset(atl.casl, select = degree.1:degree.10000)
-atl.c.cumldeg <- subset(atl.casl, select = cumldegree.1:cumldegree.10000)
-atl.c.bcent <- subset(atl.casl, select = bcent.1:bcent.10000)
+# Age ids
+atlc.sum124 <- summary(t(atlc.frp[ts, atl.24]))
+atlc.sum134 <- summary(t(atlc.frp[ts, atl.34]))
+atlc.sum144 <- summary(t(atlc.frp[ts, atl.44]))
+atlc.sum154 <- summary(t(atlc.frp[ts, atl.54]))
+atlc.sum164 <- summary(t(atlc.frp[ts, atl.64]))
+
+# Race ids
+atlc.sum1b <- summary(t(atlc.frp[ts, atl.b]))
+atlc.sum1w <- summary(t(atlc.frp[ts, atl.w]))
 
 
-### INST ###
+### Table 5: One-Time partnerships
 
 ## SF
-# Load in data
-sf.inst <- load(file = "sfo.inst.1.rda")
-sf.inst <- out
-sf.inst <- as.data.frame(sf.inst)
+sfi.sum1 <- summary(t(sfi.frp[ts, ]))
 
-# Subset by outcome
-sf.i.frp <- subset(sf.inst, select = frp.1:frp.10000)
-sf.i.tdist <- subset(sf.inst, select = medtdist.1:medtdist.10000)
-sf.i.gstep <- subset(sf.inst, select = medgeod.1:medgeod.10000)
-sf.i.deg <- subset(sf.inst, select = degree.1:degree.10000)
-sf.i.cumldeg <- subset(sf.inst, select = cumldegree.1:cumldegree.10000)
-sf.i.bcent <- subset(sf.inst, select = bcent.1:bcent.10000)
+# Age ids
+sfi.sum124 <- summary(t(sfi.frp[ts, sf.24]))
+sfi.sum134 <- summary(t(sfi.frp[ts, sf.34]))
+sfi.sum144 <- summary(t(sfi.frp[ts, sf.44]))
+sfi.sum154 <- summary(t(sfi.frp[ts, sf.54]))
+sfi.sum164 <- summary(t(sfi.frp[ts, sf.64]))
+
+# Race ids
+sfi.sum1b <- summary(t(sfi.frp[ts, sf.b]))
+sfi.sum1w <- summary(t(sfi.frp[ts, sf.w]))
 
 ## ATL
-# Load in data
-atl.inst <- load(file = "atl.inst.1.rda")
-atl.inst <- out
-atl.inst <- as.data.frame(atl.inst)
-
-# Subset by outcome
-atl.i.frp <- subset(atl.inst, select = frp.1:frp.10000)
-atl.i.tdist <- subset(atl.inst, select = medtdist.1:medtdist.10000)
-atl.i.gstep <- subset(atl.inst, select = medgeod.1:medgeod.10000)
-atl.i.deg <- subset(atl.inst, select = degree.1:degree.10000)
-atl.i.cumldeg <- subset(atl.inst, select = cumldegree.1:cumldegree.10000)
-atl.i.bcent <- subset(atl.inst, select = bcent.1:bcent.10000)
-
-# df <- as.data.frame(names(sf.main))
-
-
-# 2. Validation -----------------------------------------------------------
-
-## Checking degree in simulations
-EpiModel::get_degree(network.collapse(sf.m, at = 1))
-EpiModel::get_degree(network.collapse(sf.c, at = 1))
-EpiModel::get_degree(network.collapse(sf.i, at = 1))
-EpiModel::get_degree(network.collapse(atl.m, at = 1))
-EpiModel::get_degree(network.collapse(atl.c, at = 1))
-EpiModel::get_degree(network.collapse(atl.i, at = 1))
-
-## Checking degree in outcome data
-
-# Main
-test <- subset(sf.main, select = degree.1:degree.10000)
-test <- subset(atl.main, select = degree.1:degree.10000)
-
-# Casual
-test <- subset(sf.casl, select = degree.1:degree.10000)
-test <- subset(atl.casl, select = degree.1:degree.10000)
-
-# Instantaneous
-test <- subset(sf.inst, select = degree.1:degree.10000)
-test <- subset(atl.inst, select = degree.1:degree.10000)
-
-
-# 3a. Extract IDs: Race --------------------------------------------------
-
-
-### Black ###
-
-## SF
-sf.id.b <- which(get.vertex.attribute(sf.m, "race") == "B")
-
-# All ptypes
-sfa.frp.b <- sf.a.frp[sf.id.b]
-
-# Main
-sfm.frp.b <- sf.m.frp[sf.id.b]
-sfm.tdist.b <- sf.m.tdist[sf.id.b]
-sfm.gstep.b <- sf.m.gstep[sf.id.b]
-sfm.deg.b <- sf.m.deg[sf.id.b]
-sfm.cumldeg.b <- sf.m.cumldeg[sf.id.b]
-sfm.bcent.b <- sf.m.bcent[sf.id.b]
-
-# Casual
-sfc.frp.b <- sf.c.frp[sf.id.b]
-sfc.tdist.b <- sf.c.tdist[sf.id.b]
-sfc.gstep.b <- sf.c.gstep[sf.id.b]
-sfc.deg.b <- sf.c.deg[sf.id.b]
-sfc.cumldeg.b <- sf.c.cumldeg[sf.id.b]
-sfc.bcent.b <- sf.c.bcent[sf.id.b]
-
-# Inst
-sfi.frp.b <- sf.i.frp[sf.id.b]
-sfi.tdist.b <- sf.i.tdist[sf.id.b]
-sfi.gstep.b <- sf.i.gstep[sf.id.b]
-sfi.deg.b <- sf.i.deg[sf.id.b]
-sfi.cumldeg.b <- sf.i.cumldeg[sf.id.b]
-sfi.bcent.b <- sf.i.bcent[sf.id.b]
-
-
-## ATL
-atl.id.b <- which(get.vertex.attribute(atl.m, "race") == "B")
-
-# All ptypes
-atla.frp.b <- atl.a.frp[atl.id.b]
-
-# Main
-atlm.frp.b <- atl.m.frp[atl.id.b]
-atlm.tdist.b <- atl.m.tdist[atl.id.b]
-atlm.gstep.b <- atl.m.gstep[atl.id.b]
-atlm.deg.b <- atl.m.deg[atl.id.b]
-atlm.cumldeg.b <- atl.m.cumldeg[atl.id.b]
-atlm.bcent.b <- atl.m.bcent[atl.id.b]
-
-# Casual
-atlc.frp.b <- atl.c.frp[atl.id.b]
-atlc.tdist.b <- atl.c.tdist[atl.id.b]
-atlc.gstep.b <- atl.c.gstep[atl.id.b]
-atlc.deg.b <- atl.c.deg[atl.id.b]
-atlc.cumldeg.b <- atl.c.cumldeg[atl.id.b]
-atlc.bcent.b <- atl.c.bcent[atl.id.b]
-
-# Inst
-atli.frp.b <- atl.i.frp[atl.id.b]
-atli.tdist.b <- atl.i.tdist[atl.id.b]
-atli.gstep.b <- atl.i.gstep[atl.id.b]
-atli.deg.b <- atl.i.deg[atl.id.b]
-atli.cumldeg.b <- atl.i.cumldeg[atl.id.b]
-atli.bcent.b <- atl.i.bcent[atl.id.b]
-
-
-### White ###
-
-## SF
-sf.id.w <- which(get.vertex.attribute(sf.m, "race") == "W")
-
-# All ptypes
-sfa.frp.w <- sf.a.frp[sf.id.w]
-
-# Main
-sfm.frp.w <- sf.m.frp[sf.id.w]
-sfm.tdist.w <- sf.m.tdist[sf.id.w]
-sfm.gstep.w <- sf.m.gstep[sf.id.w]
-sfm.deg.w <- sf.m.deg[sf.id.w]
-sfm.cumldeg.w <- sf.m.cumldeg[sf.id.w]
-sfm.bcent.w <- sf.m.bcent[sf.id.w]
-
-# Casual
-sfc.frp.w <- sf.c.frp[sf.id.w]
-sfc.tdist.w <- sf.c.tdist[sf.id.w]
-sfc.gstep.w <- sf.c.gstep[sf.id.w]
-sfc.deg.w <- sf.c.deg[sf.id.w]
-sfc.cumldeg.w <- sf.c.cumldeg[sf.id.w]
-sfc.bcent.w <- sf.c.bcent[sf.id.w]
-
-# Inst
-sfi.frp.w <- sf.i.frp[sf.id.w]
-sfi.tdist.w <- sf.i.tdist[sf.id.w]
-sfi.gstep.w <- sf.i.gstep[sf.id.w]
-sfi.deg.w <- sf.i.deg[sf.id.w]
-sfi.cumldeg.w <- sf.i.cumldeg[sf.id.w]
-sfi.bcent.w <- sf.i.bcent[sf.id.w]
-
-
-## ATL
-atl.id.w <- which(get.vertex.attribute(atl.m, "race") == "W")
-
-# All ptypes
-atla.frp.w <- atl.a.frp[atl.id.w]
-
-# Main
-atlm.frp.w <- atl.m.frp[atl.id.w]
-atlm.tdist.w <- atl.m.tdist[atl.id.w]
-atlm.gstep.w <- atl.m.gstep[atl.id.w]
-atlm.deg.w <- atl.m.deg[atl.id.w]
-atlm.cumldeg.w <- atl.m.cumldeg[atl.id.w]
-atlm.bcent.w <- atl.m.bcent[atl.id.w]
-
-# Casual
-atlc.frp.w <- atl.c.frp[atl.id.w]
-atlc.tdist.w <- atl.c.tdist[atl.id.w]
-atlc.gstep.w <- atl.c.gstep[atl.id.w]
-atlc.deg.w <- atl.c.deg[atl.id.w]
-atlc.cumldeg.w <- atl.c.cumldeg[atl.id.w]
-atlc.bcent.w <- atl.c.bcent[atl.id.w]
-
-# Inst
-atli.frp.w <- atl.i.frp[atl.id.w]
-atli.tdist.w <- atl.i.tdist[atl.id.w]
-atli.gstep.w <- atl.i.gstep[atl.id.w]
-atli.deg.w <- atl.i.deg[atl.id.w]
-atli.cumldeg.w <- atl.i.cumldeg[atl.id.w]
-atli.bcent.w <- atl.i.bcent[atl.id.w]
-
-
-
-# 3b. Extract IDs: Age ----------------------------------------------------
-
-
-## Age 0-24
-
-## SF
-sf.id.24 <- which(get.vertex.attribute(sf.m, "age.grp") == "1")
-
-# All ptypes
-sfa.frp.24 <- sf.a.frp[sf.id.24]
-
-# Main
-sfm.frp.24 <- sf.m.frp[sf.id.24]
-sfm.tdist.24 <- sf.m.tdist[sf.id.24]
-sfm.gstep.24 <- sf.m.gstep[sf.id.24]
-sfm.deg.24 <- sf.m.deg[sf.id.24]
-sfm.cumldeg.24 <- sf.m.cumldeg[sf.id.24]
-sfm.bcent.24 <- sf.m.bcent[sf.id.24]
-
-# Casual
-sfc.frp.24 <- sf.c.frp[sf.id.24]
-sfc.tdist.24 <- sf.c.tdist[sf.id.24]
-sfc.gstep.24 <- sf.c.gstep[sf.id.24]
-sfc.deg.24 <- sf.c.deg[sf.id.24]
-sfc.cumldeg.24 <- sf.c.cumldeg[sf.id.24]
-sfc.bcent.24 <- sf.c.bcent[sf.id.24]
-
-# Inst
-sfi.frp.24 <- sf.i.frp[sf.id.24]
-sfi.tdist.24 <- sf.i.tdist[sf.id.24]
-sfi.gstep.24 <- sf.i.gstep[sf.id.24]
-sfi.deg.24 <- sf.i.deg[sf.id.24]
-sfi.cumldeg.24 <- sf.i.cumldeg[sf.id.24]
-sfi.bcent.24 <- sf.i.bcent[sf.id.24]
-
-
-## ATL
-atl.id.24 <- which(get.vertex.attribute(atl.m, "age.grp") == "1")
-
-# All ptypes
-atla.frp.24 <- atl.a.frp[atl.id.24]
-
-# Main
-atlm.frp.24 <- atl.m.frp[atl.id.24]
-atlm.tdist.24 <- atl.m.tdist[atl.id.24]
-atlm.gstep.24 <- atl.m.gstep[atl.id.24]
-atlm.deg.24 <- atl.m.deg[atl.id.24]
-atlm.cumldeg.24 <- atl.m.cumldeg[atl.id.24]
-atlm.bcent.24 <- atl.m.bcent[atl.id.24]
-
-# Casual
-atlc.frp.24 <- atl.c.frp[atl.id.24]
-atlc.tdist.24 <- atl.c.tdist[atl.id.24]
-atlc.gstep.24 <- atl.c.gstep[atl.id.24]
-atlc.deg.24 <- atl.c.deg[atl.id.24]
-atlc.cumldeg.24 <- atl.c.cumldeg[atl.id.24]
-atlc.bcent.24 <- atl.c.bcent[atl.id.24]
-
-# Inst
-atli.frp.24 <- atl.i.frp[atl.id.24]
-atli.tdist.24 <- atl.i.tdist[atl.id.24]
-atli.gstep.24 <- atl.i.gstep[atl.id.24]
-atli.deg.24 <- atl.i.deg[atl.id.24]
-atli.cumldeg.24 <- atl.i.cumldeg[atl.id.24]
-atli.bcent.24 <- atl.i.bcent[atl.id.24]
-
-
-## Age 25-34
-
-## SF
-sf.id.34 <- which(get.vertex.attribute(sf.m, "age.grp") == "2")
-
-# All ptypes
-sfa.frp.34 <- sf.a.frp[sf.id.34]
-
-# Main
-sfm.frp.34 <- sf.m.frp[sf.id.34]
-sfm.tdist.34 <- sf.m.tdist[sf.id.34]
-sfm.gstep.34 <- sf.m.gstep[sf.id.34]
-sfm.deg.34 <- sf.m.deg[sf.id.34]
-sfm.cumldeg.34 <- sf.m.cumldeg[sf.id.34]
-sfm.bcent.34 <- sf.m.bcent[sf.id.34]
-
-# Casual
-sfc.frp.34 <- sf.c.frp[sf.id.34]
-sfc.tdist.34 <- sf.c.tdist[sf.id.34]
-sfc.gstep.34 <- sf.c.gstep[sf.id.34]
-sfc.deg.34 <- sf.c.deg[sf.id.34]
-sfc.cumldeg.34 <- sf.c.cumldeg[sf.id.34]
-sfc.bcent.34 <- sf.c.bcent[sf.id.34]
-
-# Inst
-sfi.frp.34 <- sf.i.frp[sf.id.34]
-sfi.tdist.34 <- sf.i.tdist[sf.id.34]
-sfi.gstep.34 <- sf.i.gstep[sf.id.34]
-sfi.deg.34 <- sf.i.deg[sf.id.34]
-sfi.cumldeg.34 <- sf.i.cumldeg[sf.id.34]
-sfi.bcent.34 <- sf.i.bcent[sf.id.34]
-
-
-## ATL
-atl.id.34 <- which(get.vertex.attribute(atl.m, "age.grp") == "2")
-
-# All ptypes
-atla.frp.34 <- atl.a.frp[atl.id.34]
-
-# Main
-atlm.frp.34 <- atl.m.frp[atl.id.34]
-atlm.tdist.34 <- atl.m.tdist[atl.id.34]
-atlm.gstep.34 <- atl.m.gstep[atl.id.34]
-atlm.deg.34 <- atl.m.deg[atl.id.34]
-atlm.cumldeg.34 <- atl.m.cumldeg[atl.id.34]
-atlm.bcent.34 <- atl.m.bcent[atl.id.34]
-
-# Casual
-atlc.frp.34 <- atl.c.frp[atl.id.34]
-atlc.tdist.34 <- atl.c.tdist[atl.id.34]
-atlc.gstep.34 <- atl.c.gstep[atl.id.34]
-atlc.deg.34 <- atl.c.deg[atl.id.34]
-atlc.cumldeg.34 <- atl.c.cumldeg[atl.id.34]
-atlc.bcent.34 <- atl.c.bcent[atl.id.34]
-
-# Inst
-atli.frp.34 <- atl.i.frp[atl.id.34]
-atli.tdist.34 <- atl.i.tdist[atl.id.34]
-atli.gstep.34 <- atl.i.gstep[atl.id.34]
-atli.deg.34 <- atl.i.deg[atl.id.34]
-atli.cumldeg.34 <- atl.i.cumldeg[atl.id.34]
-atli.bcent.34 <- atl.i.bcent[atl.id.34]
-
-
-## Age 35-44
-
-## SF
-sf.id.44 <- which(get.vertex.attribute(sf.m, "age.grp") == "3")
-
-# All ptypes
-sfa.frp.44 <- sf.a.frp[sf.id.44]
-
-# Main
-sfm.frp.44 <- sf.m.frp[sf.id.44]
-sfm.tdist.44 <- sf.m.tdist[sf.id.44]
-sfm.gstep.44 <- sf.m.gstep[sf.id.44]
-sfm.deg.44 <- sf.m.deg[sf.id.44]
-sfm.cumldeg.44 <- sf.m.cumldeg[sf.id.44]
-sfm.bcent.44 <- sf.m.bcent[sf.id.44]
-
-# Casual
-sfc.frp.44 <- sf.c.frp[sf.id.44]
-sfc.tdist.44 <- sf.c.tdist[sf.id.44]
-sfc.gstep.44 <- sf.c.gstep[sf.id.44]
-sfc.deg.44 <- sf.c.deg[sf.id.44]
-sfc.cumldeg.44 <- sf.c.cumldeg[sf.id.44]
-sfc.bcent.44 <- sf.c.bcent[sf.id.44]
-
-# Inst
-sfi.frp.44 <- sf.i.frp[sf.id.44]
-sfi.tdist.44 <- sf.i.tdist[sf.id.44]
-sfi.gstep.44 <- sf.i.gstep[sf.id.44]
-sfi.deg.44 <- sf.i.deg[sf.id.44]
-sfi.cumldeg.44 <- sf.i.cumldeg[sf.id.44]
-sfi.bcent.44 <- sf.i.bcent[sf.id.44]
-
-
-## ATL
-atl.id.44 <- which(get.vertex.attribute(atl.m, "age.grp") == "3")
-
-# All ptypes
-atla.frp.44 <- atl.a.frp[atl.id.44]
-
-# Main
-atlm.frp.44 <- atl.m.frp[atl.id.44]
-atlm.tdist.44 <- atl.m.tdist[atl.id.44]
-atlm.gstep.44 <- atl.m.gstep[atl.id.44]
-atlm.deg.44 <- atl.m.deg[atl.id.44]
-atlm.cumldeg.44 <- atl.m.cumldeg[atl.id.44]
-atlm.bcent.44 <- atl.m.bcent[atl.id.44]
-
-# Casual
-atlc.frp.44 <- atl.c.frp[atl.id.44]
-atlc.tdist.44 <- atl.c.tdist[atl.id.44]
-atlc.gstep.44 <- atl.c.gstep[atl.id.44]
-atlc.deg.44 <- atl.c.deg[atl.id.44]
-atlc.cumldeg.44 <- atl.c.cumldeg[atl.id.44]
-atlc.bcent.44 <- atl.c.bcent[atl.id.44]
-
-# Inst
-atli.frp.44 <- atl.c.frp[atl.id.44]
-atli.tdist.44 <- atl.c.tdist[atl.id.44]
-atli.gstep.44 <- atl.c.gstep[atl.id.44]
-atli.deg.44 <- atl.c.deg[atl.id.44]
-atli.cumldeg.44 <- atl.c.cumldeg[atl.id.44]
-atli.bcent.44 <- atl.c.bcent[atl.id.44]
-
-
-## Age 45-54
-
-## SF
-sf.id.54 <- which(get.vertex.attribute(sf.m, "age.grp") == "4")
-
-# all ptypes
-sfa.frp.54 <- sf.a.frp[sf.id.54]
-
-# Main
-sfm.frp.54 <- sf.m.frp[sf.id.54]
-sfm.tdist.54 <- sf.m.tdist[sf.id.54]
-sfm.gstep.54 <- sf.m.gstep[sf.id.54]
-sfm.deg.54 <- sf.m.deg[sf.id.54]
-sfm.cumldeg.54 <- sf.m.cumldeg[sf.id.54]
-sfm.bcent.54 <- sf.m.bcent[sf.id.54]
-
-# Casual
-sfc.frp.54 <- sf.c.frp[sf.id.54]
-sfc.tdist.54 <- sf.c.tdist[sf.id.54]
-sfc.gstep.54 <- sf.c.gstep[sf.id.54]
-sfc.deg.54 <- sf.c.deg[sf.id.54]
-sfc.cumldeg.54 <- sf.c.cumldeg[sf.id.54]
-sfc.bcent.54 <- sf.c.bcent[sf.id.54]
-
-# Inst
-sfi.frp.54 <- sf.i.frp[sf.id.54]
-sfi.tdist.54 <- sf.i.tdist[sf.id.54]
-sfi.gstep.54 <- sf.i.gstep[sf.id.54]
-sfi.deg.54 <- sf.i.deg[sf.id.54]
-sfi.cumldeg.54 <- sf.i.cumldeg[sf.id.54]
-sfi.bcent.54 <- sf.i.bcent[sf.id.54]
-
-
-## ATL
-atl.id.54 <- which(get.vertex.attribute(atl.m, "age.grp") == "4")
-
-# All ptypes
-atla.frp.54 <- atl.a.frp[atl.id.54]
-
-# Main
-atlm.frp.54 <- atl.m.frp[atl.id.54]
-atlm.tdist.54 <- atl.m.tdist[atl.id.54]
-atlm.gstep.54 <- atl.m.gstep[atl.id.54]
-atlm.deg.54 <- atl.m.deg[atl.id.54]
-atlm.cumldeg.54 <- atl.m.cumldeg[atl.id.54]
-atlm.bcent.54 <- atl.m.bcent[atl.id.54]
-
-# Casual
-atlc.frp.54 <- atl.c.frp[atl.id.54]
-atlc.tdist.54 <- atl.c.tdist[atl.id.54]
-atlc.gstep.54 <- atl.c.gstep[atl.id.54]
-atlc.deg.54 <- atl.c.deg[atl.id.54]
-atlc.cumldeg.54 <- atl.c.cumldeg[atl.id.54]
-atlc.bcent.54 <- atl.c.bcent[atl.id.54]
-
-# Inst
-atli.frp.54 <- atl.i.frp[atl.id.54]
-atli.tdist.54 <- atl.i.tdist[atl.id.54]
-atli.gstep.54 <- atl.i.gstep[atl.id.54]
-atli.deg.54 <- atl.i.deg[atl.id.54]
-atli.cumldeg.54 <- atl.i.cumldeg[atl.id.54]
-atli.bcent.54 <- atl.i.bcent[atl.id.54]
-
-
-## Age 55+
-
-## SF
-sf.id.64 <- which(get.vertex.attribute(sf.m, "age.grp") == "5")
-
-# All ptypes
-sfa.frp.64 <- sf.a.frp[sf.id.64]
-
-# Main
-sfm.frp.64 <- sf.m.frp[sf.id.64]
-sfm.tdist.64 <- sf.m.tdist[sf.id.64]
-sfm.gstep.64 <- sf.m.gstep[sf.id.64]
-sfm.deg.64 <- sf.m.deg[sf.id.64]
-sfm.cumldeg.64 <- sf.m.cumldeg[sf.id.64]
-sfm.bcent.64 <- sf.m.bcent[sf.id.64]
-
-# Casual
-sfc.frp.64 <- sf.c.frp[sf.id.64]
-sfc.tdist.64 <- sf.c.tdist[sf.id.64]
-sfc.gstep.64 <- sf.c.gstep[sf.id.64]
-sfc.deg.64 <- sf.c.deg[sf.id.64]
-sfc.cumldeg.64 <- sf.c.cumldeg[sf.id.64]
-sfc.bcent.64 <- sf.c.bcent[sf.id.64]
-
-# Inst
-sfi.frp.64 <- sf.i.frp[sf.id.64]
-sfi.tdist.64 <- sf.i.tdist[sf.id.64]
-sfi.gstep.64 <- sf.i.gstep[sf.id.64]
-sfi.deg.64 <- sf.i.deg[sf.id.64]
-sfi.cumldeg.64 <- sf.i.cumldeg[sf.id.64]
-sfi.bcent.64 <- sf.i.bcent[sf.id.64]
-
-
-## ATL
-atl.id.64 <- which(get.vertex.attribute(atl.m, "age.grp") == "5")
-
-# All ptypes
-atla.frp.64 <- atl.a.frp[atl.id.64]
-
-# Main
-atlm.frp.64 <- atl.m.frp[atl.id.64]
-atlm.tdist.64 <- atl.m.tdist[atl.id.64]
-atlm.gstep.64 <- atl.m.gstep[atl.id.64]
-atlm.deg.64 <- atl.m.deg[atl.id.64]
-atlm.cumldeg.64 <- atl.m.cumldeg[atl.id.64]
-atlm.bcent.64 <- atl.m.bcent[atl.id.64]
-
-# Casual
-atlc.frp.64 <- atl.c.frp[atl.id.64]
-atlc.tdist.64 <- atl.c.tdist[atl.id.64]
-atlc.gstep.64 <- atl.c.gstep[atl.id.64]
-atlc.deg.64 <- atl.c.deg[atl.id.64]
-atlc.cumldeg.64 <- atl.c.cumldeg[atl.id.64]
-atlc.bcent.64 <- atl.c.bcent[atl.id.64]
-
-# Inst
-atli.frp.64 <- atl.i.frp[atl.id.64]
-atli.tdist.64 <- atl.i.tdist[atl.id.64]
-atli.gstep.64 <- atl.i.gstep[atl.id.64]
-atli.deg.64 <- atl.i.deg[atl.id.64]
-atli.cumldeg.64 <- atl.i.cumldeg[atl.id.64]
-atli.bcent.64 <- atl.i.bcent[atl.id.64]
-
-
-# 3c. Extract IDs: Race & Age ---------------------------------------------
-
-## Black 0-24
-
-## SF
-sf.id.b24 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "1")
-
-# All ptypes
-sfa.frp.b24 <- sf.a.frp[sf.id.b24]
-
-# Main
-sfm.frp.b24 <- sf.m.frp[sf.id.b24]
-sfm.tdist.b24 <- sf.m.tdist[sf.id.b24]
-sfm.gstep.b24 <- sf.m.gstep[sf.id.b24]
-sfm.deg.b24 <- sf.m.deg[sf.id.b24]
-sfm.cumldeg.b24 <- sf.m.cumldeg[sf.id.b24]
-sfm.bcent.b24 <- sf.m.bcent[sf.id.b24]
-
-# Casual
-sfc.frp.b24 <- sf.c.frp[sf.id.b24]
-sfc.tdist.b24 <- sf.c.tdist[sf.id.b24]
-sfc.gstep.b24 <- sf.c.gstep[sf.id.b24]
-sfc.deg.b24 <- sf.c.deg[sf.id.b24]
-sfc.cumldeg.b24 <- sf.c.cumldeg[sf.id.b24]
-sfc.bcent.b24 <- sf.c.bcent[sf.id.b24]
-
-# Inst
-sfi.frp.b24 <- sf.i.frp[sf.id.b24]
-sfi.tdist.b24 <- sf.i.tdist[sf.id.b24]
-sfi.gstep.b24 <- sf.i.gstep[sf.id.b24]
-sfi.deg.b24 <- sf.i.deg[sf.id.b24]
-sfi.cumldeg.b24 <- sf.i.cumldeg[sf.id.b24]
-sfi.bcent.b24 <- sf.i.bcent[sf.id.b24]
-
-
-## ATL
-atl.id.b24 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "1")
-
-# All ptypes
-atla.frp.b24 <- atl.a.frp[atl.id.b24]
-
-# Main
-atlm.frp.b24 <- atl.m.frp[atl.id.b24]
-atlm.tdist.b24 <- atl.m.tdist[atl.id.b24]
-atlm.gstep.b24 <- atl.m.gstep[atl.id.b24]
-atlm.deg.b24 <- atl.m.deg[atl.id.b24]
-atlm.cumldeg.b24 <- atl.m.cumldeg[atl.id.b24]
-atlm.bcent.b24 <- atl.m.bcent[atl.id.b24]
-
-# Casual
-atlc.frp.b24 <- atl.c.frp[atl.id.b24]
-atlc.tdist.b24 <- atl.c.tdist[atl.id.b24]
-atlc.gstep.b24 <- atl.c.gstep[atl.id.b24]
-atlc.deg.b24 <- atl.c.deg[atl.id.b24]
-atlc.cumldeg.b24 <- atl.c.cumldeg[atl.id.b24]
-atlc.bcent.b24 <- atl.c.bcent[atl.id.b24]
-
-# Inst
-atli.frp.b24 <- atl.i.frp[atl.id.b24]
-atli.tdist.b24 <- atl.i.tdist[atl.id.b24]
-atli.gstep.b24 <- atl.i.gstep[atl.id.b24]
-atli.deg.b24 <- atl.i.deg[atl.id.b24]
-atli.cumldeg.b24 <- atl.i.cumldeg[atl.id.b24]
-atli.bcent.b24 <- atl.i.bcent[atl.id.b24]
-
-
-## White 0-24
-
-## SF
-sf.id.w24 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "1")
-
-# All pytpes
-sfa.frp.w24 <- sf.a.frp[sf.id.w24]
-
-# Main
-sfm.frp.w24 <- sf.m.frp[sf.id.w24]
-sfm.tdist.w24 <- sf.m.tdist[sf.id.w24]
-sfm.gstep.w24 <- sf.m.gstep[sf.id.w24]
-sfm.deg.w24 <- sf.m.deg[sf.id.w24]
-sfm.cumldeg.w24 <- sf.m.cumldeg[sf.id.w24]
-sfm.bcent.w24 <- sf.m.bcent[sf.id.w24]
-
-# Casual
-sfc.frp.w24 <- sf.c.frp[sf.id.w24]
-sfc.tdist.w24 <- sf.c.tdist[sf.id.w24]
-sfc.gstep.w24 <- sf.c.gstep[sf.id.w24]
-sfc.deg.w24 <- sf.c.deg[sf.id.w24]
-sfc.cumldeg.w24 <- sf.c.cumldeg[sf.id.w24]
-sfc.bcent.w24 <- sf.c.bcent[sf.id.w24]
-
-# Inst
-sfi.frp.w24 <- sf.i.frp[sf.id.w24]
-sfi.tdist.w24 <- sf.i.tdist[sf.id.w24]
-sfi.gstep.w24 <- sf.i.gstep[sf.id.w24]
-sfi.deg.w24 <- sf.i.deg[sf.id.w24]
-sfi.cumldeg.w24 <- sf.i.cumldeg[sf.id.w24]
-sfi.bcent.w24 <- sf.i.bcent[sf.id.w24]
-
-
-## ATL
-atl.id.w24 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "1")
-
-# All ptypes
-atla.frp.w24 <- atl.a.frp[atl.id.w24]
-
-# Main
-atlm.frp.w24 <- atl.m.frp[atl.id.w24]
-atlm.tdist.w24 <- atl.m.tdist[atl.id.w24]
-atlm.gstep.w24 <- atl.m.gstep[atl.id.w24]
-atlm.deg.w24 <- atl.m.deg[atl.id.w24]
-atlm.cumldeg.w24 <- atl.m.cumldeg[atl.id.w24]
-atlm.bcent.w24 <- atl.m.bcent[atl.id.w24]
-
-# Casual
-atlc.frp.w24 <- atl.c.frp[atl.id.w24]
-atlc.tdist.w24 <- atl.c.tdist[atl.id.w24]
-atlc.gstep.w24 <- atl.c.gstep[atl.id.w24]
-atlc.deg.w24 <- atl.c.deg[atl.id.w24]
-atlc.cumldeg.w24 <- atl.c.cumldeg[atl.id.w24]
-atlc.bcent.w24 <- atl.c.bcent[atl.id.w24]
-
-# Inst
-atli.frp.w24 <- atl.i.frp[atl.id.w24]
-atli.tdist.w24 <- atl.i.tdist[atl.id.w24]
-atli.gstep.w24 <- atl.i.gstep[atl.id.w24]
-atli.deg.w24 <- atl.i.deg[atl.id.w24]
-atli.cumldeg.w24 <- atl.i.cumldeg[atl.id.w24]
-atli.bcent.w24 <- atl.i.bcent[atl.id.w24]
-
-
-## Black 25-34
-
-## SF
-sf.id.b34 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "2")
-
-# All ptypes
-sfa.frp.b34 <- sf.a.frp[sf.id.b34]
-
-# Main
-sfm.frp.b34 <- sf.m.frp[sf.id.b34]
-sfm.tdist.b34 <- sf.m.tdist[sf.id.b34]
-sfm.gstep.b34 <- sf.m.gstep[sf.id.b34]
-sfm.deg.b34 <- sf.m.deg[sf.id.b34]
-sfm.cumldeg.b34 <- sf.m.cumldeg[sf.id.b34]
-sfm.bcent.b34 <- sf.m.bcent[sf.id.b34]
-
-# Casual
-sfc.frp.b34 <- sf.c.frp[sf.id.b34]
-sfc.tdist.b34 <- sf.c.tdist[sf.id.b34]
-sfc.gstep.b34 <- sf.c.gstep[sf.id.b34]
-sfc.deg.b34 <- sf.c.deg[sf.id.b34]
-sfc.cumldeg.b34 <- sf.c.cumldeg[sf.id.b34]
-sfc.bcent.b34 <- sf.c.bcent[sf.id.b34]
-
-# Inst
-sfi.frp.b34 <- sf.i.frp[sf.id.b34]
-sfi.tdist.b34 <- sf.i.tdist[sf.id.b34]
-sfi.gstep.b34 <- sf.i.gstep[sf.id.b34]
-sfi.deg.b34 <- sf.i.deg[sf.id.b34]
-sfi.cumldeg.b34 <- sf.i.cumldeg[sf.id.b34]
-sfi.bcent.b34 <- sf.i.bcent[sf.id.b34]
-
-
-## ATL
-atl.id.b34 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "2")
-
-# All ptypes
-atla.frp.b34 <- atl.a.frp[atl.id.b34]
-
-# Main
-atlm.frp.b34 <- atl.m.frp[atl.id.b34]
-atlm.tdist.b34 <- atl.m.tdist[atl.id.b34]
-atlm.gstep.b34 <- atl.m.gstep[atl.id.b34]
-atlm.deg.b34 <- atl.m.deg[atl.id.b34]
-atlm.cumldeg.b34 <- atl.m.cumldeg[atl.id.b34]
-atlm.bcent.b34 <- atl.m.bcent[atl.id.b34]
-
-# Casual
-atlc.frp.b34 <- atl.c.frp[atl.id.b34]
-atlc.tdist.b34 <- atl.c.tdist[atl.id.b34]
-atlc.gstep.b34 <- atl.c.gstep[atl.id.b34]
-atlc.deg.b34 <- atl.c.deg[atl.id.b34]
-atlc.cumldeg.b34 <- atl.c.cumldeg[atl.id.b34]
-atlc.bcent.b34 <- atl.c.bcent[atl.id.b34]
-
-# Inst
-atli.frp.b34 <- atl.i.frp[atl.id.b34]
-atli.tdist.b34 <- atl.i.tdist[atl.id.b34]
-atli.gstep.b34 <- atl.i.gstep[atl.id.b34]
-atli.deg.b34 <- atl.i.deg[atl.id.b34]
-atli.cumldeg.b34 <- atl.i.cumldeg[atl.id.b34]
-atli.bcent.b34 <- atl.i.bcent[atl.id.b34]
-
-
-## White 25-34
-
-## SF
-sf.id.w34 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "2")
-
-# All ptypes
-sfa.frp.w34 <- sf.a.frp[sf.id.w34]
-
-# Main
-sfm.frp.w34 <- sf.m.frp[sf.id.w34]
-sfm.tdist.w34 <- sf.m.tdist[sf.id.w34]
-sfm.gstep.w34 <- sf.m.gstep[sf.id.w34]
-sfm.deg.w34 <- sf.m.deg[sf.id.w34]
-sfm.cumldeg.w34 <- sf.m.cumldeg[sf.id.w34]
-sfm.bcent.w34 <- sf.m.bcent[sf.id.w34]
-
-# Casual
-sfc.frp.w34 <- sf.c.frp[sf.id.w34]
-sfc.tdist.w34 <- sf.c.tdist[sf.id.w34]
-sfc.gstep.w34 <- sf.c.gstep[sf.id.w34]
-sfc.deg.w34 <- sf.c.deg[sf.id.w34]
-sfc.cumldeg.w34 <- sf.c.cumldeg[sf.id.w34]
-sfc.bcent.w34 <- sf.c.bcent[sf.id.w34]
-
-# Inst
-sfi.frp.w34 <- sf.i.frp[sf.id.w34]
-sfi.tdist.w34 <- sf.i.tdist[sf.id.w34]
-sfi.gstep.w34 <- sf.i.gstep[sf.id.w34]
-sfi.deg.w34 <- sf.i.deg[sf.id.w34]
-sfi.cumldeg.w34 <- sf.i.cumldeg[sf.id.w34]
-sfi.bcent.w34 <- sf.i.bcent[sf.id.w34]
-
-
-## ATL
-atl.id.w34 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "2")
-
-# All ptypes
-atla.frp.w34 <- atl.a.frp[atl.id.w34]
-
-# Main
-atlm.frp.w34 <- atl.m.frp[atl.id.w34]
-atlm.tdist.w34 <- atl.m.tdist[atl.id.w34]
-atlm.gstep.w34 <- atl.m.gstep[atl.id.w34]
-atlm.deg.w34 <- atl.m.deg[atl.id.w34]
-atlm.cumldeg.w34 <- atl.m.cumldeg[atl.id.w34]
-atlm.bcent.w34 <- atl.m.bcent[atl.id.w34]
-
-# Casual
-atlc.frp.w34 <- atl.c.frp[atl.id.w34]
-atlc.tdist.w34 <- atl.c.tdist[atl.id.w34]
-atlc.gstep.w34 <- atl.c.gstep[atl.id.w34]
-atlc.deg.w34 <- atl.c.deg[atl.id.w34]
-atlc.cumldeg.w34 <- atl.c.cumldeg[atl.id.w34]
-atlc.bcent.w34 <- atl.c.bcent[atl.id.w34]
-
-# Inst
-atli.frp.w34 <- atl.i.frp[atl.id.w34]
-atli.tdist.w34 <- atl.i.tdist[atl.id.w34]
-atli.gstep.w34 <- atl.i.gstep[atl.id.w34]
-atli.deg.w34 <- atl.i.deg[atl.id.w34]
-atli.cumldeg.w34 <- atl.i.cumldeg[atl.id.w34]
-atli.bcent.w34 <- atl.i.bcent[atl.id.w34]
-
-
-## Black 35-44
-
-## SF
-sf.id.b44 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "3")
-
-# All ptypes
-sfa.frp.b44 <- sf.a.frp[sf.id.b44]
-
-# Main
-sfm.frp.b44 <- sf.m.frp[sf.id.b44]
-sfm.tdist.b44 <- sf.m.tdist[sf.id.b44]
-sfm.gstep.b44 <- sf.m.gstep[sf.id.b44]
-sfm.deg.b44 <- sf.m.deg[sf.id.b44]
-sfm.cumldeg.b44 <- sf.m.cumldeg[sf.id.b44]
-sfm.bcent.b44 <- sf.m.bcent[sf.id.b44]
-
-# Casual
-sfc.frp.b44 <- sf.c.frp[sf.id.b44]
-sfc.tdist.b44 <- sf.c.tdist[sf.id.b44]
-sfc.gstep.b44 <- sf.c.gstep[sf.id.b44]
-sfc.deg.b44 <- sf.c.deg[sf.id.b44]
-sfc.cumldeg.b44 <- sf.c.cumldeg[sf.id.b44]
-sfc.bcent.b44 <- sf.c.bcent[sf.id.b44]
-
-# Inst
-sfi.frp.b44 <- sf.i.frp[sf.id.b44]
-sfi.tdist.b44 <- sf.i.tdist[sf.id.b44]
-sfi.gstep.b44 <- sf.i.gstep[sf.id.b44]
-sfi.deg.b44 <- sf.i.deg[sf.id.b44]
-sfi.cumldeg.b44 <- sf.i.cumldeg[sf.id.b44]
-sfi.bcent.b44 <- sf.i.bcent[sf.id.b44]
-
-
-## ATL
-atl.id.b44 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "3")
-
-# All ptypes
-atla.frp.b44 <- atl.a.frp[atl.id.b44]
-
-# Main
-atlm.frp.b44 <- atl.m.frp[atl.id.b44]
-atlm.tdist.b44 <- atl.m.tdist[atl.id.b44]
-atlm.gstep.b44 <- atl.m.gstep[atl.id.b44]
-atlm.deg.b44 <- atl.m.deg[atl.id.b44]
-atlm.cumldeg.b44 <- atl.m.cumldeg[atl.id.b44]
-atlm.bcent.b44 <- atl.m.bcent[atl.id.b44]
-
-# Casual
-atlc.frp.b44 <- atl.c.frp[atl.id.b44]
-atlc.tdist.b44 <- atl.c.tdist[atl.id.b44]
-atlc.gstep.b44 <- atl.c.gstep[atl.id.b44]
-atlc.deg.b44 <- atl.c.deg[atl.id.b44]
-atlc.cumldeg.b44 <- atl.c.cumldeg[atl.id.b44]
-atlc.bcent.b44 <- atl.c.bcent[atl.id.b44]
-
-# Inst
-atli.frp.b44 <- atl.i.frp[atl.id.b44]
-atli.tdist.b44 <- atl.i.tdist[atl.id.b44]
-atli.gstep.b44 <- atl.i.gstep[atl.id.b44]
-atli.deg.b44 <- atl.i.deg[atl.id.b44]
-atli.cumldeg.b44 <- atl.i.cumldeg[atl.id.b44]
-atli.bcent.b44 <- atl.i.bcent[atl.id.b44]
-
-
-## White 35-44
-
-## SF
-sf.id.w44 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "3")
-
-# All ptypes
-sfa.frp.w44 <- sf.a.frp[sf.id.w44]
-
-# Main
-sfm.frp.w44 <- sf.m.frp[sf.id.w44]
-sfm.tdist.w44 <- sf.m.tdist[sf.id.w44]
-sfm.gstep.w44 <- sf.m.gstep[sf.id.w44]
-sfm.deg.w44 <- sf.m.deg[sf.id.w44]
-sfm.cumldeg.w44 <- sf.m.cumldeg[sf.id.w44]
-sfm.bcent.w44 <- sf.m.bcent[sf.id.w44]
-
-# Casual
-sfc.frp.w44 <- sf.c.frp[sf.id.w44]
-sfc.tdist.w44 <- sf.c.tdist[sf.id.w44]
-sfc.gstep.w44 <- sf.c.gstep[sf.id.w44]
-sfc.deg.w44 <- sf.c.deg[sf.id.w44]
-sfc.cumldeg.w44 <- sf.c.cumldeg[sf.id.w44]
-sfc.bcent.w44 <- sf.c.bcent[sf.id.w44]
-
-# Inst
-sfi.frp.w44 <- sf.i.frp[sf.id.w44]
-sfi.tdist.w44 <- sf.i.tdist[sf.id.w44]
-sfi.gstep.w44 <- sf.i.gstep[sf.id.w44]
-sfi.deg.w44 <- sf.i.deg[sf.id.w44]
-sfi.cumldeg.w44 <- sf.i.cumldeg[sf.id.w44]
-sfi.bcent.w44 <- sf.i.bcent[sf.id.w44]
+atli.sum1 <- summary(t(atli.frp[ts, ]))
+
+# Age ids
+atli.sum124 <- summary(t(atli.frp[ts, atl.24]))
+atli.sum134 <- summary(t(atli.frp[ts, atl.34]))
+atli.sum144 <- summary(t(atli.frp[ts, atl.44]))
+atli.sum154 <- summary(t(atli.frp[ts, atl.54]))
+atli.sum164 <- summary(t(atli.frp[ts, atl.64]))
+
+# Race ids
+atli.sum1b <- summary(t(atli.frp[ts, atl.b]))
+atli.sum1w <- summary(t(atli.frp[ts, atl.w]))
+
+# Potentiall include
+quantile(t.sfa.frp[, 52], 0.025)
+quantile(t.sfa.frp[, 52], 0.975)
+
+
+# 6.Mean FRP Plots --------------------------------------------------------
+
+# par(mfrow = c(1,3))
+
+## All partnerships (Table 2)
+
+sfa.frp.av <- apply(sfa.frp, 1, mean)/10000
+atla.frp.av <- apply(atla.frp, 1, mean)/10000
+
+plot(x = 1:260, y = sfa.frp.av, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atla.frp.av, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+legend("bottomright", legend = c("San Francisco", "Atlanta"), 
+       col = c("red", "blue"), lty = 1, cex(1.5))
+
+# Race ids
+
+sfa.b.av <- apply(sfa.frp[, sf.b], 1, mean)/10000
+sfa.w.av <- apply(sfa.frp[, sf.w], 1, mean)/10000
+
+atla.b.av <- apply(atla.frp[, atl.b], 1, mean)/10000
+atla.w.av <- apply(atla.frp[, atl.w], 1, mean)/10000
+
+plot(x = 1:260, y = sfa.b.av, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfa.w.av, type = "l", col = alpha("blue", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atla.b.av, type = "l", col = alpha("yellow", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atla.w.av, type = "l", col = alpha("green", 0.5), 
+      lwd = 2)
+legend("bottomright", 
+       legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
+       col = c("red", "blue", "yellow", "green"), lty = 1)
+
+
+# Age ids
+
+pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
+
+sfa.24.av <- apply(sfa.frp[, sf.24], 1, mean)/10000
+sfa.34.av <- apply(sfa.frp[, sf.34], 1, mean)/10000
+sfa.44.av <- apply(sfa.frp[, sf.44], 1, mean)/10000
+sfa.54.av <- apply(sfa.frp[, sf.54], 1, mean)/10000
+sfa.64.av <- apply(sfa.frp[, sf.64], 1, mean)/10000
+
+atla.24.av <- apply(atla.frp[, atl.24], 1, mean)/10000
+atla.34.av <- apply(atla.frp[, atl.34], 1, mean)/10000
+atla.44.av <- apply(atla.frp[, atl.44], 1, mean)/10000
+atla.54.av <- apply(atla.frp[, atl.54], 1, mean)/10000
+atla.64.av <- apply(atla.frp[, atl.64], 1, mean)/10000
+
+par(mfrow = c(1,2))
+plot(x = 1:260, y = sfa.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable ", main = "San Francisco")
+lines(x = 1:260, y = sfa.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfa.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfa.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfa.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1)
+
+plot(x = 1:260, y = atla.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta")
+lines(x = 1:260, y = atla.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atla.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atla.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atla.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1)
+
+
+## Main (Table 3)
+
+sfm.frp.av <- apply(sfm.frp, 1, mean)/10000
+atlm.frp.av <- apply(atlm.frp, 1, mean)/10000
+
+par(mfrow = c(1,1))
+plot(x = 1:260, y = sfm.frp.av, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atlm.frp.av, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+legend("bottomright", legend = c("San Francisco", "Atlanta"), 
+       col = c("red", "blue"), lty = 1)
+
+# Race ids
+
+sfm.b.av <- apply(sfm.frp[, sf.b], 1, mean)/10000
+sfm.w.av <- apply(sfm.frp[, sf.w], 1, mean)/10000
+
+atlm.b.av <- apply(atlm.frp[, atl.b], 1, mean)/10000
+atlm.w.av <- apply(atlm.frp[, atl.w], 1, mean)/10000
+
+plot(x = 1:260, y = sfm.b.av, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfm.w.av, type = "l", col = alpha("blue", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atlm.b.av, type = "l", col = alpha("yellow", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atlm.w.av, type = "l", col = alpha("green", 0.5), 
+      lwd = 2)
+legend("bottomright", 
+       legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
+       col = c("red", "blue", "yellow", "green"), lty = 1, cex = 0.8)
+
+# Age ids
+
+sfm.24.av <- apply(sfm.frp[, sf.24], 1, mean)/10000
+sfm.34.av <- apply(sfm.frp[, sf.34], 1, mean)/10000
+sfm.44.av <- apply(sfm.frp[, sf.44], 1, mean)/10000
+sfm.54.av <- apply(sfm.frp[, sf.54], 1, mean)/10000
+sfm.64.av <- apply(sfm.frp[, sf.64], 1, mean)/10000
+
+atlm.24.av <- apply(atlm.frp[, atl.24], 1, mean)/10000
+atlm.34.av <- apply(atlm.frp[, atl.34], 1, mean)/10000
+atlm.44.av <- apply(atlm.frp[, atl.44], 1, mean)/10000
+atlm.54.av <- apply(atlm.frp[, atl.54], 1, mean)/10000
+atlm.64.av <- apply(atlm.frp[, atl.64], 1, mean)/10000
+
+par(mfrow = c(1,2))
+plot(x = 1:260, y = sfm.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "San Francisco", 
+     ylim = c(0.0001, 0.0005))
+lines(x = 1:260, y = sfm.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfm.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfm.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfm.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.8)
+
+plot(x = 1:260, y = atlm.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta",
+     ylim = c(0.0001, 0.0005))
+lines(x = 1:260, y = atlm.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.8)
+
+
+## Casual (Table 4)
+
+sfc.frp.av <- apply(sfc.frp, 1, mean)/10000
+atlc.frp.av <- apply(atlc.frp, 1, mean)/10000
+
+par(mfrow = c(1,1))
+
+plot(x = 1:260, y = sfc.frp.av, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atlc.frp.av, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+legend("topleft", legend = c("San Francisco", "Atlanta"), 
+       col = c("red", "blue"), lty = 1)
+
+# atlc.frp[1:52, 1:25]
+# apply(atlc.frp, 1, mean)
+
+# Race ids
+
+sfc.b.av <- apply(sfc.frp[, sf.b], 1, mean)/10000
+sfc.w.av <- apply(sfc.frp[, sf.w], 1, mean)/10000
+
+atlc.b.av <- apply(atlc.frp[, atl.b], 1, mean)/10000
+atlc.w.av <- apply(atlc.frp[, atl.w], 1, mean)/10000
+
+plot(x = 1:260, y = sfc.b.av, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfc.w.av, type = "l", col = alpha("blue", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atlc.b.av, type = "l", col = alpha("yellow", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atlc.w.av, type = "l", col = alpha("green", 0.5), 
+      lwd = 2)
+legend("topleft", 
+       legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
+       col = c("red", "blue", "yellow", "green"), lty = 1, cex = 0.8)
+
+# Age ids
+
+sfc.24.av <- apply(sfc.frp[, sf.24], 1, mean)/10000
+sfc.34.av <- apply(sfc.frp[, sf.34], 1, mean)/10000
+sfc.44.av <- apply(sfc.frp[, sf.44], 1, mean)/10000
+sfc.54.av <- apply(sfc.frp[, sf.54], 1, mean)/10000
+sfc.64.av <- apply(sfc.frp[, sf.64], 1, mean)/10000
+
+atlc.24.av <- apply(atlc.frp[, atl.24], 1, mean)/10000
+atlc.34.av <- apply(atlc.frp[, atl.34], 1, mean)/10000
+atlc.44.av <- apply(atlc.frp[, atl.44], 1, mean)/10000
+atlc.54.av <- apply(atlc.frp[, atl.54], 1, mean)/10000
+atlc.64.av <- apply(atlc.frp[, atl.64], 1, mean)/10000
+
+pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
+jpeg("Plot3.jpeg", width = 8, height = 4, units = 'in', res = 300)
+par(mfrow = c(1,2), mgp = c(2,1,0), mar = c(3,3,2,1))
+plot(x = 1:260, y = sfc.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "San Francisco")
+lines(x = 1:260, y = sfc.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.8)
+
+plot(x = 1:260, y = atlc.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta")
+lines(x = 1:260, y = atlc.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atlc.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atlc.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atlc.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.8)
+dev.off()
+
+## Inst (Table 5)
+
+sfi.frp.av <- apply(sfi.frp, 1, mean)/10000
+atli.frp.av <- apply(atli.frp, 1, mean)/10000
+
+par(mfrow = c(1,1))
+
+plot(x = 1:260, y = sfi.frp.av, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atli.frp.av, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+legend("bottomright", legend = c("San Francisco", "Atlanta"), 
+       col = c("red", "blue"), lty = 1)
+
+# Race ids
+
+sfi.b.av <- apply(sfi.frp[, sf.b], 1, mean)/10000
+sfi.w.av <- apply(sfi.frp[, sf.w], 1, mean)/10000
+
+atli.b.av <- apply(atli.frp[, atl.b], 1, mean)/10000
+atli.w.av <- apply(atli.frp[, atl.w], 1, mean)/10000
+
+plot(x = 1:260, y = sfi.b.av, type = "l", col = alpha("red", 0.5), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfi.w.av, type = "l", col = alpha("blue", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atli.b.av, type = "l", col = alpha("yellow", 0.5), 
+      lwd = 2)
+lines(x = 1:260, y = atli.w.av, type = "l", col = alpha("green", 0.5), 
+      lwd = 2)
+legend("bottomright", 
+       legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
+       col = c("red", "blue", "yellow", "green"), lty = 1, cex = 0.8)
+
+# Age ids
+
+sfi.24.av <- apply(sfi.frp[, sf.24], 1, mean)/10000
+sfi.34.av <- apply(sfi.frp[, sf.34], 1, mean)/10000
+sfi.44.av <- apply(sfi.frp[, sf.44], 1, mean)/10000
+sfi.54.av <- apply(sfi.frp[, sf.54], 1, mean)/10000
+sfi.64.av <- apply(sfi.frp[, sf.64], 1, mean)/10000
+
+atli.24.av <- apply(atli.frp[, atl.24], 1, mean)/10000
+atli.34.av <- apply(atli.frp[, atl.34], 1, mean)/10000
+atli.44.av <- apply(atli.frp[, atl.44], 1, mean)/10000
+atli.54.av <- apply(atli.frp[, atl.54], 1, mean)/10000
+atli.64.av <- apply(atli.frp[, atl.64], 1, mean)/10000
+
+par(mfrow = c(1,2))
+plot(x = 1:260, y = sfi.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "San Francisco",
+     ylim = c(0, 0.35))
+lines(x = 1:260, y = sfi.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfi.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfi.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfi.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.7)
+
+plot(x = 1:260, y = atli.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta", 
+     ylim = c(0, 0.35))
+lines(x = 1:260, y = atli.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atli.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atli.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atli.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.7)
+
+
+
+# 7.Distribution of FRPs --------------------------------------------------
+
+# par(mfrow = c(1, 2), oma = c(2, 0, 2, 0), xpd = NA)
+par(mfrow = c(1, 2))
+# pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.6)
+matplot(sfa.frp/10000, type = "l", xlab = "Week", ylab = "FRP",
+        col = alpha("red", 0.7))
+matplot(atla.frp/10000, type = "l", xlab = "Week", ylab = "FRP",
+        col = alpha("blue", 0.7))
+
+par(mfrow = c(1, 2))
+# pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.6)
+matplot(sfa.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
+matplot(atla.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
+
+matplot(sfc.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
+matplot(atlc.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
+
+plot(x = 1:260, y = sfa.frp.av, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atla.frp.av, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+legend("bottomright", legend = c("San Francisco", "Atlanta"), 
+       col = c("red", "blue"), lty = 1, cex(1.5))
+
+
+#title()
+
+library("viridis")
+library("wesanderson")
+palv <- viridis(n = 4, alpha = 0.25, option = "inferno")
+palv <- adjustcolor(wes_palette(5, name = "Zissou1"), alpha.f = 1)
+palv <- rainbow(10)
+
+## All partnerships
+jpeg("Plot2.jpeg", width = 8, height = 4, units = 'in', res = 250)
+par(mfrow = c(2, 3), oma = c(0, 0, 0, 0), xpd = NA, mgp = c(2,1,0), 
+    mar = c(3,3,2,1))
+# SF
+matplot(sfm.frp, type = "l", ylim = c(0, 30), xlab = "", ylab = "FRP", lty = 1,
+        col = palv, lwd = 0.1, main = "SF Main")
+matplot(sfc.frp, type = "l", ylim = c(0, 10000), xlab = "", ylab = "", lty = 1,
+        col = palv, lwd = 0.1, main = "SF Casual")
+matplot(sfi.frp, type = "l", ylim = c(0, 10000), xlab = "", ylab = "", lty = 1,
+        col = palv, lwd = 0.1, main = "SF One-Time")
 
 # ATL
-atl.id.w44 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "3")
+matplot(atlm.frp, type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP", lty = 1,
+        col = palv, lwd = 0.1, main = "ATL Main")
+matplot(atlc.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", lty = 1,
+        col = palv, lwd = 0.1, main = "ATL Casual")
+matplot(atli.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", lty = 1,
+        col = palv, lwd = 0.1, main = "ATL One-Time")
 
-# All ptypes
-atla.frp.w44 <- atl.a.frp[atl.id.w44]
+dev.off()
 
-# Main
-atlm.frp.w44 <- atl.m.frp[atl.id.w44]
-atlm.tdist.w44 <- atl.m.tdist[atl.id.w44]
-atlm.gstep.w44 <- atl.m.gstep[atl.id.w44]
-atlm.deg.w44 <- atl.m.deg[atl.id.w44]
-atlm.cumldeg.w44 <- atl.m.cumldeg[atl.id.w44]
-atlm.bcent.w44 <- atl.m.bcent[atl.id.w44]
-
-# Casual
-atlc.frp.w44 <- atl.c.frp[atl.id.w44]
-atlc.tdist.w44 <- atl.c.tdist[atl.id.w44]
-atlc.gstep.w44 <- atl.c.gstep[atl.id.w44]
-atlc.deg.w44 <- atl.c.deg[atl.id.w44]
-atlc.cumldeg.w44 <- atl.c.cumldeg[atl.id.w44]
-atlc.bcent.w44 <- atl.c.bcent[atl.id.w44]
-
-# Inst
-atli.frp.w44 <- atl.i.frp[atl.id.w44]
-atli.tdist.w44 <- atl.i.tdist[atl.id.w44]
-atli.gstep.w44 <- atl.i.gstep[atl.id.w44]
-atli.deg.w44 <- atl.i.deg[atl.id.w44]
-atli.cumldeg.w44 <- atl.i.cumldeg[atl.id.w44]
-atli.bcent.w44 <- atl.i.bcent[atl.id.w44]
+# title("Distribution of 5-Year Foward Reachable Paths by Partnership Type", 
+      # outer = TRUE)
 
 
-## Black 45-54
-
-## SF
-sf.id.b54 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "4")
-
-# All ptypes
-sfa.frp.b54 <- sf.a.frp[sf.id.b54]
-
-# Main
-sfm.frp.b54 <- sf.m.frp[sf.id.b54]
-sfm.tdist.b54 <- sf.m.tdist[sf.id.b54]
-sfm.gstep.b54 <- sf.m.gstep[sf.id.b54]
-sfm.deg.b54 <- sf.m.deg[sf.id.b54]
-sfm.cumldeg.b54 <- sf.m.cumldeg[sf.id.b54]
-sfm.bcent.b54 <- sf.m.bcent[sf.id.b54]
-
-# Casual
-sfc.frp.b54 <- sf.c.frp[sf.id.b54]
-sfc.tdist.b54 <- sf.c.tdist[sf.id.b54]
-sfc.gstep.b54 <- sf.c.gstep[sf.id.b54]
-sfc.deg.b54 <- sf.c.deg[sf.id.b54]
-sfc.cumldeg.b54 <- sf.c.cumldeg[sf.id.b54]
-sfc.bcent.b54 <- sf.c.bcent[sf.id.b54]
-
-# Inst
-sfi.frp.b54 <- sf.i.frp[sf.id.b54]
-sfi.tdist.b54 <- sf.i.tdist[sf.id.b54]
-sfi.gstep.b54 <- sf.i.gstep[sf.id.b54]
-sfi.deg.b54 <- sf.i.deg[sf.id.b54]
-sfi.cumldeg.b54 <- sf.i.cumldeg[sf.id.b54]
-sfi.bcent.b54 <- sf.i.bcent[sf.id.b54]
-
-
-## ATL
-atl.id.b54 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "4")
-
-# All ptypes
-atla.frp.b54 <- atl.a.frp[atl.id.b54]
-
-# Main
-atlm.frp.b54 <- atl.m.frp[atl.id.b54]
-atlm.tdist.b54 <- atl.m.tdist[atl.id.b54]
-atlm.gstep.b54 <- atl.m.gstep[atl.id.b54]
-atlm.deg.b54 <- atl.m.deg[atl.id.b54]
-atlm.cumldeg.b54 <- atl.m.cumldeg[atl.id.b54]
-atlm.bcent.b54 <- atl.m.bcent[atl.id.b54]
-
-# Casual
-atlc.frp.b54 <- atl.c.frp[atl.id.b54]
-atlc.tdist.b54 <- atl.c.tdist[atl.id.b54]
-atlc.gstep.b54 <- atl.c.gstep[atl.id.b54]
-atlc.deg.b54 <- atl.c.deg[atl.id.b54]
-atlc.cumldeg.b54 <- atl.c.cumldeg[atl.id.b54]
-atlc.bcent.b54 <- atl.c.bcent[atl.id.b54]
-
-# Inst
-atli.frp.b54 <- atl.i.frp[atl.id.b54]
-atli.tdist.b54 <- atl.i.tdist[atl.id.b54]
-atli.gstep.b54 <- atl.i.gstep[atl.id.b54]
-atli.deg.b54 <- atl.i.deg[atl.id.b54]
-atli.cumldeg.b54 <- atl.i.cumldeg[atl.id.b54]
-atli.bcent.b54 <- atl.i.bcent[atl.id.b54]
-
-
-## White 45-54
-
-## SF
-sf.id.w54 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "4")
-
-# All ptypes
-sfa.frp.w54 <- sf.a.frp[sf.id.w54]
-
-# Main
-sfm.frp.w54 <- sf.m.frp[sf.id.w54]
-sfm.tdist.w54 <- sf.m.tdist[sf.id.w54]
-sfm.gstep.w54 <- sf.m.gstep[sf.id.w54]
-sfm.deg.w54 <- sf.m.deg[sf.id.w54]
-sfm.cumldeg.w54 <- sf.m.cumldeg[sf.id.w54]
-sfm.bcent.w54 <- sf.m.bcent[sf.id.w54]
-
-# Casual
-sfc.frp.w54 <- sf.c.frp[sf.id.w54]
-sfc.tdist.w54 <- sf.c.tdist[sf.id.w54]
-sfc.gstep.w54 <- sf.c.gstep[sf.id.w54]
-sfc.deg.w54 <- sf.c.deg[sf.id.w54]
-sfc.cumldeg.w54 <- sf.c.cumldeg[sf.id.w54]
-sfc.bcent.w54 <- sf.c.bcent[sf.id.w54]
-
-# Inst
-sfi.frp.w54 <- sf.i.frp[sf.id.w54]
-sfi.tdist.w54 <- sf.i.tdist[sf.id.w54]
-sfi.gstep.w54 <- sf.i.gstep[sf.id.w54]
-sfi.deg.w54 <- sf.i.deg[sf.id.w54]
-sfi.cumldeg.w54 <- sf.i.cumldeg[sf.id.w54]
-sfi.bcent.w54 <- sf.i.bcent[sf.id.w54]
-
-
-## ATL
-atl.id.w54 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "4")
-
-# All ptypes
-atla.frp.w54 <- atl.a.frp[atl.id.w54]
-
-# Main
-atlm.frp.w54 <- atl.m.frp[atl.id.w54]
-atlm.tdist.w54 <- atl.m.tdist[atl.id.w54]
-atlm.gstep.w54 <- atl.m.gstep[atl.id.w54]
-atlm.deg.w54 <- atl.m.deg[atl.id.w54]
-atlm.cumldeg.w54 <- atl.m.cumldeg[atl.id.w54]
-atlm.bcent.w54 <- atl.m.bcent[atl.id.w54]
-
-# Casual
-atlc.frp.w54 <- atl.c.frp[atl.id.w54]
-atlc.tdist.w54 <- atl.c.tdist[atl.id.w54]
-atlc.gstep.w54 <- atl.c.gstep[atl.id.w54]
-atlc.deg.w54 <- atl.c.deg[atl.id.w54]
-atlc.cumldeg.w54 <- atl.c.cumldeg[atl.id.w54]
-atlc.bcent.w54 <- atl.c.bcent[atl.id.w54]
-
-# Inst
-atli.frp.w54 <- atl.i.frp[atl.id.w54]
-atli.tdist.w54 <- atl.i.tdist[atl.id.w54]
-atli.gstep.w54 <- atl.i.gstep[atl.id.w54]
-atli.deg.w54 <- atl.i.deg[atl.id.w54]
-atli.cumldeg.w54 <- atl.i.cumldeg[atl.id.w54]
-atli.bcent.w54 <- atl.i.bcent[atl.id.w54]
-
-
-## Black 55+
-
-## SF
-sf.id.b64 <- which(get.vertex.attribute(sf.m, "race") == "B" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "5")
-
-# All ptypes
-sfa.frp.b64 <- sf.a.frp[sf.id.b64]
-
-# Main
-sfm.frp.b64 <- sf.m.frp[sf.id.b64]
-sfm.tdist.b64 <- sf.m.tdist[sf.id.b64]
-sfm.gstep.b64 <- sf.m.gstep[sf.id.b64]
-sfm.deg.b64 <- sf.m.deg[sf.id.b64]
-sfm.cumldeg.b64 <- sf.m.cumldeg[sf.id.b64]
-sfm.bcent.b64 <- sf.m.bcent[sf.id.b64]
-
-# Casual
-sfc.frp.b64 <- sf.c.frp[sf.id.b64]
-sfc.tdist.b64 <- sf.c.tdist[sf.id.b64]
-sfc.gstep.b64 <- sf.c.gstep[sf.id.b64]
-sfc.deg.b64 <- sf.c.deg[sf.id.b64]
-sfc.cumldeg.b64 <- sf.c.cumldeg[sf.id.b64]
-sfc.bcent.b64 <- sf.c.bcent[sf.id.b64]
-
-# Inst
-sfi.frp.b64 <- sf.i.frp[sf.id.b64]
-sfi.tdist.b64 <- sf.i.tdist[sf.id.b64]
-sfi.gstep.b64 <- sf.i.gstep[sf.id.b64]
-sfi.deg.b64 <- sf.i.deg[sf.id.b64]
-sfi.cumldeg.b64 <- sf.i.cumldeg[sf.id.b64]
-sfi.bcent.b64 <- sf.i.bcent[sf.id.b64]
-
-
-## ATL
-atl.id.b64 <- which(get.vertex.attribute(atl.m, "race") == "B" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "5")
-
-# All ptypes
-atla.frp.b64 <- atl.a.frp[atl.id.b64]
-
-# Main
-atlm.frp.b64 <- atl.m.frp[atl.id.b64]
-atlm.tdist.b64 <- atl.m.tdist[atl.id.b64]
-atlm.gstep.b64 <- atl.m.gstep[atl.id.b64]
-atlm.deg.b64 <- atl.m.deg[atl.id.b64]
-atlm.cumldeg.b64 <- atl.m.cumldeg[atl.id.b64]
-atlm.bcent.b64 <- atl.m.bcent[atl.id.b64]
-
-# Casual
-atlc.frp.b64 <- atl.c.frp[atl.id.b64]
-atlc.tdist.b64 <- atl.c.tdist[atl.id.b64]
-atlc.gstep.b64 <- atl.c.gstep[atl.id.b64]
-atlc.deg.b64 <- atl.c.deg[atl.id.b64]
-atlc.cumldeg.b64 <- atl.c.cumldeg[atl.id.b64]
-atlc.bcent.b64 <- atl.c.bcent[atl.id.b64]
-
-# Inst
-atli.frp.b64 <- atl.i.frp[atl.id.b64]
-atli.tdist.b64 <- atl.i.tdist[atl.id.b64]
-atli.gstep.b64 <- atl.i.gstep[atl.id.b64]
-atli.deg.b64 <- atl.i.deg[atl.id.b64]
-atli.cumldeg.b64 <- atl.i.cumldeg[atl.id.b64]
-atli.bcent.b64 <- atl.i.bcent[atl.id.b64]
-
-
-## White 55+
-
-## SF
-sf.id.w64 <- which(get.vertex.attribute(sf.m, "race") == "W" & 
-                     get.vertex.attribute(sf.m, "age.grp") == "5")
-
-# All ptypes
-sfa.frp.w64 <- sf.a.frp[sf.id.w64]
-
-# Main
-sfm.frp.w64 <- sf.m.frp[sf.id.w64]
-sfm.tdist.w64 <- sf.m.tdist[sf.id.w64]
-sfm.gstep.w64 <- sf.m.gstep[sf.id.w64]
-sfm.deg.w64 <- sf.m.deg[sf.id.w64]
-sfm.cumldeg.w64 <- sf.m.cumldeg[sf.id.w64]
-sfm.bcent.w64 <- sf.m.bcent[sf.id.w64]
-
-# Casual
-sfc.frp.w64 <- sf.c.frp[sf.id.w64]
-sfc.tdist.w64 <- sf.c.tdist[sf.id.w64]
-sfc.gstep.w64 <- sf.c.gstep[sf.id.w64]
-sfc.deg.w64 <- sf.c.deg[sf.id.w64]
-sfc.cumldeg.w64 <- sf.c.cumldeg[sf.id.w64]
-sfc.bcent.w64 <- sf.c.bcent[sf.id.w64]
-
-# Inst
-sfi.frp.w64 <- sf.i.frp[sf.id.w64]
-sfi.tdist.w64 <- sf.i.tdist[sf.id.w64]
-sfi.gstep.w64 <- sf.i.gstep[sf.id.w64]
-sfi.deg.w64 <- sf.i.deg[sf.id.w64]
-sfi.cumldeg.w64 <- sf.i.cumldeg[sf.id.w64]
-sfi.bcent.w64 <- sf.i.bcent[sf.id.w64]
-
-
-## ATL
-atl.id.w64 <- which(get.vertex.attribute(atl.m, "race") == "W" & 
-                      get.vertex.attribute(atl.m, "age.grp") == "5")
-
-# All ptypes
-atla.frp.w64 <- atl.a.frp[atl.id.w64]
-
-# Main
-atlm.frp.w64 <- atl.m.frp[atl.id.w64]
-atlm.tdist.w64 <- atl.m.tdist[atl.id.w64]
-atlm.gstep.w64 <- atl.m.gstep[atl.id.w64]
-atlm.deg.w64 <- atl.m.deg[atl.id.w64]
-atlm.cumldeg.w64 <- atl.m.cumldeg[atl.id.w64]
-atlm.bcent.w64 <- atl.m.bcent[atl.id.w64]
-
-# Casual
-atlc.frp.w64 <- atl.c.frp[atl.id.w64]
-atlc.tdist.w64 <- atl.c.tdist[atl.id.w64]
-atlc.gstep.w64 <- atl.c.gstep[atl.id.w64]
-atlc.deg.w64 <- atl.c.deg[atl.id.w64]
-atlc.cumldeg.w64 <- atl.c.cumldeg[atl.id.w64]
-atlc.bcent.w64 <- atl.c.bcent[atl.id.w64]
-
-# Inst
-atli.frp.w64 <- atl.i.frp[atl.id.w64]
-atli.tdist.w64 <- atl.i.tdist[atl.id.w64]
-atli.gstep.w64 <- atl.i.gstep[atl.id.w64]
-atli.deg.w64 <- atl.i.deg[atl.id.w64]
-atli.cumldeg.w64 <- atl.i.cumldeg[atl.id.w64]
-atli.bcent.w64 <- atl.i.bcent[atl.id.w64]
-
-
-# 4a. FRP Plots -----------------------------------------------------------
-
-# matplot(sf.a.frp, type = "l", xlab = "Week", ylab = "FRP", main = "SF All Partnership Types")
 
 par(mfrow = c(2, 3), oma = c(2, 0, 2, 0), xpd = NA)
+par(mfrow = c(1,3))
+## All partnerships
+
+# SF
+matplot(sfm.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
+matplot(sfc.frp/10000, type = "l", ylim = c(0, 1), xlab = "Week", ylab = "FRP")
+matplot(sfi.frp/10000, type = "l", ylim = c(0, 1), xlab = "Week", ylab = "FRP")
+matplot(atlm.frp/10000, type = "l", xlab = "Week", ylab = "FRP")
+matplot(atlc.frp/10000, type = "l", ylim = c(0, 1), xlab = "Week", ylab = "FRP")
+matplot(atli.frp/10000, type = "l", ylim = c(0, 1), xlab = "Week", ylab = "FRP")
+
+
+
+
+# 8.Box plots of FRPs -----------------------------------------------------
+
+par(mfrow = c(1,1))
+
+# experiment with box plots
+df <- t(atlm.frp[ts, atl.24])
+boxplot(df)
+# boxplot(df, outline = FALSE)
+
+df <- t(sfc.frp[ts, ])
+boxplot(df)
+
+
+# Plots for poster --------------------------------------------------------
+
+
+par(mfrow = c(2, 1))
 
 ## Overall
+plot(x = 1:260, y = sfm.frp.av, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "Main")
+lines(x = 1:260, y = atlm.frp.av, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+legend("topleft", legend = c("San Francisco", "Atlanta"), 
+       col = c("red", "blue"), lty = 1)
+
+plot(x = 1:260, y = sfc.frp.av, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "Casual")
+lines(x = 1:260, y = atlc.frp.av, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+# legend("topleft", legend = c("San Francisco", "Atlanta"), 
+#        col = c("red", "blue"), lty = 1)
+
+plot(x = 1:260, y = sfi.frp.av, type = "l", col = alpha("red", 0.7), lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "One-Time")
+lines(x = 1:260, y = atli.frp.av, type = "l", col = alpha("blue", 0.7), 
+      lwd = 2)
+# legend("topleft", legend = c("San Francisco", "Atlanta"), 
+#        col = c("red", "blue"), lty = 1)
+
+
+# Race
+plot(x = 1:260, y = sfm.b.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", 
+     ylim = c(0.0001, 0.0003))
+lines(x = 1:260, y = sfm.w.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.b.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.w.av, type = "l", col = pal[4], 
+      lwd = 2)
+legend("topleft", 
+       legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
+       col = c(pal[1], pal[2], pal[3], pal[4]), lty = 1, cex = 0.8)
+
+plot(x = 1:260, y = sfc.b.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfc.w.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atlc.b.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atlc.w.av, type = "l", col = pal[4], 
+      lwd = 2)
+# legend("topleft", 
+#        legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
+#        col = c("red", "blue", "yellow", "green"), lty = 1, cex = 0.8)
+
+plot(x = 1:260, y = sfi.b.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfi.w.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atli.b.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atli.w.av, type = "l", col = pal[4], 
+      lwd = 2)
+# legend("topleft", 
+#        legend = c("Black - SF", "White - SF", "Black - ATL", "White - ATL"), 
+#        col = c("red", "blue", "yellow", "green"), lty = 1, cex = 0.8)
+
+# Age
+par(mfrow = c(1, 2))
+
 # SF
-matplot(sf.m.frp, type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sf.c.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sf.i.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
+plot(x = 1:260, y = sfm.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "SF - Main", 
+     ylim = c(0.0001, 0.0005))
+lines(x = 1:260, y = sfm.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfm.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfm.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfm.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.2)
+
+plot(x = 1:260, y = sfc.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", ylim = c(0, 1))
+lines(x = 1:260, y = sfc.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+        col = pal, lty = 1, cex = 0.8)
+
+plot(x = 1:260, y = sfi.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "SF - One-Time",
+     ylim = c(0, 0.35))
+lines(x = 1:260, y = sfi.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfi.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfi.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfi.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+# legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+#        col = pal, lty = 1, cex = 0.7)
 
 # ATL
-matplot(atl.m.frp, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atl.c.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atl.i.frp, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type", outer = TRUE)
-title()
-
-## Race - BLACK
-# SF
-matplot(sfm.frp.b, type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.b, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.b, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.b, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.b, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.b, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among Black MSM", outer = TRUE)
-title()
-
-## Race - WHITE
-# SF
-matplot(sfm.frp.w, type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.w, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.w, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.w, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.w, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.w, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among White MSM", outer = TRUE)
-title()
-
-## Age - 15-24
-# SF
-matplot(sfm.frp.24, type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.24, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.24, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.24, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.24, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.24, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among MSM Aged 15-24", outer = TRUE)
-title()
-
-## Age - 25-34
-# SF
-matplot(sfm.frp.34, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.34, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.34, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.34, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.34, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.34, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among MSM Aged 25-34", outer = TRUE)
-title()
-
-## Age - 35-44
-# SF
-matplot(sfm.frp.44, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.44, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.44, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.44, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.44, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.44, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among MSM Aged 35-44", outer = TRUE)
-title()
-
-## Age - 45-54
-# SF
-matplot(sfm.frp.54, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.54, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.54, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.54, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.54, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.54, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among MSM Aged 45-54", outer = TRUE)
-title()
-
-## Age - 55-64
-# SF
-matplot(sfm.frp.64, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.64, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.64, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.64, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.64, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.64, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among MSM Aged 55-64", outer = TRUE)
-title()
-
-## Race - BLACK, Age - 15-24
-# SF
-matplot(sfm.frp.b24, type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.b24, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.b24, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.b24, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.b24, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.b24, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among Black MSM Aged 15-24", outer = TRUE)
-title()
-
-## Race - WHITE, Age - 15-24
-# SF
-matplot(sfm.frp.w24, type = "l", xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.w24, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.w24, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.w24, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.w24, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.w24, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among White MSM Aged 15-24", outer = TRUE)
-title()
-
-## Race - BLACK, Age - 25-34
-# SF
-matplot(sfm.frp.b34, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.b34, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.b34, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.b34, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.b34, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.b34, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among Black MSM Aged 25-34", outer = TRUE)
-title()
-
-## Race - WHITE, Age - 25-34
-# SF
-matplot(sfm.frp.w34, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.w34, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.w34, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.w34, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.w34, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.w34, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among White MSM Aged 25-34", outer = TRUE)
-title()
-
-## Race - BLACK, Age - 35-44
-# SF
-matplot(sfm.frp.b44, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.b44, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.b44, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.b44, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.b44, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.b44, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among Black MSM Aged 35-44", outer = TRUE)
-title()
-
-## Race - WHITE, Age - 35-44
-# SF
-matplot(sfm.frp.w44, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.w44, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.w44, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.w44, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.w44, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.w44, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among White MSM Aged 35-44", outer = TRUE)
-title()
-
-## Race - BLACK, Age - 45-54
-# SF
-matplot(sfm.frp.b54, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.b54, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.b54, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.b54, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.b54, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.b54, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among Black MSM Aged 45-54", outer = TRUE)
-title()
-
-## Race - WHITE, Age - 45-54
-# SF
-matplot(sfm.frp.w54, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.w54, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.w54, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.w54, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.w54, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.w54, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among White MSM Aged 45-54", outer = TRUE)
-title()
-
-## Race - BLACK, Age - 55-64
-# SF
-matplot(sfm.frp.b64, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.b64, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.b64, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.b64, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.b64, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.b64, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among Black MSM Aged 55-64", outer = TRUE)
-title()
-
-## Race - WHITE, Age - 55-64
-# SF
-matplot(sfm.frp.w64, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "SF Main")
-matplot(sfc.frp.w64, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF Casual")
-matplot(sfi.frp.w64, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "SF One-Time")
-
-# ATL
-matplot(atlm.frp.w64, type = "l", ylim = c(0, 20), xlab = "Week", ylab = "FRP", main = "ATL Main")
-matplot(atlc.frp.w64, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL Casual")
-matplot(atli.frp.w64, type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", main = "ATL One-Time")
-
-title("Distribution of 5-Year Foward Reachable Paths by Partnership Type Among White MSM Aged 55-64", outer = TRUE)
-title()
-
-
-# 4b. FRP Summary Stats ---------------------------------------------------
-
-
-## By partnership type
-# SF
-sf.frpa.sum <- summary(t(sf.a.frp))
-write.csv(sf.frpa.sum, file = "sf_frp_all.csv")
-
-sf.frpm.sum <- summary(t(sf.m.frp))
-write.csv(sf.frpm.sum, file = "sf_frp_main.csv")
-
-sf.frpc.sum <- summary(t(sf.c.frp))
-write.csv(sf.frpc.sum, file = "sf_frp_casl.csv")
-
-sf.frpi.sum <- summary(t(sf.i.frp))
-write.csv(sf.frpi.sum, file = "sf_frp_inst.csv")
-
-
-# ATL
-atl.frpa.sum <- summary(t(atl.a.frp))
-write.csv(atl.frpa.sum, file = "atl_frp_all.csv")
-
-atl.frpm.sum <- summary(t(atl.m.frp))
-write.csv(atl.frpm.sum, file = "atl_frp_main.csv")
-
-atl.frpc.sum <- summary(t(atl.c.frp))
-write.csv(atl.frpc.sum, file = "atl_frp_casl.csv")
-
-atl.frpi.sum <- summary(t(atl.i.frp))
-write.csv(atl.frpi.sum, file = "atl_frp_inst.csv")
-
-
-## Race - BLACK
-# SF 
-sf.frpa.sumb <- summary(t(sfa.frp.b))
-write.csv(sf.frpa.sumb, file = "sf_frp_all_black.csv")
-
-sf.frpm.sumb <- summary(t(sfm.frp.b))
-write.csv(sf.frpm.sumb, file = "sf_frp_main_black.csv")
-
-sf.frpc.sumb <- summary(t(sfc.frp.b))
-write.csv(sf.frpc.sumb, file = "sf_frp_casl_black.csv")
-
-sf.frpi.sumb <- summary(t(sfi.frp.b))
-write.csv(sf.frpi.sumb, file = "sf_frp_inst_black.csv")
-
-# ATL
-atl.frpa.sumb <- summary(t(atla.frp.b))
-write.csv(atl.frpa.sumb, file = "atl_frp_all_black.csv")
-
-atl.frpm.sumb <- summary(t(atlm.frp.b))
-write.csv(atl.frpm.sumb, file = "atl_frp_main_black.csv")
-
-atl.frpc.sumb <- summary(t(atlc.frp.b))
-write.csv(atl.frpc.sumb, file = "atl_frp_casl_black.csv")
-
-atl.frpi.sumb <- summary(t(atli.frp.b))
-write.csv(atl.frpi.sumb, file = "atl_frp_inst_black.csv")
-
-
-## Race - WHITE
-# SF
-sf.frpa.sumw <- summary(t(sfa.frp.w))
-write.csv(sf.frpa.sumw, file = "sf_frp_all_white.csv")
-
-sf.frpm.sumw <- summary(t(sfm.frp.w))
-write.csv(sf.frpm.sumw, file = "sf_frp_main_white.csv")
-
-sf.frpc.sumw <- summary(t(sfc.frp.w))
-write.csv(sf.frpc.sumw, file = "sf_frp_casl_white.csv")
-
-sf.frpi.sumw <- summary(t(sfi.frp.w))
-write.csv(sf.frpi.sumw, file = "sf_frp_inst_white.csv")
-
-# ATL
-atl.frpa.sumw <- summary(t(atla.frp.w))
-write.csv(atl.frpa.sumw, file = "atl_frp_all_white.csv")
-
-atl.frpm.sumw <- summary(t(atlm.frp.w))
-write.csv(atl.frpm.sumw, file = "atl_frp_main_white.csv")
-
-atl.frpc.sumw <- summary(t(atlc.frp.w))
-write.csv(atl.frpc.sumw, file = "atl_frp_casl_white.csv")
-
-atl.frpi.sumw <- summary(t(atli.frp.w))
-write.csv(atl.frpi.sumw, file = "atl_frp_inst_white.csv")
-
-
-## Age - 15-24
-# SF 
-sf.frpa.sum24 <- summary(t(sfa.frp.24))
-write.csv(sf.frpa.sum24, file = "sf_frp_all_15-24.csv")
-
-sf.frpm.sum24 <- summary(t(sfm.frp.24))
-write.csv(sf.frpm.sum24, file = "sf_frp_main_15-24.csv")
-
-sf.frpc.sum24 <- summary(t(sfc.frp.24))
-write.csv(sf.frpc.sum24, file = "sf_frp_casl_15-24.csv")
-
-sf.frpi.sum24 <- summary(t(sfi.frp.24))
-write.csv(sf.frpi.sum24, file = "sf_frp_inst_15-24.csv")
-
-# ATL
-atl.frpa.sum24 <- summary(t(atla.frp.24))
-write.csv(atl.frpa.sum24, file = "atl_frp_all_15-24.csv")
-
-atl.frpm.sum24 <- summary(t(atlm.frp.24))
-write.csv(atl.frpm.sum24, file = "atl_frp_main_15-24.csv")
-
-atl.frpc.sum24 <- summary(t(atlc.frp.24))
-write.csv(atl.frpc.sum24, file = "atl_frp_casl_15-24.csv")
-
-atl.frpi.sum24 <- summary(t(atli.frp.24))
-write.csv(atl.frpi.sum24, file = "atl_frp_inst_15-24.csv")
-
-
-## Age - 25-34
-# SF 
-sf.frpa.sum34 <- summary(t(sfa.frp.34))
-write.csv(sf.frpa.sum34, file = "sf_frp_all_25-34.csv")
-
-sf.frpm.sum34 <- summary(t(sfm.frp.34))
-write.csv(sf.frpm.sum34, file = "sf_frp_main_25-34.csv")
-
-sf.frpc.sum34 <- summary(t(sfc.frp.34))
-write.csv(sf.frpc.sum34, file = "sf_frp_casl_25-34.csv")
-
-sf.frpi.sum34 <- summary(t(sfi.frp.34))
-write.csv(sf.frpi.sum34, file = "sf_frp_inst_25-34.csv")
-
-# ATL
-atl.frpa.sum34 <- summary(t(atla.frp.34))
-write.csv(atl.frpa.sum34, file = "atl_frp_all_25-34.csv")
-
-atl.frpm.sum34 <- summary(t(atlm.frp.34))
-write.csv(atl.frpm.sum34, file = "atl_frp_main_25-34.csv")
-
-atl.frpc.sum34 <- summary(t(atlc.frp.34))
-write.csv(atl.frpc.sum34, file = "atl_frp_casl_25-34.csv")
-
-atl.frpi.sum34 <- summary(t(atli.frp.34))
-write.csv(atl.frpi.sum34, file = "atl_frp_inst_25-34.csv")
-
-
-## Age - 35-44
-# SF 
-sf.frpa.sum44 <- summary(t(sfa.frp.44))
-write.csv(sf.frpa.sum44, file = "sf_frp_all_35-44.csv")
-
-sf.frpm.sum44 <- summary(t(sfm.frp.44))
-write.csv(sf.frpm.sum44, file = "sf_frp_main_35-44.csv")
-
-sf.frpc.sum44 <- summary(t(sfc.frp.44))
-write.csv(sf.frpc.sum44, file = "sf_frp_casl_35-44.csv")
-
-sf.frpi.sum44 <- summary(t(sfi.frp.44))
-write.csv(sf.frpi.sum44, file = "sf_frp_inst_35-44.csv")
-
-# ATL
-atl.frpa.sum44 <- summary(t(atla.frp.44))
-write.csv(atl.frpa.sum44, file = "atl_frp_all_35-44.csv")
-
-atl.frpm.sum44 <- summary(t(atlm.frp.44))
-write.csv(atl.frpm.sum44, file = "atl_frp_main_35-44.csv")
-
-atl.frpc.sum44 <- summary(t(atlc.frp.44))
-write.csv(atl.frpc.sum44, file = "atl_frp_casl_35-44.csv")
-
-atl.frpi.sum44 <- summary(t(atli.frp.44))
-write.csv(atl.frpi.sum44, file = "atl_frp_inst_35-44.csv")
-
-
-## Age - 45-54
-# SF 
-sf.frpa.sum54 <- summary(t(sfa.frp.54))
-write.csv(sf.frpa.sum54, file = "sf_frp_all_45-54.csv")
-
-sf.frpm.sum54 <- summary(t(sfm.frp.54))
-write.csv(sf.frpm.sum54, file = "sf_frp_main_45-54.csv")
-
-sf.frpc.sum54 <- summary(t(sfc.frp.54))
-write.csv(sf.frpc.sum54, file = "sf_frp_casl_45-54.csv")
-
-sf.frpi.sum54 <- summary(t(sfi.frp.54))
-write.csv(sf.frpi.sum54, file = "sf_frp_inst_45-54.csv")
-
-# ATL
-atl.frpa.sum54 <- summary(t(atla.frp.54))
-write.csv(atl.frpa.sum54, file = "atl_frp_all_45-54.csv")
-
-atl.frpm.sum54 <- summary(t(atlm.frp.54))
-write.csv(atl.frpm.sum54, file = "atl_frp_main_45-54.csv")
-
-atl.frpc.sum54 <- summary(t(atlc.frp.54))
-write.csv(atl.frpc.sum54, file = "atl_frp_casl_45-54.csv")
-
-atl.frpi.sum54 <- summary(t(atli.frp.54))
-write.csv(atl.frpi.sum54, file = "atl_frp_inst_45-54.csv")
-
-
-## Age - 55-64
-# SF 
-sf.frpa.sum64 <- summary(t(sfa.frp.64))
-write.csv(sf.frpa.sum64, file = "sf_frp_all_55-64.csv")
-
-sf.frpm.sum64 <- summary(t(sfm.frp.64))
-write.csv(sf.frpm.sum64, file = "sf_frp_main_55-64.csv")
-
-sf.frpc.sum64 <- summary(t(sfc.frp.64))
-write.csv(sf.frpc.sum64, file = "sf_frp_casl_55-64.csv")
-
-sf.frpi.sum64 <- summary(t(sfi.frp.64))
-write.csv(sf.frpi.sum64, file = "sf_frp_inst_55-64.csv")
-
-# ATL
-atl.frpa.sum64 <- summary(t(atla.frp.64))
-write.csv(atl.frpa.sum64, file = "atl_frp_all_55-64.csv")
-
-atl.frpm.sum64 <- summary(t(atlm.frp.64))
-write.csv(atl.frpm.sum64, file = "atl_frp_main_55-64.csv")
-
-atl.frpc.sum64 <- summary(t(atlc.frp.64))
-write.csv(atl.frpc.sum64, file = "atl_frp_casl_55-64.csv")
-
-atl.frpi.sum64 <- summary(t(atli.frp.64))
-write.csv(atl.frpi.sum64, file = "atl_frp_inst_55-64.csv")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+plot(x = 1:260, y = atlm.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "ATL - Main",
+     ylim = c(0.0001, 0.0005))
+lines(x = 1:260, y = atlm.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atlm.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+# legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+#        col = pal, lty = 1, cex = 0.8)
+
+plot(x = 1:260, y = sfc.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfc.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.8)
+
+plot(x = 1:260, y = atlc.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = atlc.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atlc.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atlc.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atlc.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+# legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+#        col = pal, lty = 1)
+
+plot(x = 1:260, y = atli.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", main = "ATL - One-Time", 
+     ylim = c(0, 0.35))
+lines(x = 1:260, y = atli.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = atli.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = atli.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = atli.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+# legend("bottomright", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+#        col = pal, lty = 1)
+
+
+
+plot(x = 1:260, y = sfc.24.av, type = "l", col = pal[1], lwd = 2, 
+     xlab = "Week", ylab = "Proportion Reachable", ylim = c(0, 1))
+lines(x = 1:260, y = sfc.34.av, type = "l", col = pal[2], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.44.av, type = "l", col = pal[3], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.54.av, type = "l", col = pal[4], 
+      lwd = 2)
+lines(x = 1:260, y = sfc.64.av, type = "l", col = pal[5], 
+      lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       col = pal, lty = 1, cex = 0.8)
+
+
+# END ---------------------------------------------------------------------
 
 
