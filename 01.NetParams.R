@@ -7,6 +7,7 @@
 ## Packages ##
 rm(list = ls())
 library("tidyverse")
+library("ARTnetData")
 
 
 ## Inputs ##
@@ -14,11 +15,11 @@ city_name <- "San Francisco"
 
 
 ## Data ##
-# d <- readRDS("ARTNet.wide.rda")
-# l <- readRDS("ARTNet.long.rda")
+d <- readRDS("ARTnet.wide.rda")
+l <- readRDS("ARTnet.long.rda")
 
-d <- ARTnet.wide
-l <- ARTnet.long
+# d <- ARTnet.wide
+# l <- ARTnet.long
 
 ## Derivatives ##
 coef_name <- paste0("city2", city_name)
