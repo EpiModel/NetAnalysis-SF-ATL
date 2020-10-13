@@ -384,7 +384,7 @@ out$inst$nodefactor_deg.tot.risk <- as.numeric(table(attr_deg.tot,
 
 
 # Save Out File -----------------------------------------------------------
-fns <- strsplit(fn.02, "[.]")[[1]]
+fns <- strsplit(fn, "[.]")[[1]]
 fn.new <- paste(fns[1], "NetStats", fns[3], "rda", sep = ".")
 
 saveRDS(out, file = fn.new)
