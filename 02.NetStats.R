@@ -12,7 +12,7 @@ library("readxl")
 
 ## Inputs ##
 city_name <- "Atlanta"
-coef_name <- paste0("city2", city_name)
+# coef_name <- paste0("city2", city_name)
 network_size <- 10000
 diss_nodematch <- TRUE
 edges_avg_nfrace <- FALSE
@@ -22,8 +22,8 @@ edges_avg_nfrace <- FALSE
 # fn.01 <- paste("data/artnet.EpiStats", gsub(" ", "", city_name), "rda", sep = ".")
 # estats <- readRDS(file = fn.01)
 
-fn.02 <- paste("data/artnet.NetParam", gsub(" ", "", city_name), "rda", sep = ".")
-nstats <- readRDS(file = fn.02)
+fn <- paste("data/artnet.NetParam", gsub(" ", "", city_name), "rda", sep = ".")
+nstats <- readRDS(file = fn)
 
 
 # Demographic Initialization ----------------------------------------------
@@ -36,12 +36,11 @@ num <- network_size
 
 # Population size by race group
 rdist <- as.data.frame(read_excel("RaceDistribution.xlsx"))
-prop <- rdist[which(rdist$City == city_name), -1]/100
-num.B <- out$demog$num.B <- round(num * prop$`Black + Hispanic`)
-num.W <- out$demog$num.W <- round(num * prop$`White + Other`)
+prop.w <- rdist[which(rdist$City == city_name), 2]/100
+num.W <- out$demog$num.W <- round(num * prop.w)
+num.B <- out$demog$num.B <- num - num.W
 
-
-## Age-sex-specific mortality rates (B, H, W)
+## Age-sex-specific mortality rates (B, W)
 #    in 5-year age decrments starting with age 15
 ages <- out$demog$ages <- 15:64
 asmr.B <- c(0.00078, 0.00148, 0.00157, 0.00168, 0.00198,
@@ -60,7 +59,7 @@ asmr <- data.frame(age = 1:65, vec.asmr.B, vec.asmr.W)
 
 out$demog$asmr <- asmr
 
-out$demog$city <- gsub(" ", "", city_name)
+# out$demog$city <- gsub(" ", "", city_name)
 
 
 # Nodal Attribute Initialization ------------------------------------------
