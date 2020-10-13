@@ -14,8 +14,8 @@ set.seed(803)
 
 ## Read in network simulations ##
 
-sim.sf <- readRDS("DataV2/artnet.NetSim.SanFrancisco.rda")
-sim.atl <- readRDS("DataV2/artnet.NetSim.Atlanta.rda")
+sim.sf <- readRDS("Data/artnet.NetSim.SanFrancisco.rda")
+sim.atl <- readRDS("Data/artnet.NetSim.Atlanta.rda")
 
 ## Extract each partner type network ##
 
@@ -42,20 +42,20 @@ load_data <- function(file) {
 ## Load outcome data into global environment ##
 
 # All partnership types
-sf.all <- load_data("DataV2/sfo.all.1.rda")
-atl.all <- load_data("DataV2/atl.all.1.rda")
+sf.all <- load_data("Data/sfo.all.1.rda")
+atl.all <- load_data("Data/atl.all.1.rda")
 
 # Main
-sf.main <- load_data("DataV2/sfo.main.1.rda")
-atl.main <- load_data("DataV2/atl.main.1.rda")
+sf.main <- load_data("Data/sfo.main.1.rda")
+atl.main <- load_data("Data/atl.main.1.rda")
 
 # Casual
-sf.casl <- load_data("DataV2/sfo.casl.1.rda")
-atl.casl <- load_data("DataV2/atl.casl.1.rda")
+sf.casl <- load_data("Data/sfo.casl.1.rda")
+atl.casl <- load_data("Data/atl.casl.1.rda")
 
 # Inst
-sf.inst <- load_data("DataV2/sfo.inst.1.rda")
-atl.inst <- load_data("DataV2/atl.inst.1.rda")
+sf.inst <- load_data("Data/sfo.inst.1.rda")
+atl.inst <- load_data("Data/atl.inst.1.rda")
 
 
 # 2. Validation ------------------------------------------------------------
