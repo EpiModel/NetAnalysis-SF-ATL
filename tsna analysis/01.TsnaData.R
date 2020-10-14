@@ -4,6 +4,7 @@
 ## 
 
 ## Packages ##
+rm(list = ls())
 library("networkDynamicData")
 
 ## Set seed for analysis ##
