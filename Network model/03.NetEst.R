@@ -7,10 +7,8 @@
 rm(list = ls())
 suppressMessages(library("EpiModelHIV"))
 
-
 ## Inputs ##
 city_name <- "Atlanta"
-
 
 ## Load Data ##
 fn <- paste("data/artnet.NetStats", gsub(" ", "", city_name), "rda", sep = ".")
@@ -43,17 +41,6 @@ model_main <- ~edges +
   degrange(from = 3) +
   nodematch("role.class", diff = TRUE, keep = 1:2)
 
-# model_main <- ~edges +
-#                nodematch("age.grp", diff = TRUE) +
-#                nodefactor("age.grp", base = 1) +
-#                nodematch("race", diff = FALSE) +
-#                nodefactor("race", base = 1) +
-#                nodefactor("deg.casl", base = 1) +
-#                concurrent +
-#                nodefactor("diag.status", base = 1) +
-#                degrange(from = 3) +
-#                nodematch("role.class", diff = TRUE, keep = 1:2)
-
 # Target Stats
 tstats_main <- c(
   edges = tstats$main$edges,
@@ -67,18 +54,6 @@ tstats_main <- c(
   nodematch_role.class = c(0, 0)
 )
 
-# tstats_main <- c(
-#   edges = tstats$main$edges,
-#   nodematch_age.grp = tstats$main$nodematch_age.grp,
-#   nodefactor_age.grp = tstats$main$nodefactor_age.grp[-1],
-#   nodematch_race = tstats$main$nodematch_race_diffF,
-#   nodefactor_race = tstats$main$nodefactor_race[-1],
-#   nodefactor_deg.casl = tstats$main$nodefactor_deg.casl[-1],
-#   concurrent = tstats$main$concurrent,
-#   nodefactor_diag.status = tstats$main$nodefactor_diag.status[-1],
-#   degrange = 0,
-#   nodematch_role.class = c(0, 0)
-# )
 cbind(tstats_main)
 tstats_main <- unname(tstats_main)
 
@@ -118,6 +93,7 @@ tstats_casl <- c(
   degrange = 0,
   nodematch_role.class = c(0, 0)
 )
+
 cbind(tstats_casl)
 tstats_casl <- unname(tstats_casl)
 
@@ -130,6 +106,7 @@ fit_casl <- netest(nw_casl,
                                                    SAN.maxit = 10,
                                                    SAN.nsteps.times = 10),
                    verbose = TRUE)
+
 
 # 3. One-Off Model --------------------------------------------------------
 
@@ -152,6 +129,7 @@ tstats_inst <- c(
   nodefactor_deg.tot.risk = tstats$inst$nodefactor_deg.tot.risk[-8],
   nodematch_role.class = c(0, 0)
 )
+
 cbind(tstats_inst)
 tstats_inst <- unname(tstats_inst)
 

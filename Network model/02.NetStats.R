@@ -16,7 +16,6 @@ network_size <- 10000
 diss_nodematch <- TRUE
 edges_avg_nfrace <- FALSE
 
-
 ## Load Data ##
 fn <- paste("data/artnet.NetParam", gsub(" ", "", city_name), "rda", sep = ".")
 nstats <- readRDS(file = fn)
