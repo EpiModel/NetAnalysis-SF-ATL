@@ -3,9 +3,8 @@
 ## tsna anlaysis for NetAnalysis SF-ATL 
 ## 
 
-rm(list = ls())
-
 ## Packages ##
+rm(list = ls())
 library("scales")
 library("viridis")
 library("wesanderson")
