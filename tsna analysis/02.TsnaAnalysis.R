@@ -178,30 +178,31 @@ write.csv(comp.table2, "Table_2.csv")
 # outer = TRUE)
 
 # Color options for plot
-palv <- viridis(n = 4, alpha = 0.25, option = "inferno")
-palv <- adjustcolor(wes_palette(5, name = "Zissou1"), alpha.f = 1)
 palv <- rainbow(10)
-palv <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
+palv1 <- viridis(n = 4, alpha = 0.25, option = "inferno")
+palv2 <- adjustcolor(wes_palette(5, name = "Zissou1"), alpha.f = 1)
+palv3 <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
 
-## All partnerships
+# Plot settings
 jpeg("Plot2.jpeg", width = 8, height = 4, units = 'in', res = 250)
 par(mfrow = c(2, 3), oma = c(0, 0, 0, 0), xpd = NA, mgp = c(2,1,0),
     mar = c(3,3,2,1))
+
 # SF
-matplot(t(sfm.frp), type = "l", ylim = c(0, 30), xlab = "", ylab = "FRP", lty = 1,
-        col = palv, lwd = 0.5, main = "SF Main")
-matplot(t(sfc.frp), type = "l", ylim = c(0, 10000), xlab = "", ylab = "", lty = 1,
-        col = palv, lwd = 0.5, main = "SF Casual")
-matplot(t(sfi.frp), type = "l", ylim = c(0, 10000), xlab = "", ylab = "", lty = 1,
-        col = palv, lwd = 0.5, main = "SF One-Time")
+matplot(t(sfm.frp), type = "l", ylim = c(0, 30), xlab = "", ylab = "FRP", 
+        lty = 1, col = palv, lwd = 0.5, main = "SF Main")
+matplot(t(sfc.frp), type = "l", ylim = c(0, 10000), xlab = "", ylab = "", 
+        lty = 1, col = palv, lwd = 0.5, main = "SF Casual")
+matplot(t(sfi.frp), type = "l", ylim = c(0, 10000), xlab = "", ylab = "", 
+        lty = 1, col = palv, lwd = 0.5, main = "SF One-Time")
 
 # ATL
-matplot(t(atlm.frp), type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP", lty = 1,
-        col = palv, lwd = 0.5, main = "ATL Main")
-matplot(t(atlc.frp), type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", lty = 1,
-        col = palv, lwd = 0.5, main = "ATL Casual")
-matplot(t(atli.frp), type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", lty = 1,
-        col = palv, lwd = 0.5, main = "ATL One-Time")
+matplot(t(atlm.frp), type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP", 
+        lty = 1, col = palv, lwd = 0.5, main = "ATL Main")
+matplot(t(atlc.frp), type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", 
+        lty = 1, col = palv, lwd = 0.5, main = "ATL Casual")
+matplot(t(atli.frp), type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", 
+        lty = 1, col = palv, lwd = 0.5, main = "ATL One-Time")
 
 dev.off()
 
