@@ -24,6 +24,7 @@ l$ONGOING <- as.numeric(l$ONGOING)
 l$ongoing2 <- ifelse(is.na(l$ONGOING), 0, l$ONGOING)
 l$ONGOING <- NULL
 
+# Main partnership degree
 d <- l %>%
   filter(RAI == 1 | IAI == 1) %>%
   filter(ptype == 1) %>%
@@ -31,6 +32,7 @@ d <- l %>%
   summarise(deg.main = sum(ongoing2)) %>%
   right_join(d, by = "AMIS_ID")
 
+# Casual partnership degree
 d <- l %>%
   filter(RAI == 1 | IAI == 1) %>%
   filter(ptype == 2) %>%
@@ -42,6 +44,7 @@ d <- l %>%
 d$deg.main <- ifelse(is.na(d$deg.main), 0, d$deg.main)
 d$deg.casl <- ifelse(is.na(d$deg.casl), 0, d$deg.casl)
 
+# Degree summary
 summary(d$deg.main)
 summary(d$deg.casl)
 
@@ -49,8 +52,10 @@ summary(d$deg.casl)
 d$deg.casl <- ifelse(d$deg.casl > 3, 3, d$deg.casl)
 d$deg.main <- ifelse(d$deg.main > 2, 2, d$deg.main)
 
+# Total degree
 d$deg.tot <- d$deg.main + d$deg.casl
 
+# Degree by city
 md <- group_by(d, city2) %>%
   summarise(dm = mean(deg.main), dc = mean(deg.casl), dt = mean(deg.tot))
 print(md, n = nrow(md))
@@ -64,7 +69,7 @@ d$deg.casl.conc <- ifelse(d$deg.casl > 1, 1, 0)
 
 ## One-off calcs ##
 
-# Total MC anal sex partner count
+# Total main/casual (mc) anal sex partner count
 d <- l %>%
   filter(RAI == 1 | IAI == 1) %>%
   filter(ptype %in% 1:2) %>%
@@ -74,6 +79,7 @@ d <- l %>%
   right_join(d, by = "AMIS_ID")
 d$count.mc.part <- ifelse(is.na(d$count.mc.part), 0, d$count.mc.part)
 
+# Total one-off (oo) partners 
 d$count.oo.part <- d$ai.part - d$count.mc.part
 d$count.oo.part <- pmax(0, d$count.oo.part)
 
@@ -85,9 +91,11 @@ summary(d$count.oo.part)
 
 table(d$race.cat)
 
+# Participant race
 d$race.cat2 <- ifelse(d$race.cat %in% c("white", "other"), 1, 0)
 table(d$race.cat2)
 
+# Partner race
 l$race.cat2 <- ifelse(l$race.cat %in% c("white", "other"), 1, 0)
 l$p_race.cat2 <- ifelse(l$p_race.cat %in% c("white", "other"), 1, 0)
 table(l$race.cat2, l$p_race.cat2, useNA = "always")
@@ -121,19 +129,21 @@ summary(mod)
 
 b <- coef(mod)
 md.main <- exp(b[coef_name])
-
 out$main$md.main <- as.numeric(md.main)
 
 
 ## 1B: nodematch("age.grp") ##
 
+# 10-year age groups
 age.breaks <- c(0, 24, 34, 44, 54, 64, 100)
 lmain$index.age.grp <- cut(lmain$age, age.breaks, labels = FALSE)
 lmain$part.age.grp <- cut(as.numeric(lmain$p_age), age.breaks, labels = FALSE)
 data.frame(lmain$age, lmain$index.age.grp, lmain$p_age, lmain$part.age.grp)
 
+# Proportion of partnerships in same age group
 lmain$same.age.grp <- ifelse(lmain$index.age.grp == lmain$part.age.grp, 1, 0)
 
+# Model
 mod <- glm(same.age.grp ~ city2 + index.age.grp - 1,
            data = lmain, family = binomial())
 summary(mod)
@@ -162,9 +172,11 @@ out$main$nf.age.grp <- nf.age.grp
 table(lmain$race.cat2)
 table(lmain$p_race.cat2)
 
+# Proportion of partnerships between same race
 lmain$same.race <- ifelse(lmain$race.cat2 == lmain$p_race.cat2, 1, 0)
 mean(lmain$same.race, na.rm = TRUE)
 
+# Model
 mod <- glm(same.race ~ city2 - 1,
            data = lmain, family = binomial())
 summary(mod)
@@ -297,13 +309,16 @@ out$casl$md.casl <- as.numeric(md.casl)
 
 ## 2B: nodematch("age.grp") ##
 
+# 10-year age groups
 age.breaks <- c(0, 24, 34, 44, 54, 64, 100)
 lcasl$index.age.grp <- cut(lcasl$age, age.breaks, labels = FALSE)
 lcasl$part.age.grp <- cut(as.numeric(lcasl$p_age), age.breaks, labels = FALSE)
 data.frame(lcasl$age, lcasl$index.age.grp, lcasl$p_age, lcasl$part.age.grp)
 
+# Proportion of partnerships in same age group
 lcasl$same.age.grp <- ifelse(lcasl$index.age.grp == lcasl$part.age.grp, 1, 0)
 
+# Model
 mod <- glm(same.age.grp ~ city2 + index.age.grp - 1,
            data = lcasl, family = binomial())
 summary(mod)
@@ -333,9 +348,11 @@ table(lcasl$race.cat2)
 table(lcasl$p_race.cat2)
 prop.table(table(lcasl$race.cat2, lcasl$p_race.cat2), 1)
 
+# Proportion of partnerships between same race
 lcasl$same.race <- ifelse(lcasl$race.cat2 == lcasl$p_race.cat2, 1, 0)
 mean(lcasl$same.race, na.rm = TRUE)
 
+# Model
 mod <- glm(same.race ~ city2 - 1,
            data = lcasl, family = binomial())
 summary(mod)
@@ -475,13 +492,16 @@ out$inst$md.inst <- as.numeric(md.inst)
 
 ## 3B: nodematch("age.grp") ##
 
+# 10-year age groups
 age.breaks <- c(0, 24, 34, 44, 54, 64, 100)
 linst$index.age.grp <- cut(linst$age, age.breaks, labels = FALSE)
 linst$part.age.grp <- cut(as.numeric(linst$p_age), age.breaks, labels = FALSE)
 data.frame(linst$age, linst$index.age.grp, linst$p_age, linst$part.age.grp)
 
+# Proportion of partnerships in same age group
 linst$same.age.grp <- ifelse(linst$index.age.grp == linst$part.age.grp, 1, 0)
 
+# Model
 mod <- glm(same.age.grp ~ city2 + index.age.grp - 1,
            data = linst, family = binomial())
 summary(mod)
@@ -507,9 +527,11 @@ out$inst$nf.age.grp <- nf.age.grp
 
 ## 3D: nodematch("race") ##
 
+# Proportion of partnerships between same race
 linst$same.race <- ifelse(linst$race.cat2 == linst$p_race.cat2, 1, 0)
 mean(lcasl$same.race, na.rm = TRUE)
 
+# Model
 mod <- glm(same.race ~ city2 - 1,
            data = linst, family = binomial())
 summary(mod)
