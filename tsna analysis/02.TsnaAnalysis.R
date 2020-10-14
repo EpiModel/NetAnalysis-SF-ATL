@@ -1,6 +1,6 @@
 
 ## 
-## tsna anlaysis for San Francisco & Atlanta sexual networks
+## tsna anlaysis for NetAnalysis SF-ATL 
 ## 
 
 rm(list = ls())

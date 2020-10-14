@@ -1,6 +1,6 @@
 
 ## 
-## Outcome data for tsna analysis of San Francisco & Atlanta sexual networks
+## FRP data extraction for NetAnalysis SF-ATL tsna anlaysis
 ## 
 
 ## Packages ##
