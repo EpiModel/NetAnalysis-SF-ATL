@@ -152,11 +152,12 @@ mod <- glm(deg.main ~ city2 + age.grp + sqrt(age.grp) - 1,
 summary(mod)
 
 b <- coef(mod)
-nf.age.grp <- exp(b[coef_name] + b["age.grp"]*1:5 + b["sqrt(age.grp)"]*sqrt(1:5))
+nf.age.grp <- exp(b[coef_name] + b["age.grp"]*1:5 + 
+                  b["sqrt(age.grp)"]*sqrt(1:5))
 out$main$nf.age.grp <- nf.age.grp
 
 
-## 1Db: nodematch("race", diff = FALSE) ##
+## 1D: nodematch("race") ##
 
 table(lmain$race.cat2)
 table(lmain$p_race.cat2)
@@ -233,8 +234,8 @@ durs.main.geo <- lmain %>%
 # city-specific weight based on ratio of medians
 wt <- durs.main.geo$median.dur/durs.main$median.dur
 
-# The weekly dissolution rate is function of the mean of the geometric distribution
-# which relates to the median as:
+# The weekly dissolution rate is function of the mean of the geometric 
+# distribution which relates to the median as:
 durs.main$rates.main.adj <- 1 - (2^(-1/(wt*durs.main$median.dur)))
 
 # Mean duration associated with a geometric distribution that median:
@@ -321,7 +322,8 @@ mod <- glm(deg.casl ~ city2 + age.grp + sqrt(age.grp) - 1,
 summary(mod)
 
 b <- coef(mod)
-nf.age.grp <- exp(b[coef_name] + b["age.grp"]*1:5 + b["sqrt(age.grp)"]*sqrt(1:5))
+nf.age.grp <- exp(b[coef_name] + b["age.grp"]*1:5 + 
+                  b["sqrt(age.grp)"]*sqrt(1:5))
 out$casl$nf.age.grp <- nf.age.grp
 
 
@@ -334,9 +336,6 @@ prop.table(table(lcasl$race.cat2, lcasl$p_race.cat2), 1)
 lcasl$same.race <- ifelse(lcasl$race.cat2 == lcasl$p_race.cat2, 1, 0)
 mean(lcasl$same.race, na.rm = TRUE)
 
-
-## 2Db: nodematch("race", diff = FALSE) ##
-
 mod <- glm(same.race ~ city2 - 1,
            data = lcasl, family = binomial())
 summary(mod)
@@ -346,7 +345,7 @@ nm.race <- plogis(b[coef_name])
 out$casl$nm.race <- as.numeric(nm.race)
 
 
-## 2E: nodefactor("race", diff = TRUE) ##
+## 2E: nodefactor("race") ##
 
 mod <- glm(deg.casl ~ city2 + race.cat2 - 1,
            data = d, family = poisson())
@@ -406,8 +405,8 @@ durs.casl.geo <- lcasl %>%
 # city-specific weight based on ratio of medians
 wt <- durs.casl.geo$median.dur/durs.casl$median.dur
 
-# The weekly dissolution rate is function of the mean of the geometric distribution
-# which relates to the median as:
+# The weekly dissolution rate is function of the mean of the geometric 
+# distribution which relates to the median as:
 durs.casl$rates.casl.adj <- 1 - (2^(-1/(wt*durs.casl$median.dur)))
 
 # Mean duration associated with a geometric distribution that median:
@@ -501,11 +500,12 @@ mod <- glm(count.oo.part ~ city2 + age.grp + sqrt(age.grp) - 1,
 summary(mod)
 
 b <- coef(mod)
-nf.age.grp <- exp(b[coef_name] + b["age.grp"]*1:5 + b["sqrt(age.grp)"]*sqrt(1:5))/52
+nf.age.grp <- exp(b[coef_name] + b["age.grp"]*1:5 + 
+                  b["sqrt(age.grp)"]*sqrt(1:5))/52
 out$inst$nf.age.grp <- nf.age.grp
 
 
-## 3D: nodematch("race", diff = FALSE) ##
+## 3D: nodematch("race") ##
 
 linst$same.race <- ifelse(linst$race.cat2 == linst$p_race.cat2, 1, 0)
 mean(lcasl$same.race, na.rm = TRUE)
@@ -541,7 +541,8 @@ deg.tot.dist <- prop.table(table(d$deg.tot3[d$city2 == city_name]))
 out$inst$deg.tot.dist <- as.numeric(deg.tot.dist)
 
 # city-specific wts
-wt <- mean(d$rate.oo.part[d$city2 == city_name], na.rm = TRUE)/mean(d$rate.oo.part, na.rm = TRUE)
+wt <- mean(d$rate.oo.part[d$city2 == city_name], 
+           na.rm = TRUE)/mean(d$rate.oo.part, na.rm = TRUE)
 wt.rate <- d$rate.oo.part * wt
 
 # heterogeneous across tot.deg3
