@@ -45,7 +45,7 @@ d$deg.casl <- ifelse(is.na(d$deg.casl), 0, d$deg.casl)
 summary(d$deg.main)
 summary(d$deg.casl)
 
-# recoding to truncate degree
+# Recoding to truncate degree
 d$deg.casl <- ifelse(d$deg.casl > 3, 3, d$deg.casl)
 d$deg.main <- ifelse(d$deg.main > 2, 2, d$deg.main)
 
@@ -61,7 +61,8 @@ round(prop.table(table(d$deg.main, d$deg.casl)), 3)
 d$deg.main.conc <- ifelse(d$deg.main > 1, 1, 0)
 d$deg.casl.conc <- ifelse(d$deg.casl > 1, 1, 0)
 
-## one-off calcs ##
+
+## One-off calcs ##
 
 # Total MC anal sex partner count
 d <- l %>%
@@ -79,13 +80,9 @@ d$count.oo.part <- pmax(0, d$count.oo.part)
 head(data.frame(d$ai.part, d$count.mc.part, d$count.oo.part), 25)
 summary(d$count.oo.part)
 
-# Truncated OO part
-# d$count.oo.part.trunc <- ifelse(d$count.oo.part > 100, 100, d$count.oo.part)
-# summary(d$count.oo.part.trunc)
-# table(d$count.oo.part.trunc)
 
+## Race/Ethnicity ##
 
-## Race/Ethnicity
 table(d$race.cat)
 
 d$race.cat2 <- ifelse(d$race.cat %in% c("white", "other"), 1, 0)
@@ -99,39 +96,10 @@ table(l$race.cat, useNA = "always")
 table(l$p_race.cat, useNA = "always")
 table(l$race.cat, l$p_race.cat, useNA = "always")
 
-# redistribute NAs in proportion to non-missing partner races
-# probs <- prop.table(table(l$race.cat2, l$p_race.cat2), 1)
-# 
-# imp_black <- which(is.na(l$p_race.cat2) & l$race.cat2 == 0)
-# l$p_race.cat2[imp_black] <- sample(0:1, length(imp_black), TRUE, probs[1, ])
-# 
-# imp_white <- which(is.na(l$p_race.cat2) & l$race.cat2 == 1)
-# l$p_race.cat2[imp_white] <- sample(0:1, length(imp_white), TRUE, probs[2, ])
-# 
-# table(l$race.cat2, l$p_race.cat2, useNA = "always")
 
-
-## HIV status
+## HIV status ##
 
 l$p_hiv2 <- ifelse(l$p_hiv == 1, 1, 0)
-
-# l$p_hiv2 <- ifelse(l$p_hiv == 1, 1, 0)
-# table(l$p_hiv, l$p_hiv2, useNA = "always")
-# 
-# hiv.combo <- rep(NA, nrow(l))
-# hiv.combo[l$hiv2 == 0 & l$p_hiv == 0] <- 1
-# hiv.combo[l$hiv2 == 1 & l$p_hiv == 1] <- 2
-# hiv.combo[l$hiv2 == 1 & l$p_hiv == 0] <- 3
-# hiv.combo[l$hiv2 == 0 & l$p_hiv == 1] <- 3
-# hiv.combo[l$hiv2 == 0 & l$p_hiv == 2] <- 4
-# hiv.combo[l$hiv2 == 1 & l$p_hiv == 2] <- 5
-# table(hiv.combo, useNA = "always")
-# 
-# l$hiv.concord <- ifelse(hiv.combo %in% 0:1, 1, 0)
-# l$hiv.concord.pos <- ifelse(hiv.combo == 2, 1, 0)
-# table(l$hiv.concord)
-# table(l$hiv.concord.pos)
-
 
 
 ## Setup output list ##
@@ -164,10 +132,6 @@ lmain$index.age.grp <- cut(lmain$age, age.breaks, labels = FALSE)
 lmain$part.age.grp <- cut(as.numeric(lmain$p_age), age.breaks, labels = FALSE)
 data.frame(lmain$age, lmain$index.age.grp, lmain$p_age, lmain$part.age.grp)
 
-# lmain$index.age.grp <- cut(lmain$age, age.breaks, labels = FALSE)
-# lmain$part.age.grp <- cut(as.numeric(lmain$p_age_imp), age.breaks, labels = FALSE)
-# data.frame(lmain$age, lmain$index.age.grp, lmain$p_age_imp, lmain$part.age.grp)
-
 lmain$same.age.grp <- ifelse(lmain$index.age.grp == lmain$part.age.grp, 1, 0)
 
 mod <- glm(same.age.grp ~ city2 + index.age.grp - 1,
@@ -190,24 +154,6 @@ summary(mod)
 b <- coef(mod)
 nf.age.grp <- exp(b[coef_name] + b["age.grp"]*1:5 + b["sqrt(age.grp)"]*sqrt(1:5))
 out$main$nf.age.grp <- nf.age.grp
-
-
-## 1D: nodematch("race", diff = TRUE) ##
-
-# prop.table(table(lmain$race.cat2, lmain$p_race.cat2), 1)
-# 
-# lmain$same.race <- ifelse(lmain$race.cat2 == lmain$p_race.cat2, 1, 0)
-# group_by(lmain, race.cat2) %>%
-#   summarise(mn = mean(same.race))
-# 
-# mod <- glm(same.race ~ city2 + as.factor(race.cat2),
-#            data = lmain, family = binomial())
-# summary(mod)
-# 
-# dat <- data.frame(city2 = city_name, race.cat2 = 0:1)
-# pred <- predict(mod, newdata = dat, type = "response")
-# 
-# out$main$nm.race <- as.numeric(pred)
 
 
 ## 1Db: nodematch("race", diff = FALSE) ##
@@ -330,7 +276,6 @@ durs.main.all <- durs.main.all[, c(3, 1, 2, 4, 5)]
 out$main$durs.main.byage <- durs.main.all
 
 
-
 # 2. Casual model ---------------------------------------------------------
 
 out$casl <- list()
@@ -388,15 +333,6 @@ prop.table(table(lcasl$race.cat2, lcasl$p_race.cat2), 1)
 
 lcasl$same.race <- ifelse(lcasl$race.cat2 == lcasl$p_race.cat2, 1, 0)
 mean(lcasl$same.race, na.rm = TRUE)
-
-# mod <- glm(same.race ~ city2 + as.factor(race.cat2),
-#            data = lcasl, family = binomial())
-# summary(mod)
-# 
-# dat <- data.frame(city2 = city_name, race.cat2 = 0:1)
-# pred <- predict(mod, newdata = dat, type = "response")
-# 
-# out$casl$nm.race <- as.numeric(pred)
 
 
 ## 2Db: nodematch("race", diff = FALSE) ##
@@ -519,6 +455,7 @@ out$casl$durs.casl.byage <- durs.casl.all
 out$inst <- list()
 linst <- l[l$ptype == 3, ]
 
+
 ## 3A: edges ##
 
 head(d$count.oo.part, 25)
@@ -566,22 +503,6 @@ summary(mod)
 b <- coef(mod)
 nf.age.grp <- exp(b[coef_name] + b["age.grp"]*1:5 + b["sqrt(age.grp)"]*sqrt(1:5))/52
 out$inst$nf.age.grp <- nf.age.grp
-
-
-## 3D: nodematch("race", diff = TRUE) ##
-
-# prop.table(table(linst$race.cat2, linst$p_race.cat2), 1)
-# 
-# linst$same.race <- ifelse(linst$race.cat2 == linst$p_race.cat2, 1, 0)
-# 
-# mod <- glm(same.race ~ city2 + as.factor(race.cat2),
-#            data = linst, family = binomial())
-# summary(mod)
-# 
-# dat <- data.frame(city2 = city_name, race.cat2 = 0:1)
-# pred <- predict(mod, newdata = dat, type = "response")
-# 
-# out$inst$nm.race <- as.numeric(pred)
 
 
 ## 3D: nodematch("race", diff = FALSE) ##
@@ -635,15 +556,6 @@ for (i in 0:3) {
 row.names(oo.quants) <- paste0("tdeg", 0:3)
 colnames(oo.quants) <- c("lowr", "highr")
 
-# oo.quants <- rep(NA, 5)
-# sr <- sort(wt.rate)
-# qsize <- floor(length(sr) / 5)
-# oo.quants[1] <- mean(sr[1:qsize])
-# oo.quants[2] <- mean(sr[((1*qsize)+1):(2*qsize)])
-# oo.quants[3] <- mean(sr[((2*qsize)+1):(3*qsize)])
-# oo.quants[4] <- mean(sr[((3*qsize)+1):(4*qsize)])
-# oo.quants[5] <- mean(sr[((4*qsize)+1):length(sr)])
-
 # Weekly acquisition rate
 oo.quants
 
@@ -658,26 +570,6 @@ oo.quants * 52
 
 # Save it
 out$inst$nf.risk.deg <- oo.quants
-
-# out$inst$nf.risk.grp <- oo.quants
-
-
-## 3G: nodefactor("deg.tot") ##
-
-# d$deg.tot3 <- ifelse(d$deg.tot >= 3, 3, d$deg.tot)
-# table(d$deg.tot3)
-# 
-# deg.tot.dist <- prop.table(table(d$deg.tot3[d$city2 == city_name]))
-# out$inst$deg.tot.dist <- as.numeric(deg.tot.dist)
-# 
-# mod <- glm(count.oo.part ~ city2 + deg.tot3 + sqrt(deg.tot3),
-#            data = d, family = poisson())
-# summary(mod)
-# 
-# dat <- data.frame(city2 = city_name, deg.tot3 = 0:3)
-# pred <- predict(mod, newdata = dat, type = "response")/52
-# 
-# out$inst$nf.deg.tot <- as.numeric(pred)
 
 
 # 4. Other Parameters -----------------------------------------------------
@@ -700,7 +592,6 @@ roletype[vers] <- "V"
 
 table(roletype)
 out$all$role.type <- prop.table(table(roletype))
-
 
 
 # SAVE --------------------------------------------------------------------
