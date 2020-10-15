@@ -20,5 +20,7 @@ The overall mean and median FRPs were higher in San Francisco than in Atlanta, s
 #### Conclusions
 The FRP results correspond to the observed STI epidemics but not HIV epidemics between the cities. In San Francisco, rates of HIV have been declining over the last few years, whereas they have been steady in Atlanta. The FRP by age group resulted in fundamentally different conclusions about connectivity in the network compared with the cross-sectional network measures.
 
+<img src="https://github.com/EpiModel/NetAnalysis-SF-ATL/blob/master/Figures/Picture2.png">
+
 ## Model Code
 These models are written and executed in the R statistical software language. To run these files, it is necessary to first install our epidemic modeling software, [EpiModel](http://epimodel.org/), and our extension package specifically for modeling HIV/STI transmission dynamics among MSM, [EpiModelHIV](http://github.com/statnet/EpiModelHIV). 
