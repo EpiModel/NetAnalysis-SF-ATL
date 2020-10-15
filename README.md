@@ -9,11 +9,11 @@ This repository holds the source to code to reproduce the analysis featured in o
 #### Background
 The potential speed through which a pathogen may circulate in a network is a function of network connectivity. Network features like degree (number of ongoing partnerships) determine the cross-sectional network connectivity. The overall transmission potential of a pathogen involves connectivity over time, which can be measured using the forward reachable path (FRP). We modeled dynamic sexual networks of MSM in San Francisco and Atlanta to estimate the FRP as a predictor of HIV/STI epidemic potential.
 
-## Methods
+#### Methods
 We used exponential random graph models to obtain parameter estimates for each city’s sexual network and then simulated the complete networks over time. The FRP was estimated in each city overall and stratified by demographics.
 
-## Results
+#### Results
 The overall mean and median FRPs were higher in San Francisco than in Atlanta, suggesting a greater epidemic potential for HIV and STIs in San Francisco. At one year, in both cities, the average FRP among casual partnerships was highest in the youngest age group and lowest in the oldest age group, contrasting with the cross-sectional network parameters we estimated, where the youngest age category had the lowest mean degree and the oldest age category had the highest mean degree.
 
-## Conclusions
+#### Conclusions
 The FRP results correspond to the observed STI epidemics but not HIV epidemics between the cities. In San Francisco, rates of HIV have been declining over the last few years, whereas they have been steady in Atlanta. The FRP by age group resulted in fundamentally different conclusions about connectivity in the network compared with the cross-sectional network measures.
