@@ -4,8 +4,7 @@ This repository holds the source to code to reproduce the analysis featured in o
 ## Citation
 > Anderson EJ, Weiss KM, Morris MM, Sanchez TH, Prasad P, Jenness SM. The HIV Epidemic Potential of Dynamic Sexual Networks of Men Who Have Sex With Men in San Francisco and Atlanta. medRxiv 2020.10.12.20211540; doi: https://doi.org/10.1101/2020.10.12.20211540. [Pre-Print]
 
-![Figure 1](https://github.com/EpiModel/NetAnalysis-SF-ATL/blob/master/Figures/Picture1.pdf)
-<img src="https://github.com/EpiModel/NetAnalysis-SF-ATL/blob/master/Figures/Picture1.pdf">
+<img src="https://github.com/EpiModel/NetAnalysis-SF-ATL/blob/master/Figures/Picture1.png">
 
 ## Abstract
 
