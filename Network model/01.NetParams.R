@@ -61,6 +61,31 @@ md <- group_by(d, city2) %>%
 print(md, n = nrow(md))
 table(d$deg.main, d$deg.casl)
 round(prop.table(table(d$deg.main, d$deg.casl)), 3)
+round(prop.table(table(d$deg.main[d$city2 == "Atlanta"],
+                       d$deg.casl[d$city2 == "Atlanta"])), 3)
+t <- d %>%
+  filter(city2 == "Atlanta")
+
+summary(t$deg.main[t$deg.casl == 0])
+summary(t$deg.main[t$deg.casl == 1])  
+summary(t$deg.main[t$deg.casl == 2])
+summary(t$deg.main[t$deg.casl == 3])
+
+summary(t$deg.casl[t$deg.main == 0])
+summary(t$deg.casl[t$deg.main == 1])
+summary(t$deg.casl[t$deg.main == 2])
+
+t1 <- d %>%
+  filter(city2 == "San Francisco")
+
+summary(t1$deg.main[t1$deg.casl == 0])
+summary(t1$deg.main[t1$deg.casl == 1])  
+summary(t1$deg.main[t1$deg.casl == 2])
+summary(t1$deg.main[t1$deg.casl == 3])
+
+summary(t1$deg.casl[t1$deg.main == 0])
+summary(t1$deg.casl[t1$deg.main == 1])
+summary(t1$deg.casl[t1$deg.main == 2])
 
 # Concurrency
 d$deg.main.conc <- ifelse(d$deg.main > 1, 1, 0)
