@@ -18,7 +18,98 @@ coef_name <- paste0("city2", city_name)
 
 # 0. Data Processing ------------------------------------------------------
 
+## Race/Ethnicity ##
+
+table(d$race.cat)
+
+# Participant race
+d$race.cat2 <- ifelse(d$race.cat %in% c("white", "other"), 1, 0)
+table(d$race.cat2)
+
+# Partner race
+l$race.cat2 <- ifelse(l$race.cat %in% c("white", "other"), 1, 0)
+l$p_race.cat2 <- ifelse(l$p_race.cat %in% c("white", "other"), 1, 0)
+table(l$race.cat2, l$p_race.cat2, useNA = "always")
+
+table(l$race.cat, useNA = "always")
+table(l$p_race.cat, useNA = "always")
+table(l$race.cat, l$p_race.cat, useNA = "always")
+
+
 ## Degree calculations ##
+
+## cumulative degree
+
+d <- l %>%
+  filter(RAI == 1 | IAI == 1) %>%
+  filter(ptype == 1) %>%
+  group_by(AMIS_ID) %>%
+  count() %>%
+  rename(num_main = n) %>%
+  right_join(d, by = "AMIS_ID")
+
+d <- l %>%
+  filter(RAI == 1 | IAI == 1) %>%
+  filter(ptype == 2) %>%
+  group_by(AMIS_ID) %>%
+  count() %>%
+  rename(num_casl = n) %>%
+  right_join(d, by = "AMIS_ID")
+
+# If missing degree, then set to 0
+d$num_main <- ifelse(is.na(d$num_main), 0, d$num_main)
+d$num_casl <- ifelse(is.na(d$num_casl), 0, d$num_casl)
+
+table(d$num_main, useNA = "always")
+table(d$num_casl, useNA = "always")
+
+cum_deg <- group_by(d, city2) %>%
+  summarise(cm = mean(num_main), cc = mean(num_casl))
+print(cum_deg, n = nrow(cum_deg))
+
+# by age group
+age.breaks <- c(0, 24, 34, 44, 54, 64, 100)
+d$age.grp <- cut(d$age, age.breaks, labels = FALSE)
+age_cumdeg <- group_by(d, city2, age.grp) %>%
+  summarise(age_cm = mean(num_main), age_cc = mean(num_casl))
+
+# by race
+race_cumdeg <- group_by(d, city2, race.cat2) %>%
+  summarise(race_cm = mean(num_main), race_cc = mean(num_casl))
+
+# by cross-partnership degree
+t <- d %>%
+  filter(city2 == "Atlanta")
+summary(t$num_main[t$num_casl == 0])
+summary(t$num_main[t$num_casl == 1])
+summary(t$num_main[t$num_casl == 2])
+summary(t$num_main[t$num_casl == 3])
+summary(t$num_main[t$num_casl == 4])
+summary(t$num_main[t$num_casl == 5])
+
+summary(t$num_casl[t$num_main == 0])
+summary(t$num_casl[t$num_main == 1])
+summary(t$num_casl[t$num_main == 2])
+summary(t$num_casl[t$num_main == 3])
+summary(t$num_casl[t$num_main == 4])
+
+t <- d %>%
+  filter(city2 == "San Francisco")
+summary(t$num_main[t$num_casl == 0])
+summary(t$num_main[t$num_casl == 1])
+summary(t$num_main[t$num_casl == 2])
+summary(t$num_main[t$num_casl == 3])
+summary(t$num_main[t$num_casl == 4])
+summary(t$num_main[t$num_casl == 5])
+
+summary(t$num_casl[t$num_main == 0])
+summary(t$num_casl[t$num_main == 1])
+summary(t$num_casl[t$num_main == 2])
+summary(t$num_casl[t$num_main == 3])
+summary(t$num_casl[t$num_main == 4])
+
+
+## momentary degree
 
 l$ONGOING <- as.numeric(l$ONGOING)
 l$ongoing2 <- ifelse(is.na(l$ONGOING), 0, l$ONGOING)
@@ -111,23 +202,18 @@ d$count.oo.part <- pmax(0, d$count.oo.part)
 head(data.frame(d$ai.part, d$count.mc.part, d$count.oo.part), 25)
 summary(d$count.oo.part)
 
+t1 <- d %>% 
+  filter(!is.na(count.oo.part)) 
+summary(t1$count.oo.part[t1$city2 == "San Francisco"])
+summary(t1$count.oo.part[t1$city2 == "Atlanta"])
 
-## Race/Ethnicity ##
+# by age
+age_oo <- group_by(t1, city2, age.grp) %>%
+  summarise(age_coo = mean(count.oo.part))
 
-table(d$race.cat)
-
-# Participant race
-d$race.cat2 <- ifelse(d$race.cat %in% c("white", "other"), 1, 0)
-table(d$race.cat2)
-
-# Partner race
-l$race.cat2 <- ifelse(l$race.cat %in% c("white", "other"), 1, 0)
-l$p_race.cat2 <- ifelse(l$p_race.cat %in% c("white", "other"), 1, 0)
-table(l$race.cat2, l$p_race.cat2, useNA = "always")
-
-table(l$race.cat, useNA = "always")
-table(l$p_race.cat, useNA = "always")
-table(l$race.cat, l$p_race.cat, useNA = "always")
+# by race
+race_oo <- group_by(t1, city2, race.cat2) %>%
+  summarise(race_coo = mean(count.oo.part))
 
 
 ## HIV status ##
