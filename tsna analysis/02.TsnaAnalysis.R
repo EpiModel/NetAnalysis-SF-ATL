@@ -178,33 +178,44 @@ write.csv(comp.table2, "Table_2.csv")
 # outer = TRUE)
 
 # Color options for plot
-palv <- rainbow(10)
-palv1 <- viridis(n = 4, alpha = 0.25, option = "inferno")
-palv2 <- adjustcolor(wes_palette(5, name = "Zissou1"), alpha.f = 1)
-palv3 <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
+palv <- rainbow(8)
+palv1 <- viridis(n = 5, alpha = 0.25, option = "viridis")
+palv2 <- adjustcolor(wes_palette(4, name = "Royal2"), alpha.f = 1)
+palv3 <- adjustcolor(col = RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
+palv4 <- inferno(n = 5)
+palv5 <- RColorBrewer::brewer.pal(8, "Set2")
+palv6 <- grDevices::gray.colors(5)
 
 # Plot settings
 jpeg("Plot2.jpeg", width = 8, height = 4, units = 'in', res = 250)
-par(mfrow = c(2, 3), oma = c(0, 0, 0, 0), xpd = NA, mgp = c(2,1,0),
+par(mfrow = c(2, 2), oma = c(0, 0, 0, 0), xpd = NA, mgp = c(2,1,0),
     mar = c(3,3,2,1))
 
 # SF
-matplot(t(sfm.frp), type = "l", ylim = c(0, 30), xlab = "", ylab = "FRP", 
-        lty = 1, col = palv, lwd = 0.5, main = "SF Main")
-matplot(t(sfc.frp), type = "l", ylim = c(0, 10000), xlab = "", ylab = "", 
-        lty = 1, col = palv, lwd = 0.5, main = "SF Casual")
+# matplot(t(sfm.frp), type = "l", ylim = c(0, 30), xlab = "", ylab = "FRP", 
+#         lty = 1, col = palv, lwd = 0.5, main = "SF Main")
+matplot(t(sfc.frp), type = "l", ylim = c(0, 10000), xlab = "", ylab = "FRP", 
+        lty = 1, col = palv5, lwd = 0.5, main = "San Francisco Casual")
 matplot(t(sfi.frp), type = "l", ylim = c(0, 10000), xlab = "", ylab = "", 
-        lty = 1, col = palv, lwd = 0.5, main = "SF One-Time")
+        lty = 1, col = palv5, lwd = 0.5, main = "San Francisco One-Time")
 
 # ATL
-matplot(t(atlm.frp), type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP", 
-        lty = 1, col = palv, lwd = 0.5, main = "ATL Main")
-matplot(t(atlc.frp), type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", 
-        lty = 1, col = palv, lwd = 0.5, main = "ATL Casual")
+# matplot(t(atlm.frp), type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP", 
+#         lty = 1, col = palv, lwd = 0.5, main = "ATL Main")
+matplot(t(atlc.frp), type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", 
+        lty = 1, col = palv5, lwd = 0.25, main = "Atlanta Casual")
 matplot(t(atli.frp), type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", 
-        lty = 1, col = palv, lwd = 0.5, main = "ATL One-Time")
+        lty = 1, col = palv5, lwd = 0.5, main = "Atlanta One-Time")
 
 dev.off()
+
+
+par(mfrow = c(1, 2), oma = c(0, 0, 0, 0), xpd = NA, mgp = c(2,1,0),
+    mar = c(3,3,2,1))
+matplot(t(sfm.frp), type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP",
+        lty = 1, col = palv5, lwd = 0.5, main = "San Francisco Main")
+matplot(t(atlm.frp), type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP",
+        lty = 1, col = palv5, lwd = 0.5, main = "Atlanta Main")
 
 
 # Manuscript Figure 3 -----------------------------------------------------
@@ -225,16 +236,69 @@ atlc.44.avg <- colMeans(as.data.frame(atlc.frp[atl.44, ]))/10000
 atlc.54.avg <- colMeans(as.data.frame(atlc.frp[atl.54, ]))/10000
 atlc.64.avg <- colMeans(as.data.frame(atlc.frp[atl.64, ]))/10000
 
+
+
+## SF
+# sfc.24.avg <- log(colMeans(as.data.frame(sfc.frp[sf.24, ])))
+# sfc.34.avg <- log(colMeans(as.data.frame(sfc.frp[sf.34, ])))
+# sfc.44.avg <- log(colMeans(as.data.frame(sfc.frp[sf.44, ])))
+# sfc.54.avg <- log(colMeans(as.data.frame(sfc.frp[sf.54, ])))
+# sfc.64.avg <- log(colMeans(as.data.frame(sfc.frp[sf.64, ])))
+# 
+# ## ATL
+# atlc.24.avg <- log(colMeans(as.data.frame(atlc.frp[atl.24, ])))
+# atlc.34.avg <- log(colMeans(as.data.frame(atlc.frp[atl.34, ])))
+# atlc.44.avg <- log(colMeans(as.data.frame(atlc.frp[atl.44, ])))
+# atlc.54.avg <- log(colMeans(as.data.frame(atlc.frp[atl.54, ])))
+# atlc.64.avg <- log(colMeans(as.data.frame(atlc.frp[atl.64, ])))
+
+
+
 ## Line plots ##
 
 ## Set plot options
-pal <- adjustcolor(RColorBrewer::brewer.pal(5, "Set1"), alpha.f = 0.8)
-jpeg("Plot3.jpeg", width = 8, height = 4, units = 'in', res = 300)
-par(mfrow = c(1,2), mgp = c(2,1,0), mar = c(3,3,2,1))
+# pal <- RColorBrewer::brewer.pal(5, "Set1")
+# # jpeg("Plot3.jpeg", width = 8, height = 4, units = 'in', res = 300)
+# par(mfrow = c(1,2), mgp = c(2,1,0), mar = c(3,3,2,1))
+
+## Original plot
 
 ## SF
+# plot(x = 1:260, y = sfc.24.avg, type = "l", col = pal[1], lwd = 2, 
+#      xlab = "Week", ylab = "Proportion Reachable", main = "San Francisco")
+# lines(x = 1:260, y = sfc.34.avg, type = "l", col = pal[2], 
+#       lwd = 2)
+# lines(x = 1:260, y = sfc.44.avg, type = "l", col = pal[3], 
+#       lwd = 2)
+# lines(x = 1:260, y = sfc.54.avg, type = "l", col = pal[4], 
+#       lwd = 2)
+# lines(x = 1:260, y = sfc.64.avg, type = "l", col = pal[5], 
+#       lwd = 2)
+# legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+#        col = pal, lty = 1, cex = 0.8)
+# 
+# ## ATL
+# plot(x = 1:260, y = atlc.24.avg, type = "l", col = pal[1], lwd = 2, 
+#      xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta")
+# lines(x = 1:260, y = atlc.34.avg, type = "l", col = pal[2], 
+#       lwd = 2)
+# lines(x = 1:260, y = atlc.44.avg, type = "l", col = pal[3], 
+#       lwd = 2)
+# lines(x = 1:260, y = atlc.54.avg, type = "l", col = pal[4], 
+#       lwd = 2)
+# lines(x = 1:260, y = atlc.64.avg, type = "l", col = pal[5], 
+#       lwd = 2)
+# legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+#        col = pal, lty = 1, cex = 0.8)
+
+# dev.off()
+
+
+## Color
+par(mfrow = c(1,1), mgp = c(2,1,0), mar = c(3,3,2,1))
+
 plot(x = 1:260, y = sfc.24.avg, type = "l", col = pal[1], lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable", main = "San Francisco")
+     xlab = "Week", ylab = "Proportion Reachable")
 lines(x = 1:260, y = sfc.34.avg, type = "l", col = pal[2], 
       lwd = 2)
 lines(x = 1:260, y = sfc.44.avg, type = "l", col = pal[3], 
@@ -243,24 +307,36 @@ lines(x = 1:260, y = sfc.54.avg, type = "l", col = pal[4],
       lwd = 2)
 lines(x = 1:260, y = sfc.64.avg, type = "l", col = pal[5], 
       lwd = 2)
-legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
-       col = pal, lty = 1, cex = 0.8)
-
-## ATL
-plot(x = 1:260, y = atlc.24.avg, type = "l", col = pal[1], lwd = 2, 
-     xlab = "Week", ylab = "Proportion Reachable", main = "Atlanta")
-lines(x = 1:260, y = atlc.34.avg, type = "l", col = pal[2], 
+lines(x = 1:260, y = atlc.24.avg, type = "l", col = pal[1], lty = 2,
       lwd = 2)
-lines(x = 1:260, y = atlc.44.avg, type = "l", col = pal[3], 
+lines(x = 1:260, y = atlc.34.avg, type = "l", col = pal[2], lty = 2,
       lwd = 2)
-lines(x = 1:260, y = atlc.54.avg, type = "l", col = pal[4], 
+lines(x = 1:260, y = atlc.44.avg, type = "l", col = pal[3], lty = 2,
       lwd = 2)
-lines(x = 1:260, y = atlc.64.avg, type = "l", col = pal[5], 
+lines(x = 1:260, y = atlc.54.avg, type = "l", col = pal[4], lty= 2,
+      lwd = 2)
+lines(x = 1:260, y = atlc.64.avg, type = "l", col = pal[5], lty = 2,
       lwd = 2)
 legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
-       col = pal, lty = 1, cex = 0.8)
+       fill = pal, cex = 0.8)
 
-dev.off()
+
+## Black and white
+par(mfrow = c(1,1), mgp = c(2,1,0), mar = c(3,3,2,1))
+
+plot(x = 1:260, y = sfc.24.avg, type = "l", lty = 1, lwd = 2, col = "grey48",
+     xlab = "Week", ylab = "Proportion Reachable")
+lines(x = 1:260, y = sfc.34.avg, type = "l", lty = 2, lwd = 2, col = "grey48")
+lines(x = 1:260, y = sfc.44.avg, type = "l", lty = 3, lwd = 2, col = "grey48")
+lines(x = 1:260, y = sfc.54.avg, type = "l", lty = 4, lwd = 2, col = "grey48")
+lines(x = 1:260, y = sfc.64.avg, type = "l", lty = 5, lwd = 2, col = "grey48")
+lines(x = 1:260, y = atlc.24.avg, type = "l", lty = 1, lwd = 2)
+lines(x = 1:260, y = atlc.34.avg, type = "l", lty = 2, lwd = 2)
+lines(x = 1:260, y = atlc.44.avg, type = "l", lty = 3, lwd = 2)
+lines(x = 1:260, y = atlc.54.avg, type = "l", lty = 4, lwd = 2)
+lines(x = 1:260, y = atlc.64.avg, type = "l", lty = 5, lwd = 2)
+legend("topleft", legend = c("15-24", "25-34", "35-44", "45-54", "55-64"), 
+       lty = c(1:5), cex = 0.8)
 
 
 # Additional analyses -----------------------------------------------------
