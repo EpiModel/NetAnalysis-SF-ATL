@@ -187,7 +187,7 @@ palv5 <- RColorBrewer::brewer.pal(8, "Set2")
 palv6 <- grDevices::gray.colors(5)
 
 # Plot settings
-jpeg("Plot2.jpeg", width = 8, height = 4, units = 'in', res = 250)
+# jpeg("Plot2.jpeg", width = 8, height = 4, units = 'in', res = 250)
 par(mfrow = c(2, 2), oma = c(0, 0, 0, 0), xpd = NA, mgp = c(2,1,0),
     mar = c(3,3,2,1))
 
@@ -195,27 +195,27 @@ par(mfrow = c(2, 2), oma = c(0, 0, 0, 0), xpd = NA, mgp = c(2,1,0),
 # matplot(t(sfm.frp), type = "l", ylim = c(0, 30), xlab = "", ylab = "FRP", 
 #         lty = 1, col = palv, lwd = 0.5, main = "SF Main")
 matplot(t(sfc.frp), type = "l", ylim = c(0, 10000), xlab = "", ylab = "FRP", 
-        lty = 1, col = palv5, lwd = 0.5, main = "San Francisco Casual")
+        lty = 1, col = palv6, lwd = 0.5, main = "San Francisco Casual")
 matplot(t(sfi.frp), type = "l", ylim = c(0, 10000), xlab = "", ylab = "", 
-        lty = 1, col = palv5, lwd = 0.5, main = "San Francisco One-Time")
+        lty = 1, col = palv6, lwd = 0.5, main = "San Francisco One-Time")
 
 # ATL
 # matplot(t(atlm.frp), type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP", 
 #         lty = 1, col = palv, lwd = 0.5, main = "ATL Main")
 matplot(t(atlc.frp), type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "FRP", 
-        lty = 1, col = palv5, lwd = 0.25, main = "Atlanta Casual")
+        lty = 1, col = palv6, lwd = 0.25, main = "Atlanta Casual")
 matplot(t(atli.frp), type = "l", ylim = c(0, 10000), xlab = "Week", ylab = "", 
-        lty = 1, col = palv5, lwd = 0.5, main = "Atlanta One-Time")
+        lty = 1, col = palv6, lwd = 0.5, main = "Atlanta One-Time")
 
-dev.off()
+# dev.off()
 
 
 par(mfrow = c(1, 2), oma = c(0, 0, 0, 0), xpd = NA, mgp = c(2,1,0),
     mar = c(3,3,2,1))
 matplot(t(sfm.frp), type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP",
-        lty = 1, col = palv5, lwd = 0.5, main = "San Francisco Main")
+        lty = 1, col = palv6, lwd = 0.5, main = "San Francisco Main")
 matplot(t(atlm.frp), type = "l", ylim = c(0, 30), xlab = "Week", ylab = "FRP",
-        lty = 1, col = palv5, lwd = 0.5, main = "Atlanta Main")
+        lty = 1, col = palv6, lwd = 0.5, main = "Atlanta Main")
 
 
 # Manuscript Figure 3 -----------------------------------------------------
